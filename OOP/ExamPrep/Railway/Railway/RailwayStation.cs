@@ -2,55 +2,55 @@
 {
     public class RailwayStation
     {
-        private string name;
-        private Queue<string> arrivalTrains;
-        private Queue<string> departureTrains;
+        private string _name;
+        private Queue<string> _arrivalTrains;
+        private Queue<string> _departureTrains;
 
         public RailwayStation(string name)
         {
             Name = name;
-            arrivalTrains = new Queue<string>();
-            departureTrains = new Queue<string>();
+            _arrivalTrains = new Queue<string>();
+            _departureTrains = new Queue<string>();
         }
 
         public string Name
         {
-            get => name;
+            get => _name;
             private set
             {
                 if (string.IsNullOrWhiteSpace(value))
                 {
                     throw new ArgumentException("Name cannot be null or empty!");
                 }
-                name = value;
+                _name = value;
             }
         }
 
-        public Queue<string> ArrivalTrains => arrivalTrains;
+        public Queue<string> ArrivalTrains => _arrivalTrains;
 
-        public Queue<string> DepartureTrains => departureTrains;
+        public Queue<string> DepartureTrains => _departureTrains;
 
         public void NewArrivalOnBoard(string trainInfo)
         {
-            arrivalTrains.Enqueue(trainInfo);
+            _arrivalTrains.Enqueue(trainInfo);
         }
 
         public string TrainHasArrived(string trainInfo)
         {
-            if (arrivalTrains.Peek() != trainInfo)
+            if (_arrivalTrains.Peek() != trainInfo)
             {
                 return $"There are other trains to arrive before {trainInfo}.";
             }
-            departureTrains.Enqueue(arrivalTrains.Dequeue());
+            _departureTrains.Enqueue(_arrivalTrains.Dequeue());
 
             return $"{trainInfo} is on the platform and will leave in 5 minutes.";
         }
 
         public bool TrainHasLeft(string trainInfo)
         {
-            if (departureTrains.Peek() == trainInfo)
+            if (_departureTrains.Peek() == trainInfo)
             {
-                departureTrains.Dequeue();
+                _departureTrains.Dequeue();
                 return true;
             }
             return false;

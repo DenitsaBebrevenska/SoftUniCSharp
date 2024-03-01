@@ -54,14 +54,9 @@ namespace Railway.Tests
         }
 
         [Test]
-        public void NameProperty_ShouldCorrectlyReturn()
-        {
-            Assert.AreEqual(_name, _station.Name);
-        }
-
-        [Test]
         public void NewArrivalOnBoard_ShouldCorrectlyEnqueueTrainOnArrivalTrains()
         {
+            Assert.AreEqual(0, _station.ArrivalTrains.Count);
             _station.NewArrivalOnBoard(_train1);
             Assert.AreEqual(1, _station.ArrivalTrains.Count);
             Assert.AreEqual(_train1, _station.ArrivalTrains.Peek());
@@ -69,7 +64,7 @@ namespace Railway.Tests
 
 
         [Test]
-        public void TrainHasArrived_ShouldRemoveTrainFromArrivalTrains()
+        public void TrainHasArrived_ShouldRemoveTrainFromArrivalTrainList()
         {
             _station.NewArrivalOnBoard(_train1);
             _station.TrainHasArrived(_train1);
@@ -79,12 +74,13 @@ namespace Railway.Tests
         }
 
         [Test]
-        public void TrainHasArrived_ShouldAddTrainToDepartureTrains()
+        public void TrainHasArrived_ShouldAddTrainToDepartureTrainList()
         {
             _station.NewArrivalOnBoard(_train1);
+            Assert.AreEqual(0, _station.DepartureTrains.Count);
             _station.TrainHasArrived(_train1);
 
-            Assert.That(_station.DepartureTrains.Contains(_train1));
+            Assert.AreEqual(_train1, _station.DepartureTrains.Peek());
             Assert.AreEqual(1, _station.DepartureTrains.Count);
         }
 
@@ -92,8 +88,6 @@ namespace Railway.Tests
         public void TrainHasArrived_ShouldReturnCorrectInfoAboutDeparturingTrain()
         {
             _station.NewArrivalOnBoard(_train1);
-            _station.NewArrivalOnBoard(_train2);
-            _station.NewArrivalOnBoard(_train3);
 
             string expectedResult = $"{_train1} is on the platform and will leave in 5 minutes.";
             Assert.AreEqual(expectedResult, _station.TrainHasArrived(_train1));
@@ -111,14 +105,16 @@ namespace Railway.Tests
         }
 
         [Test]
-        public void TrainHasLeft_ShouldRemoveTrainFromDeparturingTrains()
+        public void TrainHasArrived_ShouldRemoveFirstFromArrivalTrainsAndQueueToDepartureTrains()
         {
             _station.NewArrivalOnBoard(_train1);
             _station.NewArrivalOnBoard(_train2);
             _station.TrainHasArrived(_train1);
-            _station.TrainHasArrived(_train2);
 
+            Assert.AreEqual(false, _station.ArrivalTrains.Contains(_train1));
+            Assert.AreEqual(_train2, _station.ArrivalTrains.Peek());
             Assert.AreEqual(true, _station.DepartureTrains.Contains(_train1));
+            Assert.AreEqual(_train1, _station.DepartureTrains.Peek());
         }
 
         [Test]
@@ -130,6 +126,18 @@ namespace Railway.Tests
             _station.TrainHasArrived(_train2);
 
             Assert.AreEqual(true, _station.TrainHasLeft(_train1));
+        }
+
+        [Test]
+        public void TrainHasLeft_ShouldRemoveTrainFromDepartureTrainList()
+        {
+            _station.NewArrivalOnBoard(_train1);
+            _station.NewArrivalOnBoard(_train2);
+            _station.TrainHasArrived(_train1);
+            _station.TrainHasArrived(_train2);
+            _station.TrainHasLeft(_train1);
+
+            Assert.IsFalse(_station.DepartureTrains.Contains(_train1));
         }
 
         [Test]
