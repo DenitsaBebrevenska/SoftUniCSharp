@@ -1,0 +1,34 @@
+using System;
+
+namespace _06EasterCompetition
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			int n = int.Parse(Console.ReadLine()); // n = number of sweet breads
+			int bestScore = 0;
+			string bestBaker = string.Empty;
+			for (int i = 1; i <= n; i++)
+			{
+				string nameBaker = Console.ReadLine();
+				string score = Console.ReadLine();
+				int pointsCount = 0;
+				while (score != "Stop")
+				{
+					int currentScore = int.Parse(score);
+					pointsCount += currentScore;
+					score = Console.ReadLine();
+				}
+				Console.WriteLine($"{nameBaker} has {pointsCount} points.");
+				if (pointsCount > bestScore)
+				{
+					bestScore = pointsCount;
+					bestBaker = nameBaker;
+					Console.WriteLine($"{nameBaker} is the new number 1!");
+				}
+			}
+			Console.WriteLine($"{bestBaker} won competition with {bestScore} points!");
+		}
+	}
+}

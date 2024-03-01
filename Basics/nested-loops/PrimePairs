@@ -1,0 +1,56 @@
+using System;
+
+namespace _13PrimePairs
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+				int startPair1 = int.Parse(Console.ReadLine());
+				int startPair2 = int.Parse(Console.ReadLine());
+				int diffPair1 = int.Parse(Console.ReadLine());
+				int diffPair2 = int.Parse(Console.ReadLine());
+
+				int endPair1 = startPair1 + diffPair1;
+				int endPair2 = startPair2 + diffPair2;
+
+				for (int i = startPair1; i <= endPair1; i++)
+				{
+					bool isPrimeI = true;
+
+					for (int divisor = 2; divisor <= Math.Sqrt(i); divisor++)
+					{
+						if (i % divisor == 0)
+						{
+							isPrimeI = false;
+							break;
+						}
+					}
+
+					if (!isPrimeI)
+						continue;
+
+					for (int j = startPair2; j <= endPair2; j++)
+					{
+						bool isPrimeJ = true;
+
+						for (int divisor = 2; divisor <= Math.Sqrt(j); divisor++)
+						{
+							if (j % divisor == 0)
+							{
+								isPrimeJ = false;
+								break;
+							}
+						}
+
+						if (isPrimeJ)
+						{
+							Console.WriteLine($"{i}{j}");
+						}
+					}
+				}
+			
+
+		}
+	}
+}

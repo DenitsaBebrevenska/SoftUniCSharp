@@ -1,0 +1,47 @@
+using System;
+
+namespace _03EasterTrip
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			string destination = Console.ReadLine();
+			string dates = Console.ReadLine();
+			int nights = int.Parse(Console.ReadLine());
+
+			int pricePerNight = 0;
+
+			if (dates == "21-23")
+			{
+				if (destination == "France")
+				{ pricePerNight = 30; }
+				else if (destination == "Italy")
+				{ pricePerNight = 28; }
+				else if (destination == "Germany")
+				{ pricePerNight = 32; }
+			}
+			else if (dates == "24-27")
+			{
+				if (destination == "France")
+				{ pricePerNight = 35; }
+				else if (destination == "Italy")
+				{ pricePerNight = 32; }
+				else if (destination == "Germany")
+				{ pricePerNight = 37; }
+			}
+			else if (dates == "28-31")
+			{
+				if (destination == "France")
+				{ pricePerNight = 40; }
+				else if (destination == "Italy")
+				{ pricePerNight = 39; }
+				else if (destination == "Germany")
+				{ pricePerNight = 43; }
+			}
+			int expenses = nights * pricePerNight;
+			Console.WriteLine($"Easter trip to {destination} : {expenses:F2} leva.");
+			
+		}
+	}
+}

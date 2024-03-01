@@ -1,0 +1,38 @@
+using System;
+
+namespace _06Cake
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			int width = int.Parse(Console.ReadLine());
+			int lenght = int.Parse(Console.ReadLine());
+			int slicesAmount = width * lenght;
+			bool StopReached = false;
+			while (slicesAmount > 0) 
+			{
+				string input = Console.ReadLine();
+		
+				if (input != "STOP")
+				{
+					int currentAmount = int.Parse(input);
+					slicesAmount -= currentAmount;
+					if (slicesAmount <= 0)
+					{
+						slicesAmount = Math.Abs(slicesAmount);
+						break;
+					}
+				}
+				else
+				{
+					StopReached = true;
+					break;
+				}
+			}
+			if (StopReached) { Console.WriteLine($"{slicesAmount} pieces are left."); }
+			else { Console.WriteLine($"No more cake left! You need {slicesAmount} pieces more."); }
+
+		}
+	}
+}

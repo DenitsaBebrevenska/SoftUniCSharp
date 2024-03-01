@@ -1,0 +1,85 @@
+using System;
+using System.ComponentModel.Design;
+
+namespace _02ReportSystem
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			int fundTarget = int.Parse(Console.ReadLine());
+			int collectedAmount = 0, transactionCount = 0, cashCount = 0, cardCount = 0, cashTotal = 0, cardTotal = 0;
+			bool endReached = false;
+
+			while (fundTarget > collectedAmount)
+			{
+				string input = Console.ReadLine();
+				transactionCount++;
+				if (input != "End")
+				{
+					int currentProductAmount = int.Parse(input);
+					if (transactionCount % 2 != 0)
+					{
+						if (currentProductAmount <= 100)
+						{
+							collectedAmount += currentProductAmount;
+							cashCount++;
+							cashTotal += currentProductAmount;
+							Console.WriteLine("Product sold!");
+						}
+						else
+						{
+							Console.WriteLine("Error in transaction!");
+						}
+					}
+					else
+					{
+						if (currentProductAmount > 10)
+						{
+							collectedAmount += currentProductAmount;
+							cardCount++;
+							cardTotal += currentProductAmount;
+							Console.WriteLine("Product sold!");
+						}
+						else
+						{
+							Console.WriteLine("Error in transaction!");
+						}
+
+					}
+				}
+				else
+				{
+					endReached = true;
+					break;
+				}
+			}
+			if (!endReached)
+			{
+				if (cashCount != 0)
+				{
+					Console.WriteLine($"Average CS: {cashTotal * 1.00 / cashCount:F2}");
+				}
+				else
+				{
+					Console.WriteLine("Average CS: 0.00");
+				}
+				if (cardCount != 0)
+				{
+					Console.WriteLine($"Average CC: {cardTotal * 1.00 / cardCount:F2}");
+				}
+				else
+				{
+					Console.WriteLine("Average CC: 0.00");
+				}
+
+			}
+			else
+			{
+				Console.WriteLine("Failed to collect required money for charity.");
+			}
+
+
+		}
+	}
+}

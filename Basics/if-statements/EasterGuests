@@ -1,0 +1,29 @@
+using System;
+
+namespace _02EasterGuests
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			int guests = int.Parse(Console.ReadLine());
+			int budget = int.Parse(Console.ReadLine());
+
+			double sweetBread = Math.Ceiling(guests / 3.00);
+			double eggs = guests * 2;
+			double expenses = sweetBread * 4 + eggs * 0.45;
+
+			if (budget >= expenses)
+			{
+				Console.WriteLine($"Lyubo bought {sweetBread} Easter bread and {eggs} eggs.");
+				Console.WriteLine($"He has {budget - expenses:F2} lv. left.");
+			}
+			else
+			{
+				Console.WriteLine("Lyubo doesn't have enough money.");
+				Console.WriteLine($"He needs {expenses - budget:F2} lv. more.");
+			}
+
+		}
+	}
+}

@@ -1,0 +1,40 @@
+using System;
+
+namespace _02HalfSumElement
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			int n = int.Parse(Console.ReadLine());
+
+			int biggestNumber = int.MinValue;
+			int sum = 0;
+
+			for (int i = 0; i < n; i++)
+			{
+				int currentNum = int.Parse(Console.ReadLine());
+				sum += currentNum;
+
+				if (biggestNumber < currentNum)
+				{
+					biggestNumber = currentNum;
+				}
+				
+			}
+			int sumNoMaxNum = sum - biggestNumber;
+			if (biggestNumber == sumNoMaxNum)
+			{
+				Console.WriteLine("Yes");
+				Console.WriteLine($"Sum = {biggestNumber}");
+			}
+			else
+			{
+				Console.WriteLine("No");
+				Console.WriteLine($"Diff = {Math.Abs(biggestNumber - sumNoMaxNum)}");
+			}
+			
+			
+		}
+	}
+}

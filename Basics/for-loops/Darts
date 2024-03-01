@@ -1,0 +1,50 @@
+using System;
+
+namespace _04Darts
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			string namePlayer = Console.ReadLine();
+			int startingPoints = 301;
+			string input = Console.ReadLine();
+			int shotsCount = 0, missCount = 0;
+
+			while (input != "Retire")
+			{
+				int currentPoints = int.Parse(Console.ReadLine());
+				
+				if (input == "Single")
+				{
+					if (currentPoints <= startingPoints) { startingPoints -= currentPoints; shotsCount++; }
+					else { missCount++; }
+				}
+				else if (input == "Double")
+				{
+					currentPoints *= 2;
+					if (currentPoints <= startingPoints) { startingPoints -= currentPoints;		shotsCount++; }
+					else { missCount++; }
+				}
+				else if (input == "Triple")
+				{
+					currentPoints *= 3;
+					if (currentPoints <= startingPoints) { startingPoints -= currentPoints; shotsCount++; }
+					else { missCount++; }
+				}
+				if (startingPoints == 0)
+				{
+					Console.WriteLine($"{namePlayer} won the leg with {shotsCount} shots.");
+					break;
+				}
+				
+				input = Console.ReadLine();
+			
+			}
+			if (input == "Retire")
+			{
+				Console.WriteLine($"{namePlayer} retired after {missCount} unsuccessful shots.");
+			}
+		}
+	}
+}

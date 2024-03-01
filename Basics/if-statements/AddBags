@@ -1,0 +1,29 @@
+using System;
+
+namespace _02AddBags
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			double priceOver20Kg = double.Parse(Console.ReadLine());
+			double baggageKg = double.Parse(Console.ReadLine());
+			int days = int.Parse(Console.ReadLine());
+			int baggageNumber = int.Parse(Console.ReadLine());
+
+			double priceUpTo10Kg = priceOver20Kg * 0.2;
+			double priceUpTo20Kg = priceOver20Kg * 0.5;
+			double addedCost = 0;
+			double priceCurrentBaggage = 0;
+			if (baggageKg < 10) { priceCurrentBaggage = priceUpTo10Kg; }
+			else if (baggageKg <= 20) { priceCurrentBaggage = priceUpTo20Kg; }
+			else { priceCurrentBaggage = priceOver20Kg; }
+			if (days < 7) { addedCost = 0.4; }
+			else if (days <= 30) { addedCost = 0.15; }
+			else if (days > 30) { addedCost = 0.1; }
+
+			double sum = baggageNumber * (priceCurrentBaggage + priceCurrentBaggage * addedCost);
+			Console.WriteLine($"The total price of bags is: {sum:F2} lv.");
+		}
+	}
+}

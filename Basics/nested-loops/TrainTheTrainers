@@ -1,0 +1,33 @@
+using System;
+using System.Diagnostics.CodeAnalysis;
+
+namespace _04TrainTheTrainers
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			int n = int.Parse(Console.ReadLine()); // n- amount of people in the jury
+			string input = Console.ReadLine();
+			double averageTotal = 0;
+			int juryTotal = 0;
+			
+			while (input != "Finish")
+			{
+				double sumMarks = 0;
+				juryTotal += n;
+				for (int i = 1; i <= n; i++)
+				{
+					double currentMark = double.Parse(Console.ReadLine());
+					sumMarks += currentMark;
+				}
+				double averageMark = sumMarks / n;
+				averageTotal += sumMarks;
+				Console.WriteLine($"{input} - {averageMark:F2}.");
+				input = Console.ReadLine();
+			}
+			Console.WriteLine($"Student's final assessment is {averageTotal/ juryTotal:F2}.");
+
+		}
+	}
+}

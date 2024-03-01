@@ -1,0 +1,26 @@
+using System;
+
+namespace _05PCGameShop
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			int n = int.Parse(Console.ReadLine());
+			int g1 = 0, g2 = 0, g3 = 0, g4 = 0;
+			// n = number of sold games, g1- Hearthstone, g2 - Fornite , g3 - Overwatch, g4 - other
+			for (int i = 1; i <= n; i++)
+			{
+				string game = Console.ReadLine();
+				if (game == "Hearthstone") { g1++; }
+				else if (game == "Fornite") { g2++; }
+				else if (game == "Overwatch") { g3++; }
+				else { g4++; }
+			}
+			Console.WriteLine($"Hearthstone - {g1 * 100.00 / n:F2}%");
+			Console.WriteLine($"Fornite - {g2 * 100.00 / n:F2}%");
+			Console.WriteLine($"Overwatch - {g3 * 100.00 / n:F2}%");
+			Console.WriteLine($"Others - {g4 * 100.00 / n:F2}%");
+		}
+	}
+}

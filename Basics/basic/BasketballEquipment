@@ -1,0 +1,19 @@
+using System;
+
+namespace _01BasketballEquipment
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			int annualFee = int.Parse(Console.ReadLine());
+
+			double snickers = annualFee * 0.6;
+			double equip = snickers * 0.8;
+			double ball = equip * 0.25;
+			double accessories = ball * 0.2;
+			double result = annualFee + snickers + equip + accessories + ball;
+			Console.WriteLine($"{result:F2}");
+		}
+	}
+}

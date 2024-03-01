@@ -1,0 +1,29 @@
+using System;
+
+namespace _05CareOfPuppy
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			int foodTotalKg = int.Parse(Console.ReadLine()) * 1000;
+			string input = Console.ReadLine();
+			while (input != "Adopted")
+			{
+				int currentFood = int.Parse(input);
+				foodTotalKg -= currentFood;
+				
+				input = Console.ReadLine();
+			}
+			if (foodTotalKg >= 0)
+			{
+				Console.WriteLine($"Food is enough! Leftovers: {foodTotalKg} grams.");
+			}
+			else 
+			{
+				Console.WriteLine($"Food is not enough. You need {Math.Abs(foodTotalKg)} grams more.");
+			}
+
+		}
+	}
+}

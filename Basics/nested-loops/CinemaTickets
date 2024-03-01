@@ -1,0 +1,47 @@
+using System;
+
+namespace _06CinemaTickets
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			string movie = Console.ReadLine();
+			int totalTicketsCount = 0, studentCount = 0, standardCount = 0, kidsCount = 0;
+			bool soldOut = false;
+			while (movie != "Finish")
+			{
+				int freeSeats = int.Parse(Console.ReadLine());
+				string ticketType = Console.ReadLine();
+				int ticketsSold = 0;
+				while (ticketType != "End")
+				{
+					ticketsSold++;
+					totalTicketsCount++;
+					if (ticketType == "student") { studentCount++; }
+					else if (ticketType == "standard") { standardCount++; }
+					else { kidsCount++; }
+					if (ticketsSold == freeSeats)
+					{
+						Console.WriteLine($"{movie} - {ticketsSold * 100.00 / freeSeats:F2}% full.");
+						soldOut = true;
+						break;
+					}
+					ticketType = Console.ReadLine();
+
+				}
+				if (!soldOut)
+				{ Console.WriteLine($"{movie} - {ticketsSold * 100.00 / freeSeats:F2}% full."); }
+
+				movie = Console.ReadLine();
+
+
+			}
+
+			Console.WriteLine($"Total tickets: {totalTicketsCount}");
+			Console.WriteLine($"{studentCount * 100.00 / totalTicketsCount:F2}% student tickets.");
+			Console.WriteLine($"{standardCount * 100.00 / totalTicketsCount:F2}% standard tickets.");
+			Console.WriteLine($"{kidsCount * 100.00 / totalTicketsCount:F2}% kids tickets.");
+		}
+	}
+}

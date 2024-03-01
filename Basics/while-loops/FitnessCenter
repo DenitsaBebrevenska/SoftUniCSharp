@@ -1,0 +1,33 @@
+using System;
+
+namespace _05FitnessCenter
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			int n = int.Parse(Console.ReadLine());
+			int back = 0, chest = 0, legs = 0, abs = 0, proteinShake = 0, proteinBar = 0;
+
+			for (int i = 1; i <= n; i++)
+			{
+				string activity = Console.ReadLine();
+				if (activity == "Back") { back++; }
+				else if (activity == "Chest") { chest++; }
+				else if (activity == "Legs") { legs++; }
+				else if (activity == "Abs") { abs++; }
+				else if (activity == "Protein shake") { proteinShake++; }
+				else if (activity == "Protein bar") { proteinBar++; }
+			}
+			double activityPercentage = (back + chest + legs + abs) * 100.00 / n;
+			Console.WriteLine($"{back} - back");
+			Console.WriteLine($"{chest} - chest");
+			Console.WriteLine($"{legs} - legs");
+			Console.WriteLine($"{abs} - abs");
+			Console.WriteLine($"{proteinShake} - protein shake");
+			Console.WriteLine($"{proteinBar} - protein bar");
+			Console.WriteLine($"{activityPercentage:F2}% - work out");
+			Console.WriteLine($"{100 - activityPercentage:F2}% - protein");
+		}
+	}
+}

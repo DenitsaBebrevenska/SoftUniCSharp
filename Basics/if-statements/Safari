@@ -1,0 +1,36 @@
+using System;
+using System.Reflection;
+
+namespace _02Safari
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			double budget = double.Parse(Console.ReadLine());
+			double fuelAmount = double.Parse(Console.ReadLine());
+			string day = Console.ReadLine();
+
+			double fuelCost = 2.1;
+			int tourguide = 100;
+			double expenses = fuelAmount * fuelCost + tourguide;
+
+			if (day == "Saturday")
+			{
+				expenses *= 0.9;
+			}
+			else if (day == "Sunday")
+			{
+				expenses *= 0.8;
+			}
+			if (budget >= expenses)
+			{
+				Console.WriteLine($"Safari time! Money left: {budget - expenses:F2} lv.");
+			}
+			else
+			{
+				Console.WriteLine($"Not enough money! Money needed: {expenses - budget:F2} lv.");
+			}
+		}
+	}
+}

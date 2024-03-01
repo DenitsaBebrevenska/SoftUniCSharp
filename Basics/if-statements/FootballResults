@@ -1,0 +1,65 @@
+using System;
+
+namespace _02FootballResults
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			string result1 = Console.ReadLine();
+			string result2 = Console.ReadLine();
+			string result3 = Console.ReadLine();
+
+			int a = result1[0];
+			int b = result1[2];
+			int c = result2[0];
+			int d = result2[2];	
+			int e = result3[0];
+			int f = result3[2];
+
+			int victoryCount = 0;
+			int lossCount = 0;
+			int tieCount = 0;
+
+			if (a > b)
+			{
+				victoryCount++;
+			}
+			else if (a == b)
+			{ 
+				tieCount++;
+			}
+			else if (a < b)
+			{
+				lossCount++;
+			}
+			if (c > d)
+			{
+				victoryCount++;
+			}
+			else if (c == d)
+			{
+				tieCount++;
+			}
+			else if (c < d)
+			{
+				lossCount++;
+			}
+			if (e > f)
+			{
+				victoryCount++;
+			}
+			else if (e == f)
+			{
+				tieCount++;
+			}
+			else if (e < f)
+			{
+				lossCount++;
+			}
+			Console.WriteLine($"Team won {victoryCount} games.");
+			Console.WriteLine($"Team lost {lossCount} games.");
+			Console.WriteLine($"Drawn games: {tieCount}");
+		}
+	}
+}

@@ -1,0 +1,36 @@
+using System;
+
+namespace _06NameGame
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			string name = Console.ReadLine();
+			int bestScore = 0;
+			string nameWinner = "";
+			while (name != "Stop")
+			{
+				int n = name.Length;
+				int currentPoints = 0;
+				for (int i = 0; i < n; i++) 
+				{
+					int currentNumber = int.Parse(Console.ReadLine());
+					int asciiValueLetter = name[i];
+					if (asciiValueLetter == currentNumber) { currentPoints += 10; }
+					else { currentPoints += 2; }
+					
+				}
+				
+				if (currentPoints >= bestScore)
+				{
+					bestScore = currentPoints;
+					nameWinner = name;
+				}
+				name = Console.ReadLine();
+			}
+			
+			Console.WriteLine($"The winner is {nameWinner} with {bestScore} points!");
+		}
+	}
+}

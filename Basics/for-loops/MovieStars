@@ -1,0 +1,39 @@
+using System;
+
+namespace _04MovieStars
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			double budget = double.Parse(Console.ReadLine());
+			string input;
+			double payment;
+			int lenghtName;
+			while ((input = Console.ReadLine()) != "ACTION")
+			{
+				
+				lenghtName = input.Length;
+				if (lenghtName > 15)
+				{ 
+					payment = budget * 0.2; budget -= payment; 
+				}
+				else 
+				{ 
+					payment = double.Parse(Console.ReadLine());
+					budget -= payment;
+				}
+				
+				if (budget <= 0)
+				{
+					Console.WriteLine($"We need {Math.Abs(budget):F2} leva for our actors.");
+					break;
+				}
+			}
+			if (input == "ACTION")
+			{
+				Console.WriteLine($"We are left with {budget:F2} leva.");
+			}
+		}
+	}
+}

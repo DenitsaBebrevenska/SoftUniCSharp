@@ -1,0 +1,78 @@
+using System;
+
+namespace _03MobileOperator
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			string duration = Console.ReadLine();
+			string type = Console.ReadLine();
+			string internetYesNo = Console.ReadLine();
+			int months = int.Parse(Console.ReadLine());
+
+			double monthlyFee = 0;
+
+			if (duration == "one")
+			{
+				if (type == "Small")
+				{
+					monthlyFee = 9.98;
+				}
+				else if (type == "Middle")
+				{
+					monthlyFee = 18.99;
+				}
+				else if (type == "Large")
+				{
+					monthlyFee = 25.98;
+				}
+				else if (type == "ExtraLarge")
+				{
+					monthlyFee = 35.99;
+				}
+
+			}
+			else if (duration == "two")
+			{
+				if (type == "Small")
+				{
+					monthlyFee = 8.58;
+				}
+				else if (type == "Middle")
+				{
+					monthlyFee = 17.09;
+				}
+				else if (type == "Large")
+				{
+					monthlyFee = 23.59;
+				}
+				else if (type == "ExtraLarge")
+				{
+					monthlyFee = 31.79;
+				}
+			}
+			if (internetYesNo == "yes") 
+			{
+				if (monthlyFee <= 10)
+				{
+					monthlyFee += 5.50;
+				}
+				else if (monthlyFee <= 30)
+				{
+					monthlyFee += 4.35;
+				}
+				else if (monthlyFee > 30)
+				{
+					monthlyFee += 3.85;
+				}
+			}
+			if (duration == "two")
+			{
+				monthlyFee *= 0.9625;
+			}
+			Console.WriteLine($"{months * monthlyFee:F2} lv.");
+
+		}
+	}
+}

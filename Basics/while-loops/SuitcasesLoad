@@ -1,0 +1,50 @@
+using System;
+
+namespace _05SuitcasesLoad
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			double capacity = double.Parse(Console.ReadLine());
+			string input = Console.ReadLine();
+			int suitcaseCount = 0;
+			while (input != "End")
+			{
+				double currentBaggage = double.Parse(input);
+				suitcaseCount++;
+				if (suitcaseCount % 3 != 0)
+				{
+					if (currentBaggage <= capacity)
+					{
+						capacity -= currentBaggage;
+					}
+					else
+					{
+						suitcaseCount--;
+						Console.WriteLine("No more space!"); break;
+					}
+				}
+				else
+				{
+					if (currentBaggage * 1.1 <= capacity)
+					{
+						capacity -= currentBaggage * 1.1;
+					}
+					else
+					{
+						suitcaseCount--;
+						Console.WriteLine("No more space!"); break;
+					}
+				}
+				input = Console.ReadLine();				
+			}
+			if (input == "End")
+			{
+				Console.WriteLine("Congratulations! All suitcases are loaded!");
+			}
+			Console.WriteLine($"Statistic: {suitcaseCount} suitcases loaded.");
+		}
+	}
+}
+	

@@ -1,0 +1,27 @@
+using System;
+
+namespace _11HappyCatParking
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			int days = int.Parse(Console.ReadLine());
+			int hoursPerDay = int.Parse(Console.ReadLine());
+			double tax = 0, currentTax = 0, sumTax = 0;
+			
+			for (int i = 1; i <= days; i++)
+			{
+				for (int j = 1; j <= hoursPerDay; j++)
+				{
+					if (i % 2 == 0 && j % 2 != 0) { tax = 2.5; currentTax += tax; }
+					else if (i % 2 != 0 && j % 2 == 0) { tax = 1.25; currentTax += tax; }
+					else { tax = 1; currentTax += tax; }
+				}
+				Console.WriteLine($"Day: {i} - {currentTax:F2} leva");
+				sumTax += currentTax; currentTax = 0; 
+			}
+			Console.WriteLine($"Total: {sumTax:F2} leva");
+		}
+	}
+}

@@ -1,0 +1,36 @@
+using System;
+
+namespace _05EasterEggs
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			int n = int.Parse(Console.ReadLine()); //n - number of eggs
+
+			int red = 0, orange = 0, blue = 0, green = 0, maxEggs = 0;
+			string maxColor = "";
+
+			for (int i = 1; i <= n; i++) 
+			{
+				string color = Console.ReadLine();
+
+				if (color == "red") { red++; }
+				else if (color == "orange") { orange++; }
+				else if (color == "blue") { blue++; }
+				else if (color == "green") { green++; }
+
+				if (red > maxEggs) { maxEggs = red; maxColor = "red"; }
+				else if (orange > maxEggs) { maxEggs = orange; maxColor = "orange"; }
+				else if (blue > maxEggs) { maxEggs = blue;  maxColor = "blue"; }
+				else if (green > maxEggs) { maxEggs = green; maxColor = "green"; }
+
+			}
+			Console.WriteLine($"Red eggs: {red}");
+			Console.WriteLine($"Orange eggs: {orange}");
+			Console.WriteLine($"Blue eggs: {blue}");
+			Console.WriteLine($"Green eggs: {green}");
+			Console.WriteLine($"Max eggs: {maxEggs} -> {maxColor}");
+		}
+	}
+}

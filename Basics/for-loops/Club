@@ -1,0 +1,50 @@
+using System;
+using System.ComponentModel.Design;
+using System.Runtime.InteropServices;
+
+namespace _04Club
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			double target = double.Parse(Console.ReadLine());
+			double amountAccumulated = 0, currentOrder = 0;
+			bool partyTime = false;
+			
+
+			while (target > amountAccumulated)
+			{
+				string input = Console.ReadLine();
+				
+
+				if (input != "Party!")
+				{
+					int currentAmount = int.Parse(Console.ReadLine());
+					double price = input.Length;
+					currentOrder = currentAmount * price;
+					if (currentOrder % 2 != 0)
+					{
+						currentOrder *= 0.75;
+					}
+					amountAccumulated += currentOrder;
+				}
+				else if (input == "Party!")
+				{ 
+					partyTime = true;
+					break;
+				}
+			}
+			if ((partyTime && amountAccumulated >= target) || amountAccumulated >= target)
+			{
+				Console.WriteLine($"Target acquired.");
+			}
+			else if (partyTime && amountAccumulated < target)
+			{
+				Console.WriteLine($"We need {target - amountAccumulated:F2} leva more.");
+			}
+			Console.WriteLine($"Club income - {amountAccumulated:F2} leva.");
+
+		}
+	}
+}

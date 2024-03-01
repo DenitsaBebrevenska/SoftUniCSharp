@@ -1,0 +1,52 @@
+using System;
+using System.Runtime.InteropServices;
+
+namespace _06TheMostPowerfulWord
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			string input = Console.ReadLine();
+			int bestScore = 0;
+			string bestWord = string.Empty;
+			while (input != "End of words")
+			{
+				int lenght = input.Length;
+				int sumAsciiValue = 0;
+				for (int i = 0; i < lenght; i++)
+				{
+					sumAsciiValue += input[i];
+				}
+				switch (input[0])
+				{
+					//'a' 'e', 'i', 'o', 'u', 'y' 
+					case 'a':
+					case 'e':
+					case 'i':
+					case 'o':
+					case 'u':
+					case 'y':
+					case 'A':
+					case 'E':
+					case 'I':
+					case 'O':
+					case 'U':
+					case 'Y':
+						sumAsciiValue *= lenght;
+							break;
+					default:
+						sumAsciiValue /= lenght;
+						break;
+
+				}
+				if (sumAsciiValue > bestScore)
+				{ bestScore = sumAsciiValue; bestWord = input; }
+
+
+				input = Console.ReadLine();
+			}
+			Console.WriteLine($"The most powerful word is {bestWord} - {bestScore}");
+		}
+	}
+}

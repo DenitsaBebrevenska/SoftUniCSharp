@@ -1,0 +1,50 @@
+using System;
+
+namespace _04CinemaVoucher
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			int voucher = int.Parse(Console.ReadLine());
+			string input = Console.ReadLine();
+			int asciiSum, ticketCount = 0, productCount = 0;
+			
+
+			while (input != "End")
+			{
+				int currentPrice = input.Length;
+				if (currentPrice > 8)
+				{
+					asciiSum = input[0] + input[1];
+					if (asciiSum <= voucher)
+					{
+						ticketCount++;
+						voucher -= asciiSum;
+					}
+					else
+					{ 
+						break; 
+					}
+				}
+				else
+				{
+					asciiSum = input[0];
+					if (asciiSum <= voucher)
+					{
+						productCount++;
+						voucher -= asciiSum;
+					}
+					else
+					{ 
+						break;
+                    }
+				}
+				input = Console.ReadLine() ;
+			}
+				Console.WriteLine(ticketCount);
+				Console.WriteLine(productCount);
+			
+		}
+	}
+}

@@ -1,0 +1,37 @@
+using System;
+
+namespace _05Series
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			double budget = double.Parse(Console.ReadLine());
+			int n = int.Parse(Console.ReadLine()); // n-number of series
+			double expenses = 0;
+
+			for (int i = 1; i <= n; i++)
+			{
+				string nameSeries = Console.ReadLine();
+				double priceSeries = double.Parse(Console.ReadLine());
+
+				
+				if (nameSeries == "Thrones") { priceSeries *= 0.5; }
+				else if (nameSeries == "Lucifer") { priceSeries *= 0.6; }
+				else if (nameSeries == "Protector") { priceSeries *= 0.7; }
+				else if (nameSeries == "TotalDrama") { priceSeries *= 0.8; }
+				else if (nameSeries == "Area") { priceSeries *= 0.9; }
+
+				expenses += priceSeries;
+			}
+			if (expenses <= budget)
+			{
+				Console.WriteLine($"You bought all the series and left with {budget - expenses:F2} lv.");
+			}
+			else
+			{
+				Console.WriteLine($"You need {expenses - budget:F2} lv. more to buy the series!");
+			}
+		}
+	}
+}

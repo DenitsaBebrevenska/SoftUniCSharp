@@ -1,0 +1,68 @@
+using System;
+using System.Text;
+
+namespace _03StreamOfLetters
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			// read input char
+			//all char are ignored
+			// c, o and n first encounter noted but not part of the word
+			// c, o and n second encounter are part of the word
+			//c, o and n all of them encountered = " "
+			// end cycle End
+			string input = Console.ReadLine();
+			int cCount = 0, oCount = 0, nCount = 0;
+			StringBuilder hiddenMessage = new StringBuilder();
+			bool cActive = false, oActive = false, nActive = false;
+			
+			while (input != "End")
+			{
+				char currentChar = char.Parse(input);
+
+				if (char.IsLetter(currentChar))
+				{
+
+					if (currentChar == 'c')
+					{
+						cCount++; cActive = true;
+						if (cCount > 1) { hiddenMessage.Append(currentChar); }
+					}
+					else if (currentChar == 'o')
+					{
+						oCount++; oActive = true;
+						if (oCount > 1) { hiddenMessage.Append(currentChar); }
+					}
+					else if (currentChar == 'n')
+					{
+						nCount++; nActive = true;
+						if (nCount > 1) { hiddenMessage.Append(currentChar); }
+					}
+					else
+					{
+						hiddenMessage.Append(currentChar);
+					}
+					if (cActive && oActive && nActive)
+					{
+					hiddenMessage.Append(" ");
+					cActive = false; oActive = false; nActive = false;
+					cCount = 0; oCount = 0; nCount = 0;
+					}
+				}
+				
+				input = Console.ReadLine();
+					
+			}
+
+			if (input == "End")
+			{
+
+				int lastBlankSpace = hiddenMessage.ToString().LastIndexOf(" ");
+				string messageToPrint = hiddenMessage.ToString(0, lastBlankSpace +1);
+				Console.WriteLine(messageToPrint);
+			}
+		}
+	}
+}

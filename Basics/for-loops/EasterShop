@@ -1,0 +1,49 @@
+
+using System;
+
+namespace _04EasterShop
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			int eggsTotal = int.Parse(Console.ReadLine());
+			string input = Console.ReadLine();
+			int eggsTransaction = int.Parse(Console.ReadLine());
+			int eggsSold = 0;
+
+			while (input != "Close")
+			{
+				if (input == "Buy")
+				{
+					if (eggsTransaction <= eggsTotal)
+					{
+						eggsTotal -= eggsTransaction;
+						eggsSold += eggsTransaction;
+					}
+					else
+					{
+						Console.WriteLine("Not enough eggs in store!");
+						Console.WriteLine($"You can buy only {eggsTotal}.");
+						break;
+					}
+				}
+				else if (input == "Fill")
+				{
+					eggsTotal += eggsTransaction;
+				}
+				
+				input = Console.ReadLine();
+				if (input != "Close")
+				{
+					eggsTransaction = int.Parse(Console.ReadLine());
+				}
+			}
+			if (input == "Close")
+			{
+				Console.WriteLine("Store is closed!");
+				Console.WriteLine($"{eggsSold} eggs sold.");
+			}
+		}
+	}
+}

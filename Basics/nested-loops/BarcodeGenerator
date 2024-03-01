@@ -1,0 +1,38 @@
+using System;
+
+namespace _06BarcodeGenerator
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			int start = int.Parse(Console.ReadLine());
+			int end = int.Parse(Console.ReadLine());
+			int digitOneStart = start / 1000;
+			int digitTwoStart = start / 100 % 10;
+			int digitThreeStart = start / 10 % 10;
+			int digitFourStart = start % 10;
+			int digitOneEnd = end / 1000;
+			int digitTwoEnd = end / 100 % 10;
+			int digitThreeEnd = end / 10 % 10;
+			int digitFourEnd = end % 10;
+			
+			for (int i = digitOneStart; i <= digitOneEnd; i++)
+			{
+				for (int j = digitTwoStart; j <= digitTwoEnd; j++)
+				{
+					for (int k = digitThreeStart; k <= digitThreeEnd; k++)
+					{
+						for (int l = digitFourStart; l <= digitFourEnd; l++)
+						{
+							if (i % 2 != 0 && j % 2 != 0 && k % 2 != 0 && l % 2 != 0)
+							{
+								Console.Write($"{i}{j}{k}{l} ");
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

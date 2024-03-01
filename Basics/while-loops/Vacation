@@ -1,0 +1,46 @@
+using System;
+using System.Reflection.Metadata.Ecma335;
+using System.Runtime.Serialization;
+
+namespace _03Vacation
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			double vaccationPrice = double.Parse(Console.ReadLine());
+			double moneyAvailable = double.Parse(Console.ReadLine());
+			int daysCount = 0, consequtiveDaysOfSpending = 0;
+			
+
+			while (moneyAvailable < vaccationPrice) 
+			{
+				string action = Console.ReadLine();
+				double currentAmount = double.Parse(Console.ReadLine());
+				daysCount++;
+
+
+				if (action == "save")
+				{
+					moneyAvailable += currentAmount;
+					consequtiveDaysOfSpending = 0;
+
+				}
+				else if (action == "spend")
+				{
+					moneyAvailable -= currentAmount;
+					if (moneyAvailable < 0) { moneyAvailable = 0; }
+					consequtiveDaysOfSpending++;
+					if (consequtiveDaysOfSpending == 5)
+					{
+						Console.WriteLine("You can't save the money.");
+						Console.WriteLine($"{daysCount}");
+						return;
+					}
+				}
+				
+			}
+			Console.WriteLine($"You saved the money for {daysCount} days.");
+		}
+	}
+}

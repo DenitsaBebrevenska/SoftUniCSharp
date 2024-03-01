@@ -1,0 +1,22 @@
+using System;
+
+namespace _01AgencyProfit
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			string avioCompany = Console.ReadLine();
+			int amountTicketsAdults = int.Parse(Console.ReadLine());
+			int amountTicketsChildren = int.Parse(Console.ReadLine());
+			double priceTicketAdults = double.Parse(Console.ReadLine());
+			double fee = double.Parse(Console.ReadLine());
+
+			double priceTicketChildren = priceTicketAdults * 0.3;
+			double sum = amountTicketsAdults * priceTicketAdults + amountTicketsChildren * priceTicketChildren + (amountTicketsAdults + amountTicketsChildren) * fee;
+			double profitAgency = sum * 0.2;
+			Console.WriteLine($"The profit of your agency from {avioCompany} tickets is {profitAgency:F2} lv.");
+
+		}
+	}
+}

@@ -1,0 +1,43 @@
+using System;
+using System.ComponentModel.Design;
+
+namespace _04Renovation
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			int height = int.Parse(Console.ReadLine());
+			int width = int.Parse(Console.ReadLine());
+			int percentageNotWall = int.Parse(Console.ReadLine());
+			string input = Console.ReadLine();
+
+			int surfice = height * width * 4;
+			double surficeToBePainted = Math.Ceiling(surfice - surfice * 1.0 * percentageNotWall / 100);
+			double paintLeft = 0;
+
+
+			while (input != "Tired!")
+			{
+				int paintAmount = int.Parse(input);
+				surficeToBePainted -= paintAmount;
+				if (surficeToBePainted <= 0)
+				{ paintLeft = Math.Abs(surficeToBePainted); break; }
+				input = Console.ReadLine();
+
+			}
+			if (input == "Tired!")
+			{
+				Console.WriteLine($"{surficeToBePainted} quadratic m left.");
+			}
+			else
+			{
+				if (paintLeft > 0)
+				{ Console.WriteLine($"All walls are painted and you have {paintLeft} l paint left!"); }
+				else
+				{ Console.WriteLine("All walls are painted! Great job, Pesho!"); }
+			}
+
+		}
+	}
+}

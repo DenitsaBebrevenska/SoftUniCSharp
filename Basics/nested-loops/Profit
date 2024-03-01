@@ -1,0 +1,29 @@
+using System;
+
+namespace _10Profit
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			int oneLvCoinCount = int.Parse(Console.ReadLine());
+			int twoLvCoinCount = int.Parse(Console.ReadLine());
+			int fiveLvNoteCount = int.Parse(Console.ReadLine());
+			int sumLv = int.Parse(Console.ReadLine());
+
+			for (int i = 0; i <= oneLvCoinCount; i++)
+			{
+				for (int j = 0; j <= twoLvCoinCount; j++)
+				{
+					for (int k = 0; k <= fiveLvNoteCount; k++)
+					{
+						if (i * 1 + j * 2 + k * 5 == sumLv)
+						{
+							Console.WriteLine($"{i} * 1 lv. + {j} * 2 lv. + {k} * 5 lv. = {sumLv} lv.");
+						}
+					}
+				}
+			}
+		}
+	}
+}

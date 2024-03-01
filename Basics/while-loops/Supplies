@@ -1,0 +1,52 @@
+using System;
+using System.ComponentModel.Design;
+
+namespace WhileLoopMoreExercises
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			int dishwashingLiquidBottles = int.Parse(Console.ReadLine());
+			int totalLiquid = dishwashingLiquidBottles * 750;
+			int liquidUsed = 0, dishCount = 0, potCount = 0, dishwashingCount = 0;
+			bool endReached = false;
+
+			while (totalLiquid >= liquidUsed)
+			{
+				string input = Console.ReadLine();
+				if (input != "End")
+				{
+					int currentAmount = int.Parse(input);
+					dishwashingCount++;
+					if (dishwashingCount % 3 != 0)
+					{
+						dishCount += currentAmount;
+						totalLiquid -= currentAmount * 5;
+					}
+					else
+					{
+						potCount += currentAmount;
+						totalLiquid -= currentAmount * 15;
+					}
+				}
+				else
+				{
+					endReached = true;
+					break;
+				}
+			}
+			if (endReached)
+			{
+				Console.WriteLine("Detergent was enough!");
+				Console.WriteLine($"{dishCount} dishes and {potCount} pots were washed.");
+				Console.WriteLine($"Leftover detergent {totalLiquid - liquidUsed} ml.");
+			}
+			else
+			{
+				Console.WriteLine($"Not enough detergent, {liquidUsed - totalLiquid} ml. more necessary!");
+			}
+			
+		}
+	}
+}

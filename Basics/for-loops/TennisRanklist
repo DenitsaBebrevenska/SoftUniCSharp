@@ -1,0 +1,25 @@
+using System;
+
+namespace _08TennisRanklist
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			int n = int.Parse(Console.ReadLine());
+			int startingPoints = int.Parse(Console.ReadLine());
+			int pointsAcquired = 0, gamesWon = 0;
+
+			for (int i = 0; i < n; i++) 
+			{
+				string result  = Console.ReadLine();
+				if (result == "W") { pointsAcquired += 2000; gamesWon++; }
+				else if (result == "F") { pointsAcquired += 1200; }
+				else if (result == "SF") { pointsAcquired += 720; }
+            }
+			Console.WriteLine($"Final points: {startingPoints  + pointsAcquired}");
+			Console.WriteLine($"Average points: {Math.Truncate(pointsAcquired * 1.00 / n)}");
+			Console.WriteLine($"{gamesWon*100.00 / n:f2}%");
+		}
+	}
+}

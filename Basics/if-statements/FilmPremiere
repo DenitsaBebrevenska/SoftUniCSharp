@@ -1,0 +1,73 @@
+using System;
+
+namespace _03FilmPremiere
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			string movie = Console.ReadLine();
+			string package = Console.ReadLine();
+			int ticketsSold = int.Parse(Console.ReadLine());
+
+			double feePrice = 0;
+			
+			if (movie == "John Wick")
+			{
+				if (package == "Drink")
+				{
+					feePrice = 12;
+				}
+				else if (package == "Popcorn")
+				{
+					feePrice = 15;
+				}
+				else if (package == "Menu")
+				{
+					feePrice = 19;
+				}
+			}
+            else if (movie == "Star Wars")
+			{
+				if (package == "Drink")
+				{
+					feePrice = 18;
+				}
+				else if (package == "Popcorn")
+				{
+					feePrice = 25;
+				}
+				else if (package == "Menu")
+				{
+					feePrice = 30;
+				}
+				if (ticketsSold >= 4)
+				{
+					feePrice *= 0.7;
+				}
+			}
+			else if (movie == "Jumanji")
+			{
+				if (package == "Drink")
+				{
+					feePrice = 9;
+				}
+				else if (package == "Popcorn")
+				{
+					feePrice = 11;
+				}
+				else if (package == "Menu")
+				{
+					feePrice = 14;
+				}
+				if (ticketsSold == 2)
+				{
+					feePrice *= 0.85;
+				}
+
+			}
+			Console.WriteLine($"Your bill is {ticketsSold * feePrice:F2} leva.");
+
+		}
+	}
+}

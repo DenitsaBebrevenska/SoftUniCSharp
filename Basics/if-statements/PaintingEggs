@@ -1,0 +1,39 @@
+using System;
+
+namespace _03PaintingEggs
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			string size = Console.ReadLine();
+			string color = Console.ReadLine();
+			int eggPacks = int.Parse(Console.ReadLine());
+			int pricePerEggPack = 0;
+
+			if (size == "Large")
+			{
+				if (color == "Red") { pricePerEggPack = 16; }
+				else if (color == "Green") { pricePerEggPack = 12; }
+				else if (color == "Yellow") { pricePerEggPack = 9; }
+			}
+			else if (size == "Medium")
+			{
+				if(color == "Red") { pricePerEggPack = 13; }
+				else if (color == "Green") { pricePerEggPack = 9; }
+				else if (color == "Yellow") { pricePerEggPack = 7; }
+			}
+			else if (size == "Small")
+			{
+				if (color == "Red") { pricePerEggPack = 9; }
+				else if (color == "Green") { pricePerEggPack = 8; }
+				else if (color == "Yellow") { pricePerEggPack = 5; }
+			}
+
+			double expenses = eggPacks * pricePerEggPack * 0.35;
+
+			Console.WriteLine($"{eggPacks * pricePerEggPack - expenses:F2} leva.");
+
+		}
+	}
+}

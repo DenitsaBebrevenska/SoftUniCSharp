@@ -1,0 +1,38 @@
+using System;
+using System.Net.Security;
+
+namespace _02ExamPreparation
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			int badMarks = int.Parse(Console.ReadLine());
+			string input = Console.ReadLine();
+			int scoreTotal = 0, problemCount = 0, badMarksCount = 0;
+			string lastTask = string.Empty;
+
+			while (input != "Enough")
+			{
+				int currentMark = int.Parse(Console.ReadLine());
+				if (currentMark <= 4)
+				{
+					badMarksCount++;
+					if (badMarksCount == badMarks)
+					{
+						Console.WriteLine($"You need a break, {badMarks} poor grades.");
+						return;
+					}
+				}
+				scoreTotal += currentMark;
+				problemCount++;
+				lastTask = input;
+				input = Console.ReadLine();
+			}
+			Console.WriteLine($"Average score: {scoreTotal * 1.00 / problemCount:F2}");
+			Console.WriteLine($"Number of problems: {problemCount}");
+			Console.WriteLine($"Last problem: {lastTask}");
+
+		}
+	}
+}

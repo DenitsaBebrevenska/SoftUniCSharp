@@ -1,0 +1,31 @@
+using System;
+
+namespace _06Oscars
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			string nameActor = Console.ReadLine();
+			double pointsAcademy = double.Parse(Console.ReadLine());
+			int n = int.Parse(Console.ReadLine());
+			
+			for (int i = 0; i < n && pointsAcademy < 1250.5; i++)
+			{
+				string nameJudge = Console.ReadLine();
+				double pointsJudge = double.Parse(Console.ReadLine());
+				int lenghtName = nameJudge.Length;
+				double pointsJudgeTotal = (lenghtName * pointsJudge) / 2;
+				pointsAcademy += pointsJudgeTotal;
+			}
+			if (pointsAcademy >= 1250.5)
+			{
+				Console.WriteLine($"Congratulations, {nameActor} got a nominee for leading role with {pointsAcademy:f1}!");
+			}
+			else
+			{
+				Console.WriteLine($"Sorry, {nameActor} you need {1250.5 - pointsAcademy:f1} more!");
+			}
+		}
+	}
+}

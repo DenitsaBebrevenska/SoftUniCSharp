@@ -1,0 +1,31 @@
+using System;
+
+namespace _05EasterBake
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			int n = int.Parse(Console.ReadLine());
+			// n  - number of sweetBreads
+			int sugarNeeded = 0, flourNeeded = 0, sugarMax = 0, flourMax = 0;
+
+			for (int i = 1; i <= n; i++) 
+			{
+				int sugarGrams = int.Parse(Console.ReadLine());
+				int flourGrams = int.Parse(Console.ReadLine());
+				if (sugarGrams > sugarMax) { sugarMax = sugarGrams; }
+				if (flourGrams > flourMax) { flourMax = flourGrams; }
+				sugarNeeded += sugarGrams;
+				flourNeeded += flourGrams;
+				
+			}
+			double sugarPacks = sugarNeeded / 950.00;
+			double flourPacks = flourNeeded / 750.00;
+
+			Console.WriteLine($"Sugar: {Math.Ceiling(sugarPacks)}");
+			Console.WriteLine($"Flour: {Math.Ceiling(flourPacks)}");
+			Console.WriteLine($"Max used flour is {flourMax} grams, max used sugar is {sugarMax} grams.");
+		}
+	}
+}

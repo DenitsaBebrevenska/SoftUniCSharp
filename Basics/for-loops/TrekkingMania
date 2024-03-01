@@ -1,0 +1,30 @@
+using System;
+
+namespace _07TrekkingMania
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			int n = int.Parse(Console.ReadLine());
+			int climbersCount = 0;
+			int g1 = 0, g2 = 0, g3 = 0, g4 = 0, g5 = 0;
+
+			for (int i = 0; i < n; i++)
+			{
+				int numberClimbersInGroup = int.Parse(Console.ReadLine());
+				climbersCount += numberClimbersInGroup;
+				if (numberClimbersInGroup <= 5) { g1 += numberClimbersInGroup; }
+				else if (numberClimbersInGroup <= 12) { g2 += numberClimbersInGroup; }
+				else if (numberClimbersInGroup <= 25) { g3 += numberClimbersInGroup; }
+				else if (numberClimbersInGroup <= 40) { g4 += numberClimbersInGroup; }
+				else { g5 += numberClimbersInGroup; }
+			}
+			Console.WriteLine($"{g1 * 100.00 / climbersCount:F2}%");
+			Console.WriteLine($"{g2 * 100.00 / climbersCount:F2}%");
+			Console.WriteLine($"{g3 * 100.00 / climbersCount:F2}%");
+			Console.WriteLine($"{g4 * 100.00 / climbersCount:F2}%");
+			Console.WriteLine($"{g5 * 100.00 / climbersCount:F2}%");
+		}
+	}
+}

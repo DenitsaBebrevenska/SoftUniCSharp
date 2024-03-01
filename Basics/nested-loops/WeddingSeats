@@ -1,0 +1,35 @@
+using System;
+
+namespace _06WeddingSeats
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			string input = Console.ReadLine();
+			char lastSector = input[0];
+			int rowsSectorA = int.Parse(Console.ReadLine());
+			int seatsOddRow = int.Parse(Console.ReadLine());
+			int seatsCount = 0, seatsCurrentRow = 0;
+
+			for (char i = 'A'; i <= lastSector; i++)
+			{
+				if (i > 'A') { rowsSectorA += 1; }
+				for (int j = 1; j <= rowsSectorA; j++)
+				{
+					
+					if (j % 2 == 0) { seatsCurrentRow = seatsOddRow + 2; }
+					else { seatsCurrentRow = seatsOddRow; }
+					
+					for (int k = 0; k < seatsCurrentRow; k++)
+					{
+						char seats = (char)('a' + k);
+						seatsCount++;
+						Console.WriteLine($"{i}{j}{seats}");
+					}
+				}
+			}
+			Console.WriteLine(seatsCount);
+		}
+	}
+}

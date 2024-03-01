@@ -1,0 +1,48 @@
+using System;
+
+namespace _04Cinema
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			int capacity = int.Parse(Console.ReadLine());
+			string input = Console.ReadLine();
+			int ticketsSold = 0;
+
+			while (input != "Movie time!")
+			{
+				int peopleEntering = int.Parse(input);
+
+				if (peopleEntering <= capacity)
+				{
+					capacity -= peopleEntering;
+				}
+				else
+				{
+					capacity = 0;
+					break;
+				}
+				if (peopleEntering % 3 != 0)
+				{
+					ticketsSold += peopleEntering * 5;
+				}
+				else 
+				{
+					ticketsSold += peopleEntering * 5 - 5;
+				}
+				
+				input = Console.ReadLine();
+			}
+			if (input == "Movie time!")
+			{
+				Console.WriteLine($"There are {capacity} seats left in the cinema.");
+			}
+			else if (capacity == 0)
+			{
+				Console.WriteLine("The cinema is full.");
+			}
+			Console.WriteLine($"Cinema income - {ticketsSold} lv.");
+		}
+	}
+}

@@ -1,0 +1,52 @@
+using System;
+
+namespace _12TheSongOfTheWheels
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			int m = int.Parse(Console.ReadLine());
+			int passwordsGenerated = 0, a = 0, b = 0, c = 0, d = 0;
+
+
+			for (int i = 1; i <= 9; i++) 
+			{
+				for (int j = 1; j <= 9; j++)
+				{
+					for (int k = 1; k <= 9; k++)
+					{
+						for (int l = 1; l <= 9; l++)
+						{
+
+							if (i * j + k * l == m && i < j && k > l)
+							{
+								Console.Write($"{i}{j}{k}{l} ");
+								passwordsGenerated++;
+								if (passwordsGenerated == 4) 
+								{
+									a = i;
+									b = j;
+									c = k;
+									d = l;
+								}
+
+							}
+						}
+					}
+				}
+			}
+			
+			if (passwordsGenerated >= 4)
+			{
+				Console.WriteLine();
+				Console.WriteLine($"Password: {a}{b}{c}{d}");
+			}
+			else
+			{
+				Console.WriteLine();
+				Console.WriteLine("No!");
+			}
+		}
+	}
+}

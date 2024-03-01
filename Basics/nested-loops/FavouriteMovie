@@ -1,0 +1,33 @@
+using System;
+
+namespace _06FavoriteMovie
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			string input = Console.ReadLine();
+			string bestMovie = string.Empty;
+			int bestScore = 0;
+			int movieCount = 0;
+			while (input != "STOP")
+			{
+				int sumScore = 0;
+				for (int i = 0; i < input.Length; i++)
+				{
+					int asciiValueCurrentLetter = input[i];
+					sumScore += asciiValueCurrentLetter;
+					if (asciiValueCurrentLetter >= 65 && asciiValueCurrentLetter <= 90) { sumScore -= input.Length; }
+					if (asciiValueCurrentLetter >= 97 && asciiValueCurrentLetter <= 122) { sumScore -= input.Length * 2; }
+				}
+				
+				if (sumScore > bestScore) { bestScore = sumScore; bestMovie = input; }
+				movieCount++;
+				if (movieCount == 7)
+				{ Console.WriteLine("The limit is reached."); break; }
+				input = Console.ReadLine();
+			}
+			Console.WriteLine($"The best movie for you is {bestMovie} with {bestScore} ASCII sum.");
+		}
+	}
+}

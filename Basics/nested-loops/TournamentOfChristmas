@@ -1,0 +1,41 @@
+using Microsoft.VisualBasic;
+using System;
+
+namespace _06TournamentOfChristmas
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			int n = int.Parse(Console.ReadLine()); // n = days of tournament
+			double amountRaisedTotal = 0;
+			int totalLosses = 0, totalWins = 0;
+
+			for (int i = 1; i <= n; i++)
+			{
+				int winsThatDay = 0, lossesThatDay = 0;
+				double amountRaisedToday = 0;
+				string sport = Console.ReadLine();
+				while (sport != "Finish")
+				{
+					string result = Console.ReadLine();
+					if (result == "win") { winsThatDay++; amountRaisedToday += 20; totalWins++; }
+					else { lossesThatDay++; totalLosses++; }
+
+					sport = Console.ReadLine();
+				}
+				if (winsThatDay > lossesThatDay) { amountRaisedToday *= 1.1; }
+				amountRaisedTotal += amountRaisedToday;
+			}
+			if (totalWins > totalLosses)
+			{
+				amountRaisedTotal *= 1.2;
+				Console.WriteLine($"You won the tournament! Total raised money: {amountRaisedTotal:F2}");
+			}
+			else
+			{
+				Console.WriteLine($"You lost the tournament! Total raised money: {amountRaisedTotal:F2}");
+			}
+		}
+	}
+}

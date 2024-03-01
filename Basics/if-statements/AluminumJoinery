@@ -1,0 +1,65 @@
+using System;
+using System.ComponentModel.Design;
+
+namespace _03AluminumJoinery
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			int amount = int.Parse(Console.ReadLine());
+			string type = Console.ReadLine();
+			string deliveryYN = Console.ReadLine();
+			int pricePerItem = 0;
+			double discount = 0;
+
+			if (type == "90X130") 
+			{
+				pricePerItem = 110;
+				if (amount > 30 && amount <= 60) { discount = 0.05; }
+				else if (amount > 60) { discount = 0.08; }
+			}
+			else if (type == "100X150")
+			{
+				pricePerItem = 140;
+				if (amount > 40 && amount <= 80) { discount = 0.06; }
+				else if (amount > 80) { discount = 0.1; }
+			}
+			else if (type == "130X180") 
+			{
+				pricePerItem = 190;
+				if (amount > 20 && amount <= 50) { discount = 0.07; }
+				else if (amount > 50) { discount = 0.12; }
+			}
+			else if (type == "200X300")
+			{
+				pricePerItem = 250;
+				if (amount > 25 && amount <= 50) { discount = 0.09; }
+				else if (amount > 50) { discount = 0.14; }
+			}
+			
+
+			double sum = pricePerItem * amount - pricePerItem * amount * discount;
+			
+			if (deliveryYN == "With delivery")
+			{
+				sum += 60;
+			}
+
+			if (amount < 10)
+			{
+				Console.WriteLine("Invalid order");
+			}
+			else if (amount > 99)
+			{
+				Console.WriteLine($"{sum - sum * 0.04:F2} BGN");
+			}
+			else
+			{
+				Console.WriteLine($"{sum:F2} BGN");
+			}
+
+
+		}
+	}
+}

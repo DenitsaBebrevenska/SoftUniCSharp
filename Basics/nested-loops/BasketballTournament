@@ -1,0 +1,40 @@
+using System;
+using System.Text.RegularExpressions;
+
+namespace _06BasketballTournament
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			string nameTournament = Console.ReadLine();
+			int gameCount = 0, winCount = 0, lossCount = 0;
+			while (nameTournament != "End of tournaments")
+			{ 
+			   int numberOfRounds = int.Parse(Console.ReadLine());
+
+				for (int i = 1; i <= numberOfRounds; i++) 
+				{
+				   int scoreTeamDesi = int.Parse(Console.ReadLine());
+			       int scoreTeamOthers = int.Parse(Console.ReadLine());
+					gameCount++;
+					if (scoreTeamDesi > scoreTeamOthers)
+					{
+						Console.WriteLine($"Game {i} of tournament {nameTournament}: win with {scoreTeamDesi - scoreTeamOthers} points.");
+						winCount++;
+					}
+					else
+					{
+						Console.WriteLine($"Game {i} of tournament {nameTournament}: lost with {scoreTeamOthers - scoreTeamDesi} points.");
+						lossCount++;
+					}
+				}
+
+				nameTournament = Console.ReadLine();
+			}
+			Console.WriteLine($"{ winCount * 100.0 / gameCount:F2}% matches win");
+			Console.WriteLine($"{lossCount * 100.0 / gameCount:F2}% matches lost");
+
+		}
+	}
+}

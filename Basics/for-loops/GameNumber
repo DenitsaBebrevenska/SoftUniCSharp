@@ -1,0 +1,62 @@
+using System;
+
+namespace _04GameNumber
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			string playerOne = Console.ReadLine();
+			string playerTwo = Console.ReadLine();
+			string input = Console.ReadLine();
+			string input2 = Console.ReadLine();
+			int cardP1 = int.Parse(input), cardP2 = int.Parse(input2), playerOneSum = 0, playerTwoSum = 0, diff;
+			bool numberWars = false;
+			while (input != "End of game")
+			{
+				
+				if (cardP1 > cardP2) { diff = cardP1 - cardP2; playerOneSum += diff; }
+				else if (cardP2 > cardP1) { diff = cardP2 - cardP1; playerTwoSum += diff; }
+				else 
+				{
+					numberWars = true;
+					cardP1 = int.Parse(Console.ReadLine());
+					cardP2 = int.Parse(Console.ReadLine());
+					if (cardP1 > cardP2)
+					{
+						Console.WriteLine("Number wars!");
+						Console.WriteLine($"{playerOne} is winner with {playerOneSum} points");
+					}
+					else
+					{
+						Console.WriteLine("Number wars!");
+						Console.WriteLine($"{playerTwo} is winner with {playerTwoSum} points");
+						break;
+					}
+					
+				}
+				if (!numberWars)
+				{
+					input = Console.ReadLine();
+					if (input != "End of game")
+					{
+						input2 = Console.ReadLine();
+						cardP1 = int.Parse(input);
+						cardP2 = int.Parse(input2);
+					}
+					else
+					{ break; }
+				}
+				else
+				{ break; }
+
+			}
+			if (input == "End of game")
+			{
+				Console.WriteLine($"{playerOne} has {playerOneSum} points");
+				Console.WriteLine($"{playerTwo} has {playerTwoSum} points");
+			}
+
+			}
+		}
+	}

@@ -1,0 +1,34 @@
+using System;
+
+namespace _05FootballTournament
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			string nameTeam = Console.ReadLine();
+			int n = int.Parse(Console.ReadLine()); // n = number of games played this season
+			int pointsWon = 0, gamesWon = 0, gamesTie = 0, gamesLost = 0;
+			for (int i = 1; i <= n; i++)
+			{
+				string gameResult = Console.ReadLine();
+				if (gameResult == "W") { pointsWon += 3; gamesWon++; }
+				else if (gameResult == "D") { pointsWon += 1; gamesTie++; }
+				else if (gameResult == "L") { gamesLost++; }
+			}
+			if (n == 0)
+			{
+				Console.WriteLine($"{nameTeam} hasn't played any games during this season.");
+			}
+			else
+			{
+				Console.WriteLine($"{nameTeam} has won {pointsWon} points during this season.");
+				Console.WriteLine("Total stats:");
+				Console.WriteLine($"## W: {gamesWon}");
+				Console.WriteLine($"## D: {gamesTie}");
+				Console.WriteLine($"## L: {gamesLost}");
+				Console.WriteLine($"Win rate: {gamesWon * 100.00 / n:F2}%");
+			}
+		}
+	}
+}

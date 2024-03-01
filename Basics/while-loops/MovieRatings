@@ -1,0 +1,26 @@
+using System;
+
+namespace _05MovieRatings
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			int n = int.Parse(Console.ReadLine()); // n - number of movies
+			double maxRating = 0, minRating = double.MaxValue, averageRating = 0;
+			string movieLowestRating = "", movieHighestRating = "";
+
+			for (int i = 1; i <= n; i++)
+			{
+				string movie = Console.ReadLine();
+				double rating = double.Parse(Console.ReadLine());
+				averageRating += rating;
+				if (rating < minRating) { minRating = rating; movieLowestRating = movie; }
+				if (rating > maxRating) { maxRating = rating; movieHighestRating = movie; }
+ 			}
+			Console.WriteLine($"{movieHighestRating} is with highest rating: {maxRating:F1}");
+			Console.WriteLine($"{movieLowestRating} is with lowest rating: {minRating:F1}");
+			Console.WriteLine($"Average rating: {averageRating / n:F1}");
+		}
+	}
+}

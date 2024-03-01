@@ -1,0 +1,76 @@
+using System;
+using System.Diagnostics;
+
+namespace _03TravelAgency
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			string city = Console.ReadLine();
+			string package = Console.ReadLine();
+			string vipDiscount = Console.ReadLine();
+			int days = int.Parse(Console.ReadLine());
+
+			double pricePerDay = 0;
+
+			if (city == "Bansko" || city == "Borovets") 
+			{
+				if (package == "withEquipment")
+				{
+					pricePerDay = 100;
+					if (vipDiscount == "yes")
+					{
+						pricePerDay *= 0.9; 
+					}
+ 				}
+				else if (package == "noEquipment") 
+				{
+					pricePerDay = 80;
+					if (vipDiscount == "yes")
+					{
+						pricePerDay *= 0.95;
+					}
+				}
+			}
+			else if (city == "Varna" || city == "Burgas")
+			{
+				if (package == "withBreakfast")
+				{
+					pricePerDay = 130;
+					if (vipDiscount == "yes")
+					{
+						pricePerDay *= 0.88;
+					}
+				}
+				else if (package == "noBreakfast")
+				{
+					pricePerDay = 100;
+					if (vipDiscount == "yes")
+					{
+						pricePerDay *= 0.93;
+					}
+				}
+			}
+			if (days > 7)
+			{
+				days -= 1;
+			}
+			if (days < 1)
+			{
+				Console.WriteLine("Days must be positive number!");
+			}
+			else if ((city != "Bansko" && city != "Borovets" && city != "Varna" && city != "Burgas") || (package != "noEquipment" && package != "withEquipment" && package != "noBreakfast" && package != "withBreakfast"))
+			{
+				Console.WriteLine("Invalid input!");
+			}
+			else
+			{
+				Console.WriteLine($"The price is {(days * pricePerDay):F2}lv! Have a nice time!");
+			}
+
+
+
+		}
+	}
+}

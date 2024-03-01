@@ -1,0 +1,40 @@
+using System;
+
+namespace _04TouristShop
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			double budget = double.Parse(Console.ReadLine());
+			string input = Console.ReadLine();
+			double price = double.Parse(Console.ReadLine());
+			int productCount = 0;
+			double sumPrice = 0;
+			bool stopReached = false;
+
+			while (input != "Stop")
+			{
+				productCount++;
+				if (productCount % 3 == 0)
+				{ price *= 0.5; }
+				if (price <= budget)
+				{ budget -= price; sumPrice += price; }
+				else
+				{
+					Console.WriteLine("You don't have enough money!");
+					Console.WriteLine($"You need {price - budget:F2} leva!");
+
+					break; 
+				}
+				input = Console.ReadLine();
+				if (input != "Stop")
+				{ price = double.Parse(Console.ReadLine()); }
+				else
+				{ stopReached = true; }
+				
+			}
+			if (stopReached) { Console.WriteLine($"You bought {productCount} products for {sumPrice:F2} leva."); }
+		}
+	}
+}

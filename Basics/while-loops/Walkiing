@@ -1,0 +1,45 @@
+using System;
+using System.Security.Authentication;
+
+namespace _04Walking
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			int targetSteps = 10000;
+			int totalAmountSteps = 0;
+			bool goneHome = false;
+
+			while (totalAmountSteps < targetSteps)
+			{
+				string input = Console.ReadLine();
+				int currentAmountSteps = 0;
+
+				if (input != "Going home")
+				{
+					currentAmountSteps = int.Parse(input);
+					totalAmountSteps += currentAmountSteps;
+				}
+				else 
+				{
+					currentAmountSteps = int.Parse(Console.ReadLine());
+					totalAmountSteps += currentAmountSteps;
+					goneHome = true;
+					break;
+				}
+			}
+			if (goneHome && totalAmountSteps < targetSteps)
+			{
+				Console.WriteLine($"{targetSteps - totalAmountSteps} more steps to reach goal.");
+			}
+			else
+			{
+				Console.WriteLine("Goal reached! Good job!");
+				Console.WriteLine($"{totalAmountSteps - targetSteps} steps over the goal!");
+			}
+			
+			
+		}
+	}
+}
