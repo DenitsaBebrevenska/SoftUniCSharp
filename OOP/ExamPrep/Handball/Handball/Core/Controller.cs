@@ -53,13 +53,31 @@ namespace Handball.Core
                     _players.Models.First(p => p.Name == name).GetType().Name);
             }
 
-            Type type = Assembly
-                .GetAssembly(typeof(Player))
-                .GetTypes().First(t => !t.IsAbstract && t.IsClass && typeof(Player).IsAssignableFrom(t) && t.Name == typeName);
-            ConstructorInfo constructor = type.GetConstructor(new Type[] { typeof(string) });
-            object instance = constructor.Invoke(new object[] { name });
+            //Type type = Assembly
+            //    .GetAssembly(typeof(Player))
+            //    .GetTypes().Where(t =>
+            //        !t.IsAbstract && t.IsClass && typeof(Player).IsAssignableFrom(t) && t.Name == typeName).First();
 
-            IPlayer player = instance as IPlayer;
+            //ConstructorInfo constructor = type.GetConstructor(new Type[] { typeof(string) });
+            //object instance = constructor.Invoke(new object[] { name });
+            //IPlayer player = instance as IPlayer;
+
+
+            IPlayer player = null;
+
+            switch (typeName)
+            {
+                case "CenterBack":
+                    player = new CenterBack(name);
+                    break;
+                case "ForwardWing":
+                    player = new ForwardWing(name);
+                    break;
+                case "Goalkeeper":
+                    player = new Goalkeeper(name);
+                    break;
+            }
+
             _players.AddModel(player);
 
             return string.Format(OutputMessages.PlayerAddedSuccessfully, name);

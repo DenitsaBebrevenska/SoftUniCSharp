@@ -1,4 +1,5 @@
 ﻿using Handball.Models.Contracts;
+using Handball.Models.Players;
 using Handball.Utilities.Messages;
 using System;
 using System.Collections.Generic;
@@ -59,7 +60,7 @@ namespace Handball.Models
         public void Draw()
         {
             PointsEarned++;
-            _players.First(p => p.GetType().Name == "Goalkeeper").IncreaseRating();
+            _players.First(p => p.GetType().Name == nameof(Goalkeeper)).IncreaseRating();
         }
 
         public override string ToString()
