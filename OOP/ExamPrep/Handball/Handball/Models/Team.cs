@@ -58,7 +58,7 @@ namespace Handball.Models
 
         public void Draw()
         {
-            PointsEarned += 1;
+            PointsEarned++;
             _players.First(p => p.GetType().Name == "Goalkeeper").IncreaseRating();
         }
 
@@ -74,7 +74,7 @@ namespace Handball.Models
             }
             else
             {
-                sb.AppendLine($"--Players: {string.Join(", ", _players.Select(p => p.Name).ToArray())}");
+                sb.AppendLine($"--Players: {string.Join(", ", _players.Select(p => p.Name))}");
             }
 
             return sb.ToString().TrimEnd();

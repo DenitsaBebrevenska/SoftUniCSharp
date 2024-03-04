@@ -33,17 +33,17 @@ namespace Handball.Models.Players
             get => _rating;
             protected set
             {
-                if (value < 1)
+                switch (value)
                 {
-                    _rating = 1;
-                }
-                else if (value > 10)
-                {
-                    _rating = 10;
-                }
-                else
-                {
-                    _rating = value;
+                    case < 1:
+                        _rating = 1;
+                        break;
+                    case > 10:
+                        _rating = 10;
+                        break;
+                    default:
+                        _rating = value;
+                        break;
                 }
             }
         }
