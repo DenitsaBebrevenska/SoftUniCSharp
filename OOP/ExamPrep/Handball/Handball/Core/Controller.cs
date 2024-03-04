@@ -53,6 +53,7 @@ namespace Handball.Core
                     _players.Models.First(p => p.Name == name).GetType().Name);
             }
 
+            //this piece of code is not working as intended in one of the tests?!?!
             //Type type = Assembly
             //    .GetAssembly(typeof(Player))
             //    .GetTypes().Where(t =>
