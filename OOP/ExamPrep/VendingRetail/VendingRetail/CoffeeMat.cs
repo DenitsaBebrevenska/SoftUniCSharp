@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime;
-using System.Text;
 
 namespace VendingRetail
 {
@@ -21,10 +18,9 @@ namespace VendingRetail
             this.income = 0;
             this.waterTankLevel = 0;
             this.drinks = new Dictionary<string, double>();
-
         }
 
-        public int WaterCapacity 
+        public int WaterCapacity
         {
             get
             {
@@ -36,7 +32,7 @@ namespace VendingRetail
             }
         }
 
-        public int ButtonsCount 
+        public int ButtonsCount
         {
             get
             {
@@ -45,7 +41,7 @@ namespace VendingRetail
             private set
             {
                 this.buttonsCount = value;
-            } 
+            }
         }
 
         public double Income => this.income;
@@ -63,13 +59,13 @@ namespace VendingRetail
 
         public bool AddDrink(string name, double price)
         {
-            if (this.drinks.Count < buttonsCount && 
+            if (this.drinks.Count < buttonsCount &&
                 !this.drinks.Any(d => d.Key == name))
             {
                 drinks[name] = price;
-                return true ;
+                return true;
             }
-            return false ;
+            return false;
         }
 
         public string BuyDrink(string name)
@@ -87,7 +83,7 @@ namespace VendingRetail
                 this.waterTankLevel -= 80;
                 this.income += priceToPay;
             }
-            else 
+            else
             {
                 return $"{name} is not available!";
             }
