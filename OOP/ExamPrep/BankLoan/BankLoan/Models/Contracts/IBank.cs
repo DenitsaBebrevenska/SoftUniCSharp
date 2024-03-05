@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace BankLoan.Models.Contracts
 {
@@ -13,8 +11,8 @@ namespace BankLoan.Models.Contracts
 
         public double SumRates();
 
-        public void AddClient(IClient Client);
-        public void RemoveClient(IClient Client);
+        public void AddClient(IClient client);
+        public void RemoveClient(IClient client);
         public void AddLoan(ILoan loan);
         public string GetStatistics();
     }
