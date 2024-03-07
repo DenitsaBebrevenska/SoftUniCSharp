@@ -135,9 +135,9 @@ namespace EDriveRent.Core
         {
             var vehiclesToRepair = _vehicles.GetAll()
                 .Where(v => v.IsDamaged)
-                .Take(count)
                 .OrderBy(v => v.Brand)
                 .ThenBy(v => v.Model)
+                .Take(count)
                 .ToList();
 
             foreach (var vehicle in vehiclesToRepair)
