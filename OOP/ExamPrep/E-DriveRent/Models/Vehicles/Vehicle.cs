@@ -2,7 +2,7 @@
 using EDriveRent.Utilities.Messages;
 using System;
 
-namespace EDriveRent.Models
+namespace EDriveRent.Models.Vehicles
 {
     public abstract class Vehicle : IVehicle
     {
@@ -10,10 +10,15 @@ namespace EDriveRent.Models
         private string _model;
         private string _licensePlateNumber;
 
-        protected Vehicle()
+        protected Vehicle(string brand, string model, double maxMileage, string licensePlateNumber)
         {
             BatteryLevel = 100;
             IsDamaged = false;
+            Brand = brand;
+            Model = model;
+            LicensePlateNumber = licensePlateNumber;
+            Brand = brand;
+            MaxMileage = maxMileage;
         }
         public string Brand
         {
@@ -52,7 +57,7 @@ namespace EDriveRent.Models
                 _licensePlateNumber = value;
             }
         }
-        public int BatteryLevel { get; private set; }
+        public int BatteryLevel { get; protected set; }
         public bool IsDamaged { get; private set; }
         public virtual void Drive(double mileage)
         {
