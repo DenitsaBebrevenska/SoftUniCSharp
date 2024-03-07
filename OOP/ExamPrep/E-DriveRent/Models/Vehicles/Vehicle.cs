@@ -57,11 +57,16 @@ namespace EDriveRent.Models.Vehicles
                 _licensePlateNumber = value;
             }
         }
-        public int BatteryLevel { get; protected set; }
+        public int BatteryLevel { get; private set; }
         public bool IsDamaged { get; private set; }
-        public virtual void Drive(double mileage)
+        public void Drive(double mileage)
         {
             double percentage = mileage / MaxMileage * 100;
+
+            if (this.GetType().Name == "CargoVan")
+            {
+                percentage += 5;
+            }
             BatteryLevel -= (int)Math.Round(percentage);
         }
 
