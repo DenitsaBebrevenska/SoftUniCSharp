@@ -67,7 +67,10 @@ namespace EDriveRent.Models.Vehicles
             {
                 percentage += 5;
             }
-            BatteryLevel -= (int)Math.Round(percentage);
+
+            int rounderPercentage = (int)Math.Round(percentage);
+
+            BatteryLevel -= (BatteryLevel * rounderPercentage) / 100;
         }
 
         public void Recharge()

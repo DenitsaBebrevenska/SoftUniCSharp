@@ -14,27 +14,27 @@ namespace EDriveRent.Core
 {
     public class Controller : IController
     {
-        private IRepository<IUser> _users;
-        private IRepository<IVehicle> _vehicles;
-        private IRepository<IRoute> _routes;
+        private IRepository<IUser> users;
+        private IRepository<IVehicle> vehicles;
+        private IRepository<IRoute> routes;
         private int _routeEnumerator = 1;
 
         public Controller()
         {
-            _users = new UserRepository();
-            _vehicles = new VehicleRepository();
-            _routes = new RouteRepository();
+            users = new UserRepository();
+            vehicles = new VehicleRepository();
+            routes = new RouteRepository();
         }
         public string RegisterUser(string firstName, string lastName, string drivingLicenseNumber)
         {
-            IUser user = _users.FindById(drivingLicenseNumber);
+            IUser user = users.FindById(drivingLicenseNumber);
 
             if (user != null)
             {
                 return string.Format(OutputMessages.UserWithSameLicenseAlreadyAdded, drivingLicenseNumber);
             }
 
-            _users.AddModel(new User(firstName, lastName, drivingLicenseNumber));
+            users.AddModel(new User(firstName, lastName, drivingLicenseNumber));
             return string.Format(OutputMessages.UserSuccessfullyAdded, firstName, lastName, drivingLicenseNumber);
         }
 
@@ -50,7 +50,7 @@ namespace EDriveRent.Core
                 return string.Format(OutputMessages.VehicleTypeNotAccessible, vehicleType);
             }
 
-            if (_vehicles.GetAll().Any(v => v.LicensePlateNumber == licensePlateNumber))
+            if (vehicles.GetAll().Any(v => v.LicensePlateNumber == licensePlateNumber))
             {
                 return string.Format(OutputMessages.LicensePlateExists, licensePlateNumber);
             }
@@ -61,28 +61,28 @@ namespace EDriveRent.Core
 
             object instance = Activator.CreateInstance(currentType, new object[] { brand, model, licensePlateNumber });
 
-            _vehicles.AddModel(instance as IVehicle);
+            vehicles.AddModel(instance as IVehicle);
             return string.Format(OutputMessages.VehicleAddedSuccessfully, brand, model, licensePlateNumber);
         }
 
         public string AllowRoute(string startPoint, string endPoint, double length)
         {
-            if (_routes.GetAll()
+            if (routes.GetAll()
                 .Any(r => r.StartPoint == startPoint && r.EndPoint == endPoint && r.Length.Equals(length)))
             {
                 return string.Format(OutputMessages.RouteExisting, startPoint, endPoint, length);
             }
 
-            if (_routes.GetAll()
+            if (routes.GetAll()
                 .Any(r => r.StartPoint == startPoint && r.EndPoint == endPoint && r.Length < length))
             {
                 return string.Format(OutputMessages.RouteIsTooLong, startPoint, endPoint);
             }
 
             IRoute route = new Route(startPoint, endPoint, length, _routeEnumerator++);
-            _routes.AddModel(route);
+            routes.AddModel(route);
 
-            IRoute longerRoute = _routes.GetAll()
+            IRoute longerRoute = routes.GetAll()
                 .FirstOrDefault(r => r.StartPoint == startPoint && r.EndPoint == endPoint && r.Length > length);
 
             if (longerRoute != null)
@@ -95,21 +95,21 @@ namespace EDriveRent.Core
 
         public string MakeTrip(string drivingLicenseNumber, string licensePlateNumber, string routeId, bool isAccidentHappened)
         {
-            IUser user = _users.FindById(drivingLicenseNumber);
+            IUser user = users.FindById(drivingLicenseNumber);
 
             if (user.IsBlocked)
             {
                 return string.Format(OutputMessages.UserBlocked, drivingLicenseNumber);
             }
 
-            IVehicle vehicle = _vehicles.FindById(licensePlateNumber);
+            IVehicle vehicle = vehicles.FindById(licensePlateNumber);
 
             if (vehicle.IsDamaged)
             {
                 return string.Format(OutputMessages.VehicleDamaged, licensePlateNumber);
             }
 
-            IRoute route = _routes.FindById(routeId);
+            IRoute route = routes.FindById(routeId);
 
             if (route.IsLocked)
             {
@@ -133,7 +133,7 @@ namespace EDriveRent.Core
 
         public string RepairVehicles(int count)
         {
-            var vehiclesToRepair = _vehicles.GetAll()
+            var vehiclesToRepair = vehicles.GetAll()
                 .Where(v => v.IsDamaged)
                 .OrderBy(v => v.Brand)
                 .ThenBy(v => v.Model)
@@ -143,6 +143,7 @@ namespace EDriveRent.Core
             foreach (var vehicle in vehiclesToRepair)
             {
                 vehicle.ChangeStatus();
+                vehicle.Recharge();
             }
 
             return string.Format(OutputMessages.RepairedVehicles, vehiclesToRepair.Count());
@@ -153,7 +154,7 @@ namespace EDriveRent.Core
             StringBuilder report = new StringBuilder();
             report.AppendLine("*** E-Drive-Rent ***");
 
-            foreach (var user in _users.GetAll()
+            foreach (var user in users.GetAll()
                          .OrderByDescending(u => u.Rating)
                          .ThenBy(u => u.LastName)
                          .ThenBy(u => u.FirstName))
