@@ -63,6 +63,7 @@ namespace VehicleGarage.Tests
         {
             garage.Capacity = 1;
             garage.AddVehicle(vehicle);
+            Assert.AreEqual(garage.Capacity, garage.Vehicles.Count);
             Assert.IsFalse(garage.AddVehicle(vehicle2));
             Assert.IsFalse(garage.Vehicles.Contains(vehicle2));
         }
@@ -71,6 +72,7 @@ namespace VehicleGarage.Tests
         public void AddVehicle_ShouldReturnFalse_WhenThereIsVehicleWithTheSamePlateNumber()
         {
             garage.AddVehicle(vehicle);
+            Assert.IsTrue(garage.Vehicles.Contains(vehicle));
             Assert.IsFalse(garage.AddVehicle(vehicle));
         }
 
@@ -112,6 +114,7 @@ namespace VehicleGarage.Tests
         {
             vehicle.IsDamaged = true;
             garage.AddVehicle(vehicle);
+            Assert.AreEqual(100, vehicle.BatteryLevel);
             garage.DriveVehicle(vehicle.LicensePlateNumber, sampleBatteryDrainage, false);
             Assert.AreEqual(100, vehicle.BatteryLevel);
         }
@@ -121,6 +124,7 @@ namespace VehicleGarage.Tests
         {
             sampleBatteryDrainage = 101;
             garage.AddVehicle(vehicle);
+            Assert.AreEqual(100, vehicle.BatteryLevel);
             garage.DriveVehicle(vehicle.LicensePlateNumber, sampleBatteryDrainage, false);
             Assert.AreEqual(100, vehicle.BatteryLevel);
         }
@@ -139,6 +143,7 @@ namespace VehicleGarage.Tests
         public void DriveCar_WhenSuccessful_ShouldDecreaseBatteryLevelCorrectly()
         {
             garage.AddVehicle(vehicle);
+            Assert.AreEqual(100, vehicle.BatteryLevel);
             garage.DriveVehicle(vehicle.LicensePlateNumber, sampleBatteryDrainage, false);
             Assert.AreEqual(100 - sampleBatteryDrainage, vehicle.BatteryLevel);
         }
@@ -157,6 +162,7 @@ namespace VehicleGarage.Tests
         {
             garage.AddVehicle(vehicle);
             vehicle.IsDamaged = true;
+            Assert.IsTrue(vehicle.IsDamaged);
             garage.RepairVehicles();
             Assert.IsFalse(vehicle.IsDamaged);
         }
