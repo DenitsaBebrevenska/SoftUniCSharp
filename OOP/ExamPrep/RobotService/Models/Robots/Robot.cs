@@ -4,14 +4,14 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace RobotService.Models
+namespace RobotService.Models.Robots
 {
     public abstract class Robot : IRobot
     {
         private string _model;
         private int _batteryCapacity;
         private List<int> _interfaceStandards;
-        protected Robot(string model, int batteryCapacity, int batteryLevel, int convertionCapacityIndex)
+        protected Robot(string model, int batteryCapacity, int convertionCapacityIndex)
         {
             Model = model;
             BatteryCapacity = batteryCapacity;
