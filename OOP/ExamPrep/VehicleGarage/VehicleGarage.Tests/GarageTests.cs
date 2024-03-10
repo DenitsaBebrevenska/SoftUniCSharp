@@ -69,7 +69,7 @@ namespace VehicleGarage.Tests
         }
 
         [Test]
-        public void AddVehicle_ShouldReturnFalse_WhenThereIsVehicleWithTheSamePlateNumber()
+        public void AddVehicle_ShouldReturnFalse_WhenThereIsAVehicleWithTheSamePlateNumber()
         {
             garage.AddVehicle(vehicle);
             Assert.IsTrue(garage.Vehicles.Contains(vehicle));
@@ -79,20 +79,20 @@ namespace VehicleGarage.Tests
         [Test]
         public void ChargeVehicles_ShouldReturnZero_IfAllVehicleBatteryLevelIsGreaterThanParameterBatteryLevel()
         {
-            garage.AddVehicle(vehicle);
             vehicle.BatteryLevel = 90;
-            garage.AddVehicle(vehicle2);
+            garage.AddVehicle(vehicle);
             vehicle2.BatteryLevel = 88;
+            garage.AddVehicle(vehicle2);
             Assert.AreEqual(0, garage.ChargeVehicles(50));
         }
 
         [Test]
         public void ChargeVehicles_ShouldUpdateVehicleBatteryLevelTo100()
         {
-            garage.AddVehicle(vehicle);
             vehicle.BatteryLevel = 40;
-            garage.AddVehicle(vehicle2);
+            garage.AddVehicle(vehicle);
             vehicle2.BatteryLevel = 50;
+            garage.AddVehicle(vehicle2);
             garage.ChargeVehicles(50);
             Assert.AreEqual(100, vehicle.BatteryLevel);
             Assert.AreEqual(100, vehicle2.BatteryLevel);
@@ -101,10 +101,10 @@ namespace VehicleGarage.Tests
         [Test]
         public void ChargeVehicles_ShouldReturnCorrectlyCountOfChargedVehicles()
         {
-            garage.AddVehicle(vehicle);
             vehicle.BatteryLevel = 40;
-            garage.AddVehicle(vehicle2);
+            garage.AddVehicle(vehicle);
             vehicle2.BatteryLevel = 50;
+            garage.AddVehicle(vehicle2);
             Assert.AreEqual(0, garage.ChargeVehicles(30));
             Assert.AreEqual(2, garage.ChargeVehicles(50));
         }
@@ -160,8 +160,8 @@ namespace VehicleGarage.Tests
         [Test]
         public void RepairVehicles_ShouldChangeIsDamagedPropertyOfAVehicle()
         {
-            garage.AddVehicle(vehicle);
             vehicle.IsDamaged = true;
+            garage.AddVehicle(vehicle);
             Assert.IsTrue(vehicle.IsDamaged);
             garage.RepairVehicles();
             Assert.IsFalse(vehicle.IsDamaged);
