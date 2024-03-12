@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace VehicleGarage
 {
@@ -19,7 +17,7 @@ namespace VehicleGarage
 
         public bool AddVehicle(Vehicle vehicle)
         {
-            if (this.Capacity == this.Vehicles.Count || 
+            if (this.Capacity == this.Vehicles.Count ||
                 this.Vehicles.Any(v => v.LicensePlateNumber == vehicle.LicensePlateNumber))
             {
                 return false;
@@ -49,8 +47,8 @@ namespace VehicleGarage
         {
             Vehicle vehicle = this.Vehicles.Find(v => v.LicensePlateNumber == licensePlateNumber);
 
-            if (vehicle.IsDamaged || 
-                batteryDrainage > 100 || 
+            if (vehicle.IsDamaged ||
+                batteryDrainage > 100 ||
                 vehicle.BatteryLevel < batteryDrainage)
             {
                 return;
@@ -68,13 +66,13 @@ namespace VehicleGarage
         {
             int vehiclesRepaired = 0;
 
-            foreach(Vehicle vehicle in Vehicles.Where(v => v.IsDamaged == true))
+            foreach (Vehicle vehicle in Vehicles.Where(v => v.IsDamaged == true))
             {
                 vehicle.IsDamaged = false;
                 vehiclesRepaired++;
             }
 
             return $"Vehicles repaired: {vehiclesRepaired}";
-        } 
+        }
     }
 }

@@ -47,6 +47,7 @@ namespace VehicleGarage.Tests
         [Test]
         public void AddVehicle_ShouldReturnTrue_WhenAVehicleIsAddedSuccessfully()
         {
+            Assert.IsFalse(garage.Vehicles.Contains(vehicle));
             Assert.IsTrue(garage.AddVehicle(vehicle));
         }
 
@@ -106,6 +107,9 @@ namespace VehicleGarage.Tests
             vehicle2.BatteryLevel = 50;
             garage.AddVehicle(vehicle2);
             Assert.AreEqual(0, garage.ChargeVehicles(30));
+            Assert.AreEqual(1, garage.ChargeVehicles(45));
+            vehicle.BatteryLevel = 40;
+            vehicle2.BatteryLevel = 50;
             Assert.AreEqual(2, garage.ChargeVehicles(50));
         }
 
@@ -132,7 +136,7 @@ namespace VehicleGarage.Tests
         [Test]
         public void DriveVehicle_ShouldNotWork_IfBatteryLevelIsLessThanBatteryDrainage()
         {
-            sampleBatteryDrainage = 100;
+            sampleBatteryDrainage = 90;
             vehicle.BatteryLevel = 80;
             garage.AddVehicle(vehicle);
             garage.DriveVehicle(vehicle.LicensePlateNumber, sampleBatteryDrainage, false);

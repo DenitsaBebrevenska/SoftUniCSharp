@@ -38,7 +38,7 @@ namespace RobotService.Models.Robots
             get => _batteryCapacity;
             private set
             {
-                if (value > 0)
+                if (value < 0)
                 {
                     throw new ArgumentException(ExceptionMessages.BatteryCapacityBelowZero);
                 }
@@ -58,6 +58,7 @@ namespace RobotService.Models.Robots
                 {
                     break;
                 }
+
                 BatteryLevel += ConvertionCapacityIndex * minutes;
             }
         }

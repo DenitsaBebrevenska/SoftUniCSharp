@@ -9,6 +9,11 @@ namespace RobotService.Repositories
     public class RobotRepository : IRepository<IRobot>
     {
         private List<IRobot> _models;
+
+        public RobotRepository()
+        {
+            _models = new List<IRobot>();
+        }
         public IReadOnlyCollection<IRobot> Models() => _models.AsReadOnly();
 
         public void AddNew(IRobot model)
