@@ -1,7 +1,7 @@
 ﻿using RobotService.Core.Contracts;
+using RobotService.Factories;
+using RobotService.Factories.Contracts;
 using RobotService.Models.Contracts;
-using RobotService.Models.Robots;
-using RobotService.Models.Supplements;
 using RobotService.Repositories;
 using RobotService.Repositories.Contracts;
 using RobotService.Utilities.Messages;
@@ -15,10 +15,14 @@ namespace RobotService.Core
     {
         private IRepository<ISupplement> _supplements;
         private IRepository<IRobot> _robots;
+        private IFactory<ISupplement> _suppmentFactory;
+        private IFactory<IRobot> _robotFactory;
         public Controller()
         {
             _supplements = new SupplementRepository();
             _robots = new RobotRepository();
+            _suppmentFactory = new SupplementFactory();
+            _robotFactory = new RobotFactory();
         }
 
         public string CreateRobot(string model, string typeName)
@@ -39,18 +43,12 @@ namespace RobotService.Core
 
             //return string.Format(OutputMessages.RobotCreatedSuccessfully, typeName, model);
 
-            IRobot robot;
 
-            switch (typeName)
+            IRobot robot = _robotFactory.CreateInstance(typeName, model);
+
+            if (robot is null)
             {
-                case "DomesticAssistant":
-                    robot = new DomesticAssistant(model);
-                    break;
-                case "IndustrialAssistant":
-                    robot = new IndustrialAssistant(model);
-                    break;
-                default:
-                    return string.Format(OutputMessages.RobotCannotBeCreated, typeName);
+                return string.Format(OutputMessages.RobotCannotBeCreated, typeName);
             }
 
             _robots.AddNew(robot);
@@ -75,18 +73,11 @@ namespace RobotService.Core
 
             //return string.Format(OutputMessages.SupplementCreatedSuccessfully, typeName);
 
-            ISupplement supplement;
+            ISupplement supplement = _suppmentFactory.CreateInstance(typeName);
 
-            switch (typeName)
+            if (supplement is null)
             {
-                case "SpecializedArm":
-                    supplement = new SpecializedArm();
-                    break;
-                case "LaserRadar":
-                    supplement = new LaserRadar();
-                    break;
-                default:
-                    return string.Format(OutputMessages.SupplementCannotBeCreated, typeName);
+                return string.Format(OutputMessages.SupplementCannotBeCreated, typeName);
             }
 
             _supplements.AddNew(supplement);
