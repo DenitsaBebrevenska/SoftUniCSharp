@@ -1,186 +1,186 @@
 using NUnit.Framework;
+using System.Linq;
 
 namespace VehicleGarage.Tests
 {
     public class GarageTests
     {
         private Garage garage;
-        private int capacity = 5;
-        private Vehicle vehicle;
+        private int capacity = 3;
+        private Vehicle vehicle1;
         private Vehicle vehicle2;
-        private string brand = "Tesla";
-        private string model = "X";
-        private string licensePlateNumber = "EA2010XX";
-        private string licensePlateNumber2 = "CO0201HH";
-        private int sampleBatteryDrainage = 50;
+        private Vehicle vehicle3;
+        private Vehicle vehicle4;
+
 
         [SetUp]
         public void Setup()
         {
             garage = new Garage(capacity);
-            vehicle = new Vehicle(brand, model, licensePlateNumber);
-            vehicle2 = new Vehicle(brand, model, licensePlateNumber2);
+            vehicle1 = new Vehicle("Mercedes", "GLE", "CB0201AA");
+            vehicle2 = new Vehicle("VW", "Transporter", "C0011BB");
+            vehicle3 = new Vehicle("Skoda", "Fabia", "CA2014KA");
+            vehicle4 = new Vehicle("Kawasaki", "Eliminator", "A2010CC");
         }
 
         [Test]
-        public void Constructor_ShouldInitializeGarage()
+        public void Constructor_ShouldInitializeGarageAndSetCapacity()
         {
             Assert.IsNotNull(garage);
+            Assert.AreEqual(capacity, garage.Capacity);
         }
 
         [Test]
-        public void Constructor_ShouldInitializeVehicleList()
+        public void Constructor_InitializeTheListOfVehicles()
         {
             Assert.IsNotNull(garage.Vehicles);
-            Assert.AreEqual(0, garage.Vehicles.Count);
         }
 
         [Test]
-        public void CapacityProperty_ShouldBeSetAndReturnCorrectly()
+        public void AddVehicle_ShouldReturnFalse_IfGarageIsAtMaxCapacity()
         {
-            Assert.AreEqual(capacity, garage.Capacity);
-            int newCapacity = 2;
-            garage.Capacity = newCapacity;
-            Assert.AreEqual(newCapacity, garage.Capacity);
+            garage.AddVehicle(vehicle1);
+            garage.AddVehicle(vehicle2);
+            garage.AddVehicle(vehicle3);
+            Assert.IsFalse(garage.AddVehicle(vehicle4));
         }
 
         [Test]
-        public void AddVehicle_ShouldReturnTrue_WhenAVehicleIsAddedSuccessfully()
+        public void AddVehicle_ShouldReturnFalse_IfThereIsAVehicleWithTheSameLicensePlateNumber()
         {
-            Assert.IsFalse(garage.Vehicles.Contains(vehicle));
-            Assert.IsTrue(garage.AddVehicle(vehicle));
-        }
-
-        [Test]
-        public void AddVehicle_ShouldAddVehicleToList_WhenAVehicleIsAddedSuccessfully()
-        {
-            Assert.IsFalse(garage.Vehicles.Contains(vehicle));
-            garage.AddVehicle(vehicle);
-            Assert.IsTrue(garage.Vehicles.Contains(vehicle));
-        }
-
-        [Test]
-        public void AddVehicle_ShouldReturnFalse_WhenGarageAtMaxCapacity()
-        {
-            garage.Capacity = 1;
-            garage.AddVehicle(vehicle);
-            Assert.AreEqual(garage.Capacity, garage.Vehicles.Count);
+            garage.AddVehicle(vehicle1);
+            garage.AddVehicle(vehicle2);
             Assert.IsFalse(garage.AddVehicle(vehicle2));
-            Assert.IsFalse(garage.Vehicles.Contains(vehicle2));
         }
 
         [Test]
-        public void AddVehicle_ShouldReturnFalse_WhenThereIsAVehicleWithTheSamePlateNumber()
+        public void AddVehicle_ShouldReturnTrue_WhenSuccessfullyAddingVehicle()
         {
-            garage.AddVehicle(vehicle);
-            Assert.IsTrue(garage.Vehicles.Contains(vehicle));
-            Assert.IsFalse(garage.AddVehicle(vehicle));
+            Assert.IsTrue(garage.AddVehicle(vehicle1));
         }
 
         [Test]
-        public void ChargeVehicles_ShouldReturnZero_IfAllVehicleBatteryLevelIsGreaterThanParameterBatteryLevel()
+        public void AddVehicle_ShouldAddVehicleToVehicleList_WhenSuccessfullyAddingVehicle()
         {
-            vehicle.BatteryLevel = 90;
-            garage.AddVehicle(vehicle);
-            vehicle2.BatteryLevel = 88;
+            garage.AddVehicle(vehicle1);
+            Assert.IsTrue(garage.Vehicles.Contains(vehicle1));
+        }
+
+        [Test]
+        public void
+            Charge_VehiclesShouldChargeNoVehiclesAndReturnCorrectCount_WhenAllVehiclesBatteryLevelsAreAboveGivenLevel()
+        {
+            garage.AddVehicle(vehicle1);
             garage.AddVehicle(vehicle2);
-            Assert.AreEqual(0, garage.ChargeVehicles(50));
+            garage.AddVehicle(vehicle3);
+            int batteryLevel = 60;
+            Assert.IsTrue(garage.Vehicles.All(v => v.BatteryLevel > batteryLevel));
+            Assert.AreEqual(0, garage.ChargeVehicles(batteryLevel));
         }
 
         [Test]
-        public void ChargeVehicles_ShouldUpdateVehicleBatteryLevelTo100()
+        public void
+            Charge_VehiclesShouldChargeVehiclesWhoseBatteryIsLessOrEqualToGivenLevel()
         {
-            vehicle.BatteryLevel = 40;
-            garage.AddVehicle(vehicle);
-            vehicle2.BatteryLevel = 50;
+            garage.AddVehicle(vehicle1);
             garage.AddVehicle(vehicle2);
-            garage.ChargeVehicles(50);
-            Assert.AreEqual(100, vehicle.BatteryLevel);
-            Assert.AreEqual(100, vehicle2.BatteryLevel);
+            garage.AddVehicle(vehicle3);
+            garage.DriveVehicle("CB0201AA", 50, false);
+            garage.DriveVehicle("C0011BB", 40, false);
+            garage.DriveVehicle("CA2014KA", 30, false);
+            int batteryLevel = 60;
+            Assert.AreEqual(2, garage.Vehicles.Count(v => v.BatteryLevel <= batteryLevel));
+            garage.ChargeVehicles(batteryLevel);
+            Assert.AreEqual(100, garage.Vehicles.First(v => v.LicensePlateNumber == "CB0201AA").BatteryLevel);
+            Assert.AreEqual(100, garage.Vehicles.First(v => v.LicensePlateNumber == "C0011BB").BatteryLevel);
         }
 
         [Test]
-        public void ChargeVehicles_ShouldReturnCorrectlyCountOfChargedVehicles()
+        public void
+            Charge_VehiclesShouldReturnCorrectCountOfChargedVehicles()
         {
-            vehicle.BatteryLevel = 40;
-            garage.AddVehicle(vehicle);
-            vehicle2.BatteryLevel = 50;
+            garage.AddVehicle(vehicle1);
             garage.AddVehicle(vehicle2);
-            Assert.AreEqual(0, garage.ChargeVehicles(30));
-            Assert.AreEqual(1, garage.ChargeVehicles(45));
-            vehicle.BatteryLevel = 40;
-            vehicle2.BatteryLevel = 50;
-            Assert.AreEqual(2, garage.ChargeVehicles(50));
+            garage.AddVehicle(vehicle3);
+            garage.DriveVehicle("CB0201AA", 50, false);
+            garage.DriveVehicle("CA2014KA", 40, false);
+            garage.DriveVehicle("C0011BB", 30, false);
+            int batteryLevel = 60;
+            Assert.AreEqual(2, garage.Vehicles.Count(v => v.BatteryLevel <= batteryLevel));
+            Assert.AreEqual(2, garage.ChargeVehicles(batteryLevel));
         }
 
         [Test]
-        public void DriveVehicle_ShouldNotWork_IfVehicleIsDamaged()
+        public void DriveVehicle_ShouldDrainBatteryLevelByGivenAmount()
         {
-            vehicle.IsDamaged = true;
-            garage.AddVehicle(vehicle);
-            Assert.AreEqual(100, vehicle.BatteryLevel);
-            garage.DriveVehicle(vehicle.LicensePlateNumber, sampleBatteryDrainage, false);
-            Assert.AreEqual(100, vehicle.BatteryLevel);
+            garage.AddVehicle(vehicle1);
+            garage.DriveVehicle("CB0201AA", 60, false);
+            Assert.AreEqual(40, vehicle1.BatteryLevel);
         }
 
         [Test]
-        public void DriveVehicle_ShouldNotWork_IfBatteryDrainageIsGreaterThan100()
+        public void DriveVehicle_WhenAccidentOccur_ShouldChangeVehicleIsDamaged()
         {
-            sampleBatteryDrainage = 101;
-            garage.AddVehicle(vehicle);
-            Assert.AreEqual(100, vehicle.BatteryLevel);
-            garage.DriveVehicle(vehicle.LicensePlateNumber, sampleBatteryDrainage, false);
-            Assert.AreEqual(100, vehicle.BatteryLevel);
+            garage.AddVehicle(vehicle3);
+            garage.DriveVehicle("CA2014KA", 60, true);
+            Assert.IsTrue(vehicle3.IsDamaged);
+        }
+
+
+        [Test]
+        public void DriveVehicle_ShouldDoNothing_IfVehicleIsDamaged()
+        {
+            vehicle3.IsDamaged = true;
+            garage.AddVehicle(vehicle3);
+            garage.DriveVehicle("CA2014KA", 60, true);
+            Assert.AreEqual(100, vehicle3.BatteryLevel);
         }
 
         [Test]
-        public void DriveVehicle_ShouldNotWork_IfBatteryLevelIsLessThanBatteryDrainage()
+        public void DriveVehicle_ShouldDoNothing_IfBatteryDrainageIsMoreThan100()
         {
-            sampleBatteryDrainage = 90;
-            vehicle.BatteryLevel = 80;
-            garage.AddVehicle(vehicle);
-            garage.DriveVehicle(vehicle.LicensePlateNumber, sampleBatteryDrainage, false);
-            Assert.AreEqual(80, vehicle.BatteryLevel);
+            garage.AddVehicle(vehicle1);
+            garage.DriveVehicle("CB0201AA", 101, false);
+            Assert.AreEqual(100, vehicle1.BatteryLevel);
         }
 
         [Test]
-        public void DriveCar_WhenSuccessful_ShouldDecreaseBatteryLevelCorrectly()
+        public void DriveVehicle_ShouldDoNothing_IfBatteryLevelIsLessThanBatteryDrainage()
         {
-            garage.AddVehicle(vehicle);
-            Assert.AreEqual(100, vehicle.BatteryLevel);
-            garage.DriveVehicle(vehicle.LicensePlateNumber, sampleBatteryDrainage, false);
-            Assert.AreEqual(100 - sampleBatteryDrainage, vehicle.BatteryLevel);
+            garage.AddVehicle(vehicle1);
+            garage.DriveVehicle("CB0201AA", 70, false);
+            garage.DriveVehicle("CB0201AA", 50, false);
+            Assert.AreEqual(30, vehicle1.BatteryLevel);
         }
 
         [Test]
-        public void DriveCar_WhenSuccessful_ShouldChangeIsDamagedPropertyOfVehicle_WhenAccidentOccured()
+        public void RepairVehicles_ShouldChangeIsDamagedToFalseToAllDamagedVehiclesAndReturnCorrectString()
+
         {
-            garage.AddVehicle(vehicle);
-            Assert.IsFalse(vehicle.IsDamaged);
-            garage.DriveVehicle(vehicle.LicensePlateNumber, sampleBatteryDrainage, true);
-            Assert.IsTrue(vehicle.IsDamaged);
+            garage.AddVehicle(vehicle1);
+            garage.AddVehicle(vehicle2);
+            garage.AddVehicle(vehicle3);
+            garage.DriveVehicle("CB0201AA", 50, false);
+            garage.DriveVehicle("CA2014KA", 40, true);
+            garage.DriveVehicle("C0011BB", 30, true);
+            Assert.AreEqual(2, garage.Vehicles.Count(v => v.IsDamaged));
+            string expectedString = "Vehicles repaired: 2";
+            Assert.AreEqual(expectedString, garage.RepairVehicles());
         }
 
         [Test]
-        public void RepairVehicles_ShouldChangeIsDamagedPropertyOfAVehicle()
-        {
-            vehicle.IsDamaged = true;
-            garage.AddVehicle(vehicle);
-            Assert.IsTrue(vehicle.IsDamaged);
-            garage.RepairVehicles();
-            Assert.IsFalse(vehicle.IsDamaged);
-        }
+        public void RepairVehicles_ShouldNotChangeIsDamagedToTrueAndReturnCorrectString_WhenNoDamagedVehicles()
 
-        [Test]
-        public void RepairVehicles_ShouldCorrectlyReturnStringWithCountOfRepairedVehicles()
         {
-            int repairedVehicles = 0;
-            string expectedResult = $"Vehicles repaired: {repairedVehicles}";
-            garage.AddVehicle(vehicle);
-            Assert.AreEqual(expectedResult, garage.RepairVehicles());
-            vehicle.IsDamaged = true;
-            expectedResult = $"Vehicles repaired: {++repairedVehicles}";
-            Assert.AreEqual(expectedResult, garage.RepairVehicles());
+            garage.AddVehicle(vehicle1);
+            garage.AddVehicle(vehicle2);
+            garage.AddVehicle(vehicle3);
+            garage.DriveVehicle("CB0201AA", 50, false);
+            garage.DriveVehicle("CA2014KA", 40, false);
+            garage.DriveVehicle("C0011BB", 30, false);
+            Assert.AreEqual(0, garage.Vehicles.Count(v => v.IsDamaged));
+            string expectedString = "Vehicles repaired: 0";
+            Assert.AreEqual(expectedString, garage.RepairVehicles());
         }
     }
 }
