@@ -1,6 +1,47 @@
 html{
     font: 16px/1.5 Helvetica, sans-serif;
 }
+body{
+    padding: 2em 4em;
+}
 h1,h2,h3,h4,h5,h6{
     font-family: Georgia, serif;
 }
+article:first-of-type{
+    margin-top: 2em;
+    margin-bottom: 3em;
+}
+table{
+    width: 86em;
+    border-collapse: collapse;
+}
+thead{  
+    text-align: left;
+    background-color: rgb(214, 214, 214);
+}
+tbody tr:nth-child(odd){
+    background-color: rgb(235, 234, 234);
+}
+tbody tr{
+    text-align: left;
+    font-weight: normal;
+}
+th, td{
+    padding-left: 0.4em;
+    border: 0.01em solid  rgb(214, 214, 214);
+}
+blockquote{
+    font-style: italic;
+    border-left: solid 0.2em rgb(209, 209, 209) ;
+}
+blockquote p{
+    padding-left: 2em;
+}
+blockquote p:first-of-type{
+    padding-top: 0.7em;
+}
+blockquote footer{
+    text-align: right;
+    padding-top: 2em;
+}
+
