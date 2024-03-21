@@ -11,8 +11,17 @@ article:first-of-type{
     margin-top: 2em;
     margin-bottom: 3em;
 }
+.first-list>li{
+    list-style-type: square;
+}
+.second-list>li{
+    list-style: disc;
+}
+.third-list li{
+    list-style: circle;
+}
 table{
-    width: 86em;
+    width: 100%;
     border-collapse: collapse;
 }
 thead{  
