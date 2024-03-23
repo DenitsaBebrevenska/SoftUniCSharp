@@ -1,0 +1,29 @@
+html{
+    font: 16px Helvetica, sans-serif;
+}
+body{
+    margin: 4em;
+}
+header{
+    border-bottom: 2px solid rgb(46, 46, 46);
+}
+h1, nav{
+    display: inline-block;
+}
+header h1{
+    padding-right: 3em;
+    font-size: 3em;
+}
+nav a{
+    padding-right: 1em;
+    color: rgb(24, 176, 24);
+    text-decoration: none;
+}
+main{
+    padding-top: 1em;
+    line-height: 1.3em;
+}
+main h1{
+    font-size: 1.8em;
+    font-weight: 520;
+}
