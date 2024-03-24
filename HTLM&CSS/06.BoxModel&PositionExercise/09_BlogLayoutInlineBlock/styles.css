@@ -1,0 +1,23 @@
+html{
+    font-family: Helvetica, sans-serif;
+}
+body{
+    display: inline-block;
+    background-color: rgb(238, 238, 238);
+    color: rgb(51, 51, 51);
+}
+article{
+    line-height: 25px;
+    width: 70%;
+    margin: 20px;
+    display: inline-block;
+}
+aside{
+    width: 20%;
+    display: inline-block;
+    position: absolute;
+    
+}
+img{
+    width: 60%;
+}
