@@ -7,7 +7,7 @@ body{
 header{
     border-bottom: 2px solid rgb(46, 46, 46);
 }
-h1, nav{
+header h1, nav{
     display: inline-block;
 }
 header h1{
@@ -15,7 +15,7 @@ header h1{
     font-size: 3em;
 }
 nav a{
-    padding-right: 1em;
+    margin-right: 1em;
     color: rgb(24, 176, 24);
     text-decoration: none;
 }
