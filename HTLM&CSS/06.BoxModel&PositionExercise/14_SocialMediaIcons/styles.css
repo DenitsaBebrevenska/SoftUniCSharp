@@ -1,0 +1,24 @@
+nav ul li{
+    margin: 7px;
+    padding: 15px;
+    width: 25px;
+    height: 25px;
+    display: inline-block;
+    background-color: rgb(238, 238, 238);
+    border-radius: 50%;
+}
+#facebook:hover{
+    fill: blue;
+}
+#twitter:hover{
+    fill: rgb(94, 159, 255);
+}
+#google-plus:hover{
+    fill: rgb(250, 104, 20);
+}
+#linkedin:hover{
+    fill: rgb(46, 90, 247);
+}
+#instagram:hover{
+    fill: rgb(92, 120, 186);
+}
