@@ -1,0 +1,28 @@
+.site-header nav ul li{
+    display: inline-block;
+    padding-left: 1em;
+}
+.site-header{
+    border-bottom: 2px solid rgb(52, 52, 52);
+}
+.site-header p{
+    display: inline-block;
+}
+.site-header nav{
+    display: block;
+    float: right;
+}
+.site-title{
+    font-size: 2em;
+    font-weight: 700;
+}
+.first-image-wrapper{
+    float: right;
+    margin-left: 1em;
+    margin-bottom: 1em;
+}
+.second-image-wrapper{
+    float: left;
+    margin-right: 1em;
+    margin-bottom: 1em;
+}
