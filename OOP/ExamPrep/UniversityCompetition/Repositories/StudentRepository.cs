@@ -23,7 +23,7 @@ namespace UniversityCompetition.Repositories
 
         public IStudent FindByName(string name)
         {
-            string[] fullName = name.Split(' '); //string split remove empty entries? Likely not bcs it can remove a null name
+            string[] fullName = name.Split(' ');
             return _models.FirstOrDefault(s => s.FirstName == fullName[0] && s.LastName == fullName[1]);
         }
     }
