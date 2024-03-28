@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace FrontDeskApp
 {
@@ -85,6 +84,7 @@ namespace FrontDeskApp
                         this.bookings.Add(booking);
                         this.turnover += residenceDuration * room.PricePerNight;
                     }
+                    //this should break on the first room booked!!!! Such a fiasco
                 }
             }
         }
