@@ -41,7 +41,7 @@ namespace BookingApp.Models.Bookings
             get => adultCount;
             private set
             {
-                if (adultCount <= 0)
+                if (value <= 0)
                 {
                     throw new ArgumentException(ExceptionMessages.AdultsZeroOrLess);
                 }
@@ -54,7 +54,7 @@ namespace BookingApp.Models.Bookings
             get => childrenCount;
             private set
             {
-                if (childrenCount < 0)
+                if (value < 0)
                 {
                     throw new ArgumentException(ExceptionMessages.ChildrenNegative);
                 }
