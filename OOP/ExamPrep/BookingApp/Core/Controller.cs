@@ -150,8 +150,9 @@ namespace BookingApp.Core
             StringBuilder report = new StringBuilder();
             report.AppendLine($"Hotel name: {hotelName}");
             report.AppendLine($"--{hotel.Category} star hotel");
-            report.AppendLine($"--Turnover: {hotel.Turnover} $");
+            report.AppendLine($"--Turnover: {hotel.Turnover:F2} $");
             report.AppendLine($"--Bookings:");
+            report.AppendLine();
 
             if (hotel.Bookings.All().Count == 0)
             {
@@ -162,6 +163,7 @@ namespace BookingApp.Core
                 foreach (var booking in hotel.Bookings.All())
                 {
                     report.AppendLine(booking.BookingSummary());
+                    report.AppendLine();
                 }
             }
 
