@@ -90,10 +90,10 @@ namespace PlanetWars.Models.Planets
             StringBuilder info = new StringBuilder();
             info.AppendLine($"Planet: {Name}");
             info.AppendLine($"--Budget: {Budget} billion QUID");
-            info.AppendLine(Army.Count == 0 ? "--Forces: No units" : $"--Forces: {string.Join(", ", units.Models)}");
+            info.AppendLine(Army.Count == 0 ? "--Forces: No units" : $"--Forces: {string.Join(", ", units.Models.GetType().Name)}");
             info.AppendLine(Weapons.Count == 0
                 ? "--Combat equipment: No weapons"
-                : $"--Combat equipment: {string.Join(", ", weapons.Models)}");
+                : $"--Combat equipment: {string.Join(", ", weapons.Models.GetType().Name)}");
             info.AppendLine($"--Military Power: {MilitaryPower}");
 
             return info.ToString().TrimEnd();

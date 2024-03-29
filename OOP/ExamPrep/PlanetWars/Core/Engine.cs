@@ -15,15 +15,14 @@ namespace PlanetWars.Core
         {
             this.writer = new Writer();
             this.reader = new Reader();
-
-            //this.controller = new Controller();
+            this.controller = new Controller();
         }
         public void Run()
         {
             while (true)
             {
                 var input = reader.ReadLine().Split();
-                if(input[0] == "Peace")
+                if (input[0] == "Peace")
                 {
                     Environment.Exit(0);
                 }
