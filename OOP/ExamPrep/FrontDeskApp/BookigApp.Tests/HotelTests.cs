@@ -37,6 +37,7 @@ namespace BookingApp.Tests
         [TestCase("")]
         [TestCase(" ")]
         [TestCase(null)]
+        [TestCase("\t")]
         public void Name_ShouldThrowException_WhenGiveNullOrWhitespaceValue(string invalidName)
         {
             Assert.Throws<ArgumentNullException>(() =>
@@ -93,8 +94,10 @@ namespace BookingApp.Tests
             room = new Room(2, 50);
             hotel.AddRoom(room);
             Assert.IsFalse(hotel.Bookings.Any(b => b.Room == room && b.ResidenceDuration == 1));
+            Assert.AreEqual(0, hotel.Bookings.Count);
             hotel.BookRoom(1, 0, 1, 2000);
             Assert.IsTrue(hotel.Bookings.Any(b => b.Room == room && b.ResidenceDuration == 1));
+            Assert.AreEqual(1, hotel.Bookings.Count);
         }
 
         [Test]
@@ -139,7 +142,7 @@ namespace BookingApp.Tests
             room = new Room(2, 50);
             hotel.AddRoom(room);
             Assert.Throws<ArgumentException>(() =>
-                hotel.BookRoom(1, 0, childrenCount, 2000));
+                hotel.BookRoom(1, childrenCount, 1, 2000));
         }
 
         [TestCase(-1)]
@@ -154,7 +157,7 @@ namespace BookingApp.Tests
         }
 
         [Test]
-        public void BookRoom_ShouldTakeTheFirstRoomWithMoreOrEqualToTheGivenBedsCountRoom() //except it is not written that well
+        public void BookRoom_ShouldTakeTheFirstRoomWithMoreOrEqualToTheGivenBedsCountRoom()
         {
             room = new Room(2, 50);
             Room room2 = new Room(3, 50);
