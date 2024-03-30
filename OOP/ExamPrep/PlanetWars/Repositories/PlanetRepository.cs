@@ -12,7 +12,6 @@ namespace PlanetWars.Repositories
         {
             models = new List<IPlanet>();
         }
-
         public IReadOnlyCollection<IPlanet> Models => models.AsReadOnly();
         public void AddItem(IPlanet model)
             => models.Add(model);

@@ -54,7 +54,7 @@ namespace PlanetWars.Models.Planets
             }
         }
 
-        public double MilitaryPower => CalculateMilitaryPower();
+        public double MilitaryPower => Math.Round(CalculateMilitaryPower(), 3);
         public IReadOnlyCollection<IMilitaryUnit> Army => units.Models;
         public IReadOnlyCollection<IWeapon> Weapons => weapons.Models;
 
@@ -90,13 +90,27 @@ namespace PlanetWars.Models.Planets
             StringBuilder info = new StringBuilder();
             info.AppendLine($"Planet: {Name}");
             info.AppendLine($"--Budget: {Budget} billion QUID");
-            info.AppendLine(Army.Count == 0 ? "--Forces: No units" : $"--Forces: {string.Join(", ", units.Models.GetType().Name)}");
-            info.AppendLine(Weapons.Count == 0
+            List<string> militaryUnitNames = new List<string>();
+
+            foreach (var militaryUnit in units.Models)
+            {
+                militaryUnitNames.Add(militaryUnit.GetType().Name);
+            }
+
+            info.AppendLine(militaryUnitNames.Count == 0 ? "--Forces: No units" : $"--Forces: {string.Join(", ", militaryUnitNames)}");
+            List<string> weaponNames = new List<string>();
+
+            foreach (var weapon in weapons.Models)
+            {
+                weaponNames.Add(weapon.GetType().Name);
+            }
+
+            info.AppendLine(weaponNames.Count == 0
                 ? "--Combat equipment: No weapons"
-                : $"--Combat equipment: {string.Join(", ", weapons.Models.GetType().Name)}");
+                : $"--Combat equipment: {string.Join(", ", weaponNames)}");
             info.AppendLine($"--Military Power: {MilitaryPower}");
 
-            return info.ToString().TrimEnd();
+            return info.ToString().Trim();
         }
 
         private double CalculateMilitaryPower()
@@ -113,7 +127,7 @@ namespace PlanetWars.Models.Planets
                 amount *= 1.45;
             }
 
-            return Math.Round(amount, 3);
+            return amount;
         }
     }
 }

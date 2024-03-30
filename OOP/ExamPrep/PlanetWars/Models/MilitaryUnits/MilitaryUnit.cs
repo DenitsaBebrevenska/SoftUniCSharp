@@ -4,9 +4,9 @@ using System;
 
 namespace PlanetWars.Models.MilitaryUnits
 {
-    public class MilitaryUnit : IMilitaryUnit
+    public abstract class MilitaryUnit : IMilitaryUnit
     {
-        public MilitaryUnit(double cost)
+        protected MilitaryUnit(double cost)
         {
             Cost = cost;
             EnduranceLevel = 1;
@@ -20,6 +20,7 @@ namespace PlanetWars.Models.MilitaryUnits
             {
                 throw new ArgumentException(ExceptionMessages.EnduranceLevelExceeded);
             }
+
             EnduranceLevel += 1;
         }
     }

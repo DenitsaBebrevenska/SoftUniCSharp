@@ -47,6 +47,7 @@ namespace PlanetWars.Core
             {
                 throw new InvalidOperationException(string.Format(ExceptionMessages.UnitAlreadyAdded, unitTypeName, planetName));
             }
+
             IMilitaryUnit unit;
 
             switch (unitTypeName)
@@ -70,8 +71,8 @@ namespace PlanetWars.Core
                 throw new InvalidOperationException(string.Format(ExceptionMessages.ItemNotAvailable, unitTypeName));
             }
 
-            planet.AddUnit(unit);
             planet.Spend(unit.Cost);
+            planet.AddUnit(unit);
 
             return string.Format(OutputMessages.UnitAdded, unitTypeName, planetName);
         }
@@ -113,8 +114,8 @@ namespace PlanetWars.Core
                 throw new InvalidOperationException(string.Format(ExceptionMessages.ItemNotAvailable, weaponTypeName));
             }
 
-            planet.AddWeapon(weapon);
             planet.Spend(weapon.Price);
+            planet.AddWeapon(weapon);
 
             return string.Format(OutputMessages.WeaponAdded, planetName, weaponTypeName);
         }
@@ -162,6 +163,8 @@ namespace PlanetWars.Core
                 }
                 else
                 {
+                    firstPlanet.Spend(firstPlanet.Budget / 2);
+                    secondPlanet.Spend(secondPlanet.Budget / 2);
                     return string.Format(OutputMessages.NoWinner);
                 }
             }

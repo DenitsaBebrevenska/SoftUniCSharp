@@ -8,7 +8,6 @@ namespace PlanetWars.Repositories
     public class UnitRepository : IRepository<IMilitaryUnit>
     {
         private List<IMilitaryUnit> models;
-
         public UnitRepository()
         {
             models = new List<IMilitaryUnit>();

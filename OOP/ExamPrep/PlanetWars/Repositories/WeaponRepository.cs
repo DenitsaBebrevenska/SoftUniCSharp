@@ -8,7 +8,6 @@ namespace PlanetWars.Repositories
     public class WeaponRepository : IRepository<IWeapon>
     {
         private List<IWeapon> models;
-
         public WeaponRepository()
         {
             models = new List<IWeapon>();
