@@ -17,31 +17,31 @@ namespace PlanetWars.Core
     public class Controller : IController
     {
         private const double ArmyTrainingPrice = 1.25;
-        private IRepository<IPlanet> planetRepository;
+        private IRepository<IPlanet> planets;
 
         public Controller()
         {
-            planetRepository = new PlanetRepository();
+            planets = new PlanetRepository();
         }
         public string CreatePlanet(string name, double budget)
         {
-            if (planetRepository.Models.Any(p => p.Name == name))
+            if (planets.Models.Any(p => p.Name == name))
             {
                 return string.Format(OutputMessages.ExistingPlanet, name);
             }
 
-            planetRepository.AddItem(new Planet(name, budget));
+            planets.AddItem(new Planet(name, budget));
             return string.Format(OutputMessages.NewPlanet, name);
         }
 
         public string AddUnit(string unitTypeName, string planetName)
         {
-            if (planetRepository.Models.All(p => p.Name != planetName))
+            if (planets.Models.All(p => p.Name != planetName))
             {
                 throw new InvalidOperationException(string.Format(ExceptionMessages.UnexistingPlanet, planetName));
             }
 
-            IPlanet planet = planetRepository.FindByName(planetName);
+            IPlanet planet = planets.FindByName(planetName);
 
             if (planet.Army.Any(mu => mu.GetType().Name == unitTypeName))
             {
@@ -79,12 +79,12 @@ namespace PlanetWars.Core
 
         public string AddWeapon(string planetName, string weaponTypeName, int destructionLevel)
         {
-            if (planetRepository.Models.All(w => w.Name != planetName))
+            if (planets.Models.All(w => w.Name != planetName))
             {
                 throw new InvalidOperationException(string.Format(ExceptionMessages.UnexistingPlanet, planetName));
             }
 
-            IPlanet planet = planetRepository.FindByName(planetName);
+            IPlanet planet = planets.FindByName(planetName);
 
             if (planet.Weapons.Any(w => w.GetType().Name == weaponTypeName))
             {
@@ -122,12 +122,12 @@ namespace PlanetWars.Core
 
         public string SpecializeForces(string planetName)
         {
-            if (planetRepository.Models.All(p => p.Name != planetName))
+            if (planets.Models.All(p => p.Name != planetName))
             {
                 throw new InvalidOperationException(string.Format(ExceptionMessages.UnexistingPlanet, planetName));
             }
 
-            IPlanet planet = planetRepository.FindByName(planetName);
+            IPlanet planet = planets.FindByName(planetName);
 
             if (planet.Army.Count == 0)
             {
@@ -142,12 +142,12 @@ namespace PlanetWars.Core
 
         public string SpaceCombat(string planetOne, string planetTwo)
         {
-            IPlanet firstPlanet = planetRepository.FindByName(planetOne);
-            IPlanet secondPlanet = planetRepository.FindByName(planetTwo);
+            IPlanet firstPlanet = planets.FindByName(planetOne);
+            IPlanet secondPlanet = planets.FindByName(planetTwo);
             IPlanet winner;
             IPlanet loser;
 
-            if (firstPlanet.MilitaryPower == secondPlanet.MilitaryPower)
+            if (firstPlanet.MilitaryPower.Equals(secondPlanet.MilitaryPower))
             {
                 if (firstPlanet.Weapons.Any(w => w.GetType().Name == "NuclearWeapon")
                     && secondPlanet.Weapons.All(w => w.GetType().Name != "NuclearWeapon"))
@@ -182,7 +182,7 @@ namespace PlanetWars.Core
             winner.Spend(winner.Budget / 2);
             winner.Profit(loser.Budget / 2);
             winner.Profit(loser.Army.Sum(mu => mu.Cost) + loser.Weapons.Sum(w => w.Price));
-            planetRepository.RemoveItem(loser.Name);
+            planets.RemoveItem(loser.Name);
             return string.Format(OutputMessages.WinnigTheWar, winner.Name, loser.Name);
         }
 
@@ -191,7 +191,7 @@ namespace PlanetWars.Core
             StringBuilder report = new StringBuilder();
             report.AppendLine("***UNIVERSE PLANET MILITARY REPORT***");
 
-            foreach (var planet in planetRepository.Models
+            foreach (var planet in planets.Models
                          .OrderByDescending(p => p.MilitaryPower)
                          .ThenBy(p => p.Name))
             {

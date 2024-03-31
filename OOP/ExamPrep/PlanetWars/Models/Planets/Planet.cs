@@ -110,7 +110,7 @@ namespace PlanetWars.Models.Planets
                 : $"--Combat equipment: {string.Join(", ", weaponNames)}");
             info.AppendLine($"--Military Power: {MilitaryPower}");
 
-            return info.ToString().Trim();
+            return info.ToString().TrimEnd();
         }
 
         private double CalculateMilitaryPower()
