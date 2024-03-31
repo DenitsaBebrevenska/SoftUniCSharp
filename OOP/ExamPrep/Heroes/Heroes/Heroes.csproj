@@ -6,9 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Heroes\" />
-    <Folder Include="Models\Map\" />
-    <Folder Include="Models\Weapons\" />
+    <Compile Remove="Models\Map\**" />
+    <EmbeddedResource Remove="Models\Map\**" />
+    <None Remove="Models\Map\**" />
   </ItemGroup>
 
 </Project>
