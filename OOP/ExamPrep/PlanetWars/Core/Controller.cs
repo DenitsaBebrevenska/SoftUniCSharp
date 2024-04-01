@@ -62,13 +62,7 @@ namespace PlanetWars.Core
                     unit = new StormTroopers();
                     break;
                 default:
-                    unit = null;
-                    break;
-            }
-
-            if (unit is null)
-            {
-                throw new InvalidOperationException(string.Format(ExceptionMessages.ItemNotAvailable, unitTypeName));
+                    throw new InvalidOperationException(string.Format(ExceptionMessages.ItemNotAvailable, unitTypeName));
             }
 
             planet.Spend(unit.Cost);
@@ -105,13 +99,8 @@ namespace PlanetWars.Core
                     weapon = new SpaceMissiles(destructionLevel);
                     break;
                 default:
-                    weapon = null;
+                    throw new InvalidOperationException(string.Format(ExceptionMessages.ItemNotAvailable, weaponTypeName));
                     break;
-            }
-
-            if (weapon is null)
-            {
-                throw new InvalidOperationException(string.Format(ExceptionMessages.ItemNotAvailable, weaponTypeName));
             }
 
             planet.Spend(weapon.Price);
