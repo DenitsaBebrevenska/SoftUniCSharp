@@ -99,8 +99,8 @@ namespace PlanetWars.Core
                     weapon = new SpaceMissiles(destructionLevel);
                     break;
                 default:
-                    throw new InvalidOperationException(string.Format(ExceptionMessages.ItemNotAvailable, weaponTypeName));
-                    break;
+                    throw new InvalidOperationException(string.Format(ExceptionMessages.ItemNotAvailable,
+                        weaponTypeName));
             }
 
             planet.Spend(weapon.Price);
@@ -123,8 +123,9 @@ namespace PlanetWars.Core
                 throw new InvalidOperationException(ExceptionMessages.NoUnitsFound);
             }
 
-            planet.TrainArmy();
             planet.Spend(ArmyTrainingPrice);
+            planet.TrainArmy();
+
 
             return string.Format(OutputMessages.ForcesUpgraded, planetName);
         }
