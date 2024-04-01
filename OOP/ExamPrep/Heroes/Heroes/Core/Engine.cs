@@ -1,9 +1,9 @@
 ﻿namespace Heroes.Core
 {
-    using System;
+    using Heroes.Core.Contracts;
     using Heroes.IO;
     using Heroes.IO.Contracts;
-    using Heroes.Core.Contracts;
+    using System;
 
     public class Engine : IEngine
     {
@@ -15,7 +15,7 @@
         {
             this.writer = new Writer();
             this.reader = new Reader();
-            // this.controller = new Controller();
+            this.controller = new Controller();
         }
 
         public void Run()

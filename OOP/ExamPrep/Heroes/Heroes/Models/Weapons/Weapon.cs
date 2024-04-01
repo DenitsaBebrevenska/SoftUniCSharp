@@ -32,7 +32,7 @@ namespace Heroes.Models.Weapons
             get => durability;
             private set
             {
-                if (durability < 0)
+                if (value < 0)
                 {
                     throw new ArgumentException(ExceptionMessages.DurabilityBelowZero);
                 }
@@ -40,9 +40,12 @@ namespace Heroes.Models.Weapons
             }
         }
 
-        public virtual int DoDamage() //could be problematic for judge
+        public virtual int DoDamage() //could be problematic for judge, seems like not tho
         {
-            Durability--;
+            if (Durability > 0)
+            {
+                Durability--;
+            }
             return 0;
         }
     }

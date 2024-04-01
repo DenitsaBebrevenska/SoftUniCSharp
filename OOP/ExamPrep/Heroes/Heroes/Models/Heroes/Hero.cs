@@ -65,8 +65,8 @@ namespace Heroes.Models.Heroes
             }
             else
             {
-                Armour = 0;
                 int transferPoints = points - Armour;
+                Armour = 0;
 
                 if (transferPoints < Health)
                 {

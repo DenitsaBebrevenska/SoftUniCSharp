@@ -11,9 +11,9 @@ namespace Heroes.Models
         public string Fight(ICollection<IHero> players)
         {
             List<Knight> knights = players.Where(p => p.GetType().Name == "Knight").Cast<Knight>().ToList();
-            List<Barbarian> barbarians = players.Where(p => p.GetType().Name == "Barabrian").Cast<Barbarian>().ToList();
+            List<Barbarian> barbarians = players.Where(p => p.GetType().Name == "Barbarian").Cast<Barbarian>().ToList();
 
-            while (CheckForSurvivors(knights) && CheckForSurvivors(barbarians))
+            while (TeamHasSurvivors(knights) && TeamHasSurvivors(barbarians))
             {
                 foreach (var knight in knights.Where(k => k.IsAlive))
                 {
@@ -32,7 +32,7 @@ namespace Heroes.Models
                 }
             }
 
-            if (CheckForSurvivors(knights))
+            if (TeamHasSurvivors(knights))
             {
                 return string.Format(OutputMessages.MapFightKnightsWin, knights.Count(k => !k.IsAlive));
             }
@@ -42,7 +42,7 @@ namespace Heroes.Models
             return string.Format(OutputMessages.MapFigthBarbariansWin, barbarians.Count(b => !b.IsAlive));
         }
 
-        private bool CheckForSurvivors<T>(List<T> heroes)
+        private bool TeamHasSurvivors<T>(List<T> heroes)
             => heroes.Cast<IHero>().Any(h => h.IsAlive);
 
     }
