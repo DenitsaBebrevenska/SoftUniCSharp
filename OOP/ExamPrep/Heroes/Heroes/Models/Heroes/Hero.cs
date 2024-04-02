@@ -9,6 +9,8 @@ namespace Heroes.Models.Heroes
         private string name;
         private int health;
         private int armor;
+        private IWeapon weapon;
+
         protected Hero(string name, int health, int armour)
         {
             Name = name;
@@ -55,7 +57,17 @@ namespace Heroes.Models.Heroes
             }
         }
 
-        public IWeapon Weapon { get; private set; }
+        public IWeapon Weapon
+        {
+            get => weapon;
+            private set
+            {
+                if (value is null)
+                {
+                    throw new ArgumentException(ExceptionMessages.WeaponNull);
+                }
+            }
+        }
         public bool IsAlive => Health > 0;
         public void TakeDamage(int points)
         {
@@ -81,11 +93,6 @@ namespace Heroes.Models.Heroes
 
         public void AddWeapon(IWeapon weapon)
         {
-            if (weapon is null)
-            {
-                throw new ArgumentException(ExceptionMessages.WeaponNull);
-            }
-
             Weapon = weapon;
         }
     }

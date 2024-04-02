@@ -10,9 +10,14 @@
 
         public override int DoDamage()
         {
-            base.DoDamage();
+            Durability--;
 
-            return Durability == 0 ? 0 : ClaymoreDamage;
+            if (Durability == 0)
+            {
+                return 0;
+            }
+
+            return ClaymoreDamage;
         }
     }
 }

@@ -10,9 +10,14 @@
 
         public override int DoDamage()
         {
-            base.DoDamage();
+            Durability--;
 
-            return Durability == 0 ? 0 : MaceDamage;
+            if (Durability == 0)
+            {
+                return 0;
+            }
+
+            return MaceDamage;
         }
     }
 }

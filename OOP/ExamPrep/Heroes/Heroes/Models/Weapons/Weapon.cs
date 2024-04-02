@@ -30,7 +30,7 @@ namespace Heroes.Models.Weapons
         public int Durability
         {
             get => durability;
-            private set
+            protected set
             {
                 if (value < 0)
                 {
@@ -40,13 +40,6 @@ namespace Heroes.Models.Weapons
             }
         }
 
-        public virtual int DoDamage() //could be problematic for judge, seems like not tho
-        {
-            if (Durability > 0)
-            {
-                Durability--;
-            }
-            return 0;
-        }
+        public abstract int DoDamage();
     }
 }
