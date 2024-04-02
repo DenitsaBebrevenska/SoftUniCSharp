@@ -126,7 +126,6 @@ namespace PlanetWars.Core
             planet.Spend(ArmyTrainingPrice);
             planet.TrainArmy();
 
-
             return string.Format(OutputMessages.ForcesUpgraded, planetName);
         }
 
@@ -139,14 +138,16 @@ namespace PlanetWars.Core
 
             if (firstPlanet.MilitaryPower.Equals(secondPlanet.MilitaryPower))
             {
-                if (firstPlanet.Weapons.Any(w => w.GetType().Name == "NuclearWeapon")
-                    && secondPlanet.Weapons.All(w => w.GetType().Name != "NuclearWeapon"))
+                bool firstPlanetHasNuclearWeapon =
+                    firstPlanet.Weapons.Any(w => w.GetType().Name == nameof(NuclearWeapon));
+                bool secondPlanetHasNuclearWeapon =
+                    secondPlanet.Weapons.Any(w => w.GetType().Name == nameof(NuclearWeapon));
+                if (firstPlanetHasNuclearWeapon && !secondPlanetHasNuclearWeapon)
                 {
                     winner = firstPlanet;
                     loser = secondPlanet;
                 }
-                else if (firstPlanet.Weapons.All(w => w.GetType().Name != "NuclearWeapon")
-                         && secondPlanet.Weapons.Any(w => w.GetType().Name == "NuclearWeapon"))
+                else if (!firstPlanetHasNuclearWeapon && secondPlanetHasNuclearWeapon)
                 {
                     winner = secondPlanet;
                     loser = firstPlanet;
@@ -155,7 +156,7 @@ namespace PlanetWars.Core
                 {
                     firstPlanet.Spend(firstPlanet.Budget / 2);
                     secondPlanet.Spend(secondPlanet.Budget / 2);
-                    return string.Format(OutputMessages.NoWinner);
+                    return OutputMessages.NoWinner;
                 }
             }
             else if (firstPlanet.MilitaryPower > secondPlanet.MilitaryPower)

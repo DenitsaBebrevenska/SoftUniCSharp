@@ -45,7 +45,7 @@ namespace PlanetWars.Models.Planets
             get => budget;
             private set
             {
-                if (budget < 0)
+                if (value < 0)
                 {
                     throw new ArgumentException(ExceptionMessages.InvalidBudgetAmount);
                 }
