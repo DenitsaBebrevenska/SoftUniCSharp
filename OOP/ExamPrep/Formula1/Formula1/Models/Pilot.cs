@@ -23,6 +23,8 @@ namespace Formula1.Models
                 {
                     throw new ArgumentException(string.Format(ExceptionMessages.InvalidPilot, value));
                 }
+
+                fullName = value;
             }
         }
         public IFormulaOneCar Car { get; private set; }

@@ -79,7 +79,7 @@ namespace Formula1.Core
         {
             IPilot pilot = pilotRepository.FindByName(pilotName);
 
-            if (pilot == null || pilot.Car != null) //todo
+            if (pilot == null || pilot.Car != null)
             {
                 throw new InvalidOperationException(string.Format(ExceptionMessages.PilotDoesNotExistOrHasCarErrorMessage, pilotName));
             }
@@ -109,7 +109,7 @@ namespace Formula1.Core
 
             if (pilot == null ||
                 !pilot.CanRace ||
-                raceRepository.Models.Any(r => r.Pilots.Any(p => p.FullName == pilotFullName))) //todo
+                race.Pilots.Any(p => p.FullName == pilotFullName))
             {
                 throw new InvalidOperationException(string.Format(ExceptionMessages.PilotDoesNotExistErrorMessage, pilotFullName));
             }
@@ -149,15 +149,15 @@ namespace Formula1.Core
             {
                 if (i == 0)
                 {
-                    raceResult.Append("Pilot { pilot full name } wins the { race name } race.");
+                    raceResult.AppendLine($"Pilot {fastestPilots[i].FullName} wins the {race.RaceName} race.");
                 }
                 else if (i == 1)
                 {
-                    raceResult.Append("Pilot { pilot full name } is second in the { race name } race.");
+                    raceResult.AppendLine($"Pilot {fastestPilots[i].FullName} is second in the {race.RaceName} race.");
                 }
                 else
                 {
-                    raceResult.Append("Pilot { pilot full name } is third in the { race name } race.");
+                    raceResult.AppendLine($"Pilot {fastestPilots[i].FullName} is third in the {race.RaceName} race.");
                 }
             }
 

@@ -28,6 +28,7 @@ namespace Formula1.Models
                 {
                     throw new ArgumentException(string.Format(ExceptionMessages.InvalidRaceName, value));
                 }
+                raceName = value;
             }
         }
 
@@ -36,8 +37,13 @@ namespace Formula1.Models
             get => numberOfLaps;
             private set
             {
-
+                if (value < 1)
+                {
+                    throw new ArgumentException(string.Format(ExceptionMessages.InvalidLapNumbers, value));
+                }
+                numberOfLaps = value;
             }
+
         }
         public bool TookPlace { get; set; }
         public ICollection<IPilot> Pilots => pilots.AsReadOnly();
