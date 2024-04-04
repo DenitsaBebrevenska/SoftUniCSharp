@@ -60,10 +60,10 @@ namespace Gym.Models.Gyms
         {
             StringBuilder gymInfo = new StringBuilder();
             gymInfo.AppendLine($"{Name} is a {GetType().Name}:");
-            string athletesInfo = athletes.Count == 0 ? "No athletes" : $"{string.Join(", ", athletes)}";
+            string athletesInfo = athletes.Count == 0 ? "No athletes" : $"{string.Join(", ", athletes.Select(a => a.FullName))}";
             gymInfo.AppendLine($"Athletes: {athletesInfo}");
             gymInfo.AppendLine($"Equipment total count: {equipmentItems.Count}");
-            gymInfo.AppendLine($"Equipment total weight: {EquipmentWeight} grams");
+            gymInfo.AppendLine($"Equipment total weight: {EquipmentWeight:F2} grams");
 
             return gymInfo.ToString().TrimEnd();
         }
