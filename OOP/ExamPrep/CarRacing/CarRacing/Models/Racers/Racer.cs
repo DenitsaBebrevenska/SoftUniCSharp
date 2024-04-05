@@ -2,6 +2,7 @@
 using CarRacing.Models.Racers.Contracts;
 using CarRacing.Utilities.Messages;
 using System;
+using System.Text;
 
 namespace CarRacing.Models.Racers
 {
@@ -78,5 +79,16 @@ namespace CarRacing.Models.Racers
 
         public bool IsAvailable()
             => Car.FuelAvailable >= Car.FuelConsumptionPerRace;
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine($"{GetType().Name}: {Username}");
+            sb.AppendLine($"--Driving behavior: {RacingBehavior}");
+            sb.AppendLine($"--Driving experience: {DrivingExperience}");
+            sb.AppendLine($"--Car: {car.Make} {car.Model} ({car.VIN})");
+
+            return sb.ToString().TrimEnd();
+        }
     }
 }
