@@ -1,12 +1,15 @@
-﻿public class Hero
+﻿namespace HeroRepository
 {
-    public Hero(string name, int level)
+    public class Hero
     {
-        this.Name = name;
-        this.Level = level;
+        public Hero(string name, int level)
+        {
+            this.Name = name;
+            this.Level = level;
+        }
+
+        public string Name { get; }
+
+        public int Level { get; }
     }
-
-    public string Name { get; }
-
-    public int Level { get; }
 }

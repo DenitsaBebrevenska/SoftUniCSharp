@@ -1,7 +1,10 @@
-﻿public class StartUp
+﻿namespace HeroRepository
 {
-    static void Main(string[] args)
+    public class StartUp
     {
+        static void Main(string[] args)
+        {
 
+        }
     }
 }

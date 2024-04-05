@@ -2,54 +2,57 @@
 using System.Collections.Generic;
 using System.Linq;
 
-public class HeroRepository
+namespace HeroRepository
 {
-    private readonly List<Hero> data;
-
-    public HeroRepository()
+    public class HeroRepository
     {
-        this.data = new List<Hero>();
-    }
+        private readonly List<Hero> data;
 
-    public string Create(Hero hero)
-    {
-        if (hero == null)
+        public HeroRepository()
         {
-            throw new ArgumentNullException(nameof(hero), "Hero is null");
+            this.data = new List<Hero>();
         }
 
-        if (this.data.Any(h => h.Name == hero.Name))
+        public string Create(Hero hero)
         {
-            throw new InvalidOperationException($"Hero with name {hero.Name} already exists");
+            if (hero == null)
+            {
+                throw new ArgumentNullException(nameof(hero), "Hero is null");
+            }
+
+            if (this.data.Any(h => h.Name == hero.Name))
+            {
+                throw new InvalidOperationException($"Hero with name {hero.Name} already exists");
+            }
+
+            this.data.Add(hero);
+            return $"Successfully added hero {hero.Name} with level {hero.Level}";
         }
 
-        this.data.Add(hero);
-        return $"Successfully added hero {hero.Name} with level {hero.Level}";
-    }
-
-    public bool Remove(string name)
-    {
-        if (String.IsNullOrWhiteSpace(name))
+        public bool Remove(string name)
         {
-            throw new ArgumentNullException(nameof(name), "Name cannot be null");
+            if (String.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentNullException(nameof(name), "Name cannot be null");
+            }
+
+            Hero hero = this.data.FirstOrDefault(h => h.Name == name);
+            bool isRemoved = this.data.Remove(hero);
+            return isRemoved;
         }
 
-        Hero hero = this.data.FirstOrDefault(h => h.Name == name);
-        bool isRemoved = this.data.Remove(hero);
-        return isRemoved;
-    }
+        public Hero GetHeroWithHighestLevel()
+        {
+            Hero hero = this.data.OrderByDescending(h => h.Level).ToArray()[0];
+            return hero;
+        }
 
-    public Hero GetHeroWithHighestLevel()
-    {
-        Hero hero = this.data.OrderByDescending(h => h.Level).ToArray()[0];
-        return hero;
-    }
+        public Hero GetHero(string name)
+        {
+            Hero hero = this.data.FirstOrDefault(h => h.Name == name);
+            return hero;
+        }
 
-    public Hero GetHero(string name)
-    {
-        Hero hero = this.data.FirstOrDefault(h => h.Name == name);
-        return hero;
+        public IReadOnlyCollection<Hero> Heroes => this.data.AsReadOnly();
     }
-
-    public IReadOnlyCollection<Hero> Heroes => this.data.AsReadOnly();
 }
