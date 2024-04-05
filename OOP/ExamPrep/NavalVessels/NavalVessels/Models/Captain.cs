@@ -14,6 +14,8 @@ namespace NavalVessels.Models
         public Captain(string fullName)
         {
             FullName = fullName;
+            CombatExperience = 0;
+            vessels = new List<IVessel>();
         }
         public string FullName
         {

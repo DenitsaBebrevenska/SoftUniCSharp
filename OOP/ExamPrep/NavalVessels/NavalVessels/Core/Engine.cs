@@ -1,11 +1,9 @@
 ﻿namespace NavalVessels.Core
 {
-    using System;
-    using System.Linq;
-
     using Contracts;
     using IO;
     using IO.Contracts;
+    using System;
 
     public class Engine : IEngine
     {
@@ -17,8 +15,7 @@
         {
             this.writer = new Writer();
             this.reader = new Reader();
-
-           // this.controller = new Controller();
+            this.controller = new Controller();
         }
         public void Run()
         {

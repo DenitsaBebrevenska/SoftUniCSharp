@@ -5,7 +5,7 @@ namespace NavalVessels.Models.Vessels
 {
     public class Submarine : Vessel, ISubmarine
     {
-        private const double SubmarineArmorThickness = 300;
+        private const double SubmarineArmorThickness = 200;
         private const double SubmarineMainWeaponCaliberChange = 40;
         private const double SubmarineSpeedChange = 4;
         public Submarine(string name, double mainWeaponCaliber, double speed)
@@ -17,7 +17,9 @@ namespace NavalVessels.Models.Vessels
         public bool SubmergeMode { get; private set; }
         public void ToggleSubmergeMode()
         {
-            if (!SubmergeMode)
+            SubmergeMode = !SubmergeMode;
+
+            if (SubmergeMode)
             {
                 MainWeaponCaliber += SubmarineMainWeaponCaliberChange;
                 Speed -= SubmarineSpeedChange;
@@ -27,8 +29,6 @@ namespace NavalVessels.Models.Vessels
                 MainWeaponCaliber -= SubmarineMainWeaponCaliberChange;
                 Speed += SubmarineSpeedChange;
             }
-
-            SubmergeMode = !SubmergeMode;
         }
 
         public override string ToString()
@@ -36,7 +36,7 @@ namespace NavalVessels.Models.Vessels
             StringBuilder sb = new StringBuilder();
             sb.AppendLine(base.ToString());
             string submergeModeStatus = SubmergeMode ? "ON" : "OFF";
-            sb.AppendLine($"*Submerge mode: {submergeModeStatus}");
+            sb.AppendLine($" *Submerge mode: {submergeModeStatus}");
             return sb.ToString().TrimEnd();
         }
     }

@@ -10,8 +10,8 @@ namespace NavalVessels.Models.Vessels
     {
         private string name;
         private List<string> targets;
-        private ICaptain captain;
         private double armorThickness;
+        private ICaptain captain;
         private double initialArmorThickness;
         protected Vessel(string name, double mainWeaponCaliber, double speed, double armorThickness)
         {
@@ -19,7 +19,8 @@ namespace NavalVessels.Models.Vessels
             MainWeaponCaliber = mainWeaponCaliber;
             Speed = speed;
             ArmorThickness = armorThickness;
-            initialArmorThickness = armorThickness;
+            this.initialArmorThickness = armorThickness;
+            targets = new List<string>();
         }
         public string Name
         {
@@ -47,19 +48,7 @@ namespace NavalVessels.Models.Vessels
             }
         }
 
-        public double ArmorThickness
-        {
-            get => armorThickness;
-            set
-            {
-                if (value < 0)
-                {
-                    armorThickness = 0;
-                }
-
-                armorThickness = value;
-            }
-        }
+        public double ArmorThickness { get; set; }
         public double MainWeaponCaliber { get; protected set; }
         public double Speed { get; protected set; }
         public ICollection<string> Targets => targets.AsReadOnly();
@@ -70,22 +59,25 @@ namespace NavalVessels.Models.Vessels
                 throw new NullReferenceException(ExceptionMessages.InvalidTarget);
             }
 
-            target.ArmorThickness -= this.MainWeaponCaliber;
+            double newArmorThickness = target.ArmorThickness -= this.MainWeaponCaliber;
+            target.ArmorThickness = Math.Max(newArmorThickness, 0); //cannot go below zero
+            targets.Add(target.Name);
         }
 
         public void RepairVessel()
-            => ArmorThickness = initialArmorThickness;
-
+        {
+            ArmorThickness = initialArmorThickness;
+        }
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine($"- {Name}");
-            sb.AppendLine($"*Type: {GetType().Name}");
-            sb.AppendLine($"*Armor thickness: {ArmorThickness}");
-            sb.AppendLine($"*Main weapon caliber: {MainWeaponCaliber}");
-            sb.AppendLine($"*Speed: {Speed} knots");
+            sb.AppendLine($" *Type: {GetType().Name}");
+            sb.AppendLine($" *Armor thickness: {ArmorThickness}");
+            sb.AppendLine($" *Main weapon caliber: {MainWeaponCaliber}");
+            sb.AppendLine($" *Speed: {Speed} knots");
             string vesselTargets = Targets.Count == 0 ? "None" : $"{string.Join(", ", Targets)}";
-            sb.AppendLine($"*Targets: {vesselTargets}");
+            sb.AppendLine($" *Targets: {vesselTargets}");
 
             return sb.ToString().TrimEnd();
         }

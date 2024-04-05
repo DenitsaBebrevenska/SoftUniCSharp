@@ -17,7 +17,9 @@ namespace NavalVessels.Models.Vessels
         public bool SonarMode { get; private set; }
         public void ToggleSonarMode()
         {
-            if (!SonarMode)
+            SonarMode = !SonarMode;
+
+            if (SonarMode)
             {
                 MainWeaponCaliber += BattleShipMainWeaponCaliberChange;
                 Speed -= BattleShipSpeedChange;
@@ -27,15 +29,14 @@ namespace NavalVessels.Models.Vessels
                 MainWeaponCaliber -= BattleShipMainWeaponCaliberChange;
                 Speed += BattleShipSpeedChange;
             }
-
-            SonarMode = !SonarMode;
         }
+
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine(base.ToString());
             string sonarModeStatus = SonarMode ? "ON" : "OFF";
-            sb.AppendLine($"*Sonar mode: {sonarModeStatus}");
+            sb.AppendLine($" *Sonar mode: {sonarModeStatus}");
             return sb.ToString().TrimEnd();
         }
     }
