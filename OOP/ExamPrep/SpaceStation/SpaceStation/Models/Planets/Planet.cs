@@ -8,15 +8,13 @@ namespace SpaceStation.Models.Planets
     public class Planet : IPlanet
     {
         private string name;
-        private List<string> items;
         public Planet(string name)
         {
             Name = name;
-            items = new List<string>();
+            Items = new List<string>();
         }
 
-        public ICollection<string> Items => items.AsReadOnly();
-
+        public ICollection<string> Items { get; set; }
         public string Name
         {
             get => name;

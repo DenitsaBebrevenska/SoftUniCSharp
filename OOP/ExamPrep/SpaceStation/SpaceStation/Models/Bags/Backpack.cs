@@ -5,7 +5,11 @@ namespace SpaceStation.Models.Bags
 {
     public class Backpack : IBag
     {
-        private List<string> items = new List<string>();
-        public ICollection<string> Items => items.AsReadOnly();
+        public Backpack()
+        {
+            Items = new List<string>();
+        }
+
+        public ICollection<string> Items { get; set; }
     }
 }
