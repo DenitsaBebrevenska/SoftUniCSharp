@@ -9,7 +9,7 @@ namespace SpaceStation.Models.Astronauts
     {
         private string name;
         private double oxygen;
-
+        private const double OxygenDecrease = 10;
         protected Astronaut(string name, double oxygen)
         {
             Name = name;
@@ -31,7 +31,7 @@ namespace SpaceStation.Models.Astronauts
         public double Oxygen
         {
             get => oxygen;
-            private set
+            protected set
             {
                 if (value < 0)
                 {
@@ -40,18 +40,18 @@ namespace SpaceStation.Models.Astronauts
             }
         }
 
-        protected virtual double OxygenDecrease => 10;
-        public bool CanBreath { get; private set; }
+        public bool CanBreath => Oxygen > 0;
         public IBag Bag { get; private set; }
         public virtual void Breath()
         {
             if (Oxygen - OxygenDecrease < 0)
             {
                 Oxygen = 0;
-                return;
             }
-
-            Oxygen -= OxygenDecrease;
+            else
+            {
+                Oxygen -= OxygenDecrease;
+            }
         }
     }
 }
