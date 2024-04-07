@@ -1,0 +1,19 @@
+html{
+    font: 1.5 Helvetica, sans-serif;
+}
+h2{
+    font: 1.2 Georgia, serif;
+}
+section{
+    display: flex;
+    gap: 30px;
+    justify-content: space-between;
+    max-width: 70vw;
+    align-content: center;
+}
+p{
+
+}
+article{
+    align-items: center;
+}
