@@ -5,15 +5,9 @@ h2{
     font: 1.2 Georgia, serif;
 }
 section{
+    margin: 3em auto;
     display: flex;
-    gap: 30px;
+    gap: 4em;
     justify-content: space-between;
     max-width: 70vw;
-    align-content: center;
-}
-p{
-
-}
-article{
-    align-items: center;
 }
