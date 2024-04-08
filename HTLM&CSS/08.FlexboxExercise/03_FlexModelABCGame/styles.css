@@ -1,0 +1,53 @@
+html{
+    font: 20px Helvetica sans-serif;
+}
+div{
+    margin: 2em;
+    display: flex;
+    align-items: center;
+    flex-flow: column wrap;
+    max-width: 15vw;
+    height: 35rem;
+    gap: 6px;
+}
+div > span{
+    border: 2px solid #818181;
+    padding: 1em 2em;
+    width: 12px;
+}
+#S{
+    order: 1;
+}
+#e{
+    order: 2;
+}
+#m{
+    order: 3;
+}
+#a{
+    order: 4;
+}
+#n{
+    order: 5;
+}
+#t{
+    order: 6;
+}
+#i{
+    order: 7;
+}
+#c{
+    order: 8;
+}
+#H{
+    order: 9;
+}
+#T{
+    order: 10;
+}
+#M{
+    order: 11;
+}
+#L{
+    order:12;
+}
