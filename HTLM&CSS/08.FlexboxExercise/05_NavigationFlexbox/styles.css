@@ -1,0 +1,38 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html{
+    font: 14px/1.5 Ariel, sans-serif;
+}
+h1, p{
+    padding-bottom: 0.8em;
+}
+body{
+    padding: 3em;
+}
+.site-title{
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 2.5em;
+    padding-bottom: 1em;
+}
+header{
+    border-bottom: 2px solid rgb(0, 0, 0);
+    display: flex;
+    justify-content: space-between;
+}
+ul {
+    display: flex;
+    list-style: none;
+    gap: 2em;
+}
+a{
+    text-decoration: none;
+    color: rgb(0, 153, 0);
+}
+main{
+    padding-top: 1.8em;
+}
+
