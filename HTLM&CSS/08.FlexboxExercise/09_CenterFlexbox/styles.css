@@ -1,0 +1,27 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: rgb(238, 238, 238);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.card{
+    background-color: rgb(255, 255, 255);
+    flex: 0 1 25%;
+    border-radius: 0.2em;
+    box-shadow: 0 0 1em 0 rgb(0 0 0 / 40%);
+}
+
+.card-text-container{
+    padding: 1em 2em 2em 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
