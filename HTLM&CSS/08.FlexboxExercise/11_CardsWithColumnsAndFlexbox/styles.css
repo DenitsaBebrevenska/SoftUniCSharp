@@ -1,37 +1,76 @@
-*{
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
-body{
-    background-color: rgb(238, 238, 238);
+html {
+  font: 16px/1.2 Arial, Helvetica, sans-serif;
 }
 
-.cards-layout{
-    display: flex;
-    flex-wrap: wrap;
+body {
+  background-color: rgb(238, 238, 238);
+  max-width: 50%;
+  margin: 1em auto;
 }
 
-.card{
-    width: 250px;
-    height: auto;
-    background-color: white;
-    border: 1px solid rgb(220, 219, 219);
-    border-radius: 0.5em;
-    box-shadow: 0 0 0.2em 0 rgba(0, 0, 0, 0.2);
+h2 {
+  padding: 2em 0 0.8em 0;
 }
 
-.card img{
-    width: 100%;
-    height: auto;
+h3 {
+  font-weight: 300;
+  padding-bottom: 0.5em;
 }
 
-.card-text-container{
-    padding: 2em 1em;
-    border-bottom: 1px solid rgb(220, 219, 219);;
+section,
+footer {
+  color: #515151;
+}
+
+.cards-layout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2em;
+}
+
+.card {
+  background-color: white;
+  border: 1px solid rgb(220, 219, 219);
+  border-radius: 0.5em;
+  box-shadow: 0 0 0.2em 0 rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.flex .card{
+  width: 200px;
+}
+
+.flex .card-text-container{
+  flex-grow: 1;
+}
+
+.masonry-container .card{
+  margin-bottom: 2em;
+}
+
+.masonry-container{
+  width: 200px;
+}
+
+.card img {
+  width: 100%;
+  height: auto;
+}
+
+ .card-text-container {
+  padding: 2em 1em;
+  border-bottom: 1px solid rgb(220, 219, 219); 
 }
 
 .card-footer{
-    padding: 0.5em 1em;
+  padding: 1em;
+  flex-grow: 0;
 }
