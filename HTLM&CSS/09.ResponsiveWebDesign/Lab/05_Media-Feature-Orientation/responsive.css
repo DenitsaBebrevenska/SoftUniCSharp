@@ -2,6 +2,12 @@ body {
   display: flex;
 }
 
+@media (orientation: portrait) {
+  body {
+    flex-direction: column;
+  }
+}
+
 div {
   background: lightblue;
   width: 200px;
