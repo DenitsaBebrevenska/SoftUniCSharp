@@ -1,0 +1,51 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+  max-width: 40vw;
+  display: flex;
+  gap: 0.5em;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.corpus{
+  display: flex;
+  gap: 0.5em;
+}
+
+@media (max-width:575px){
+  .corpus{
+    flex-direction: column;
+  }
+}
+
+header,
+aside,
+main,
+footer{
+  border-radius: 3px;
+  background-color: rgb(181, 216, 255);
+  padding: 5px 10px;
+}
+
+ul{
+  list-style-type: none;
+  margin: 0px;
+  padding: 5px;
+}
+
+a{
+  display: block;
+  padding: 5px 0px;
+  color: rgb(86, 40, 129);
+  text-decoration: none;
+}
+
+main,
+aside{
+  flex-grow: 1;
+}
