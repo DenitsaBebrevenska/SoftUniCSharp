@@ -5,7 +5,7 @@
 }
 
 body{
-  margin: 2em auto;
+  margin: 2em;
   max-width: 40vw;
   display: flex;
   gap: 0.5em;
@@ -13,13 +13,32 @@ body{
   justify-content: center;
 }
 
+h1{
+  padding-right: 0.5em;
+}
+
 .corpus{
   display: flex;
   gap: 0.5em;
 }
 
-@media (max-width:575px){
+header{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.header-nav ul{
+  display: flex;
+  gap: 0.5em;
+}
+
+@media (max-width:500px){
   .corpus{
+    flex-direction: column;
+  }
+
+  header, 
+  .header-nav ul{
     flex-direction: column;
   }
 }
