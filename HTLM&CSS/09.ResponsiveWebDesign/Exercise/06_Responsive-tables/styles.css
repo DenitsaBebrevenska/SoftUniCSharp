@@ -1,0 +1,41 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html{
+    font: 16px/1.2 Arial, Helvetica, sans-serif;
+}
+
+body{
+    margin: 1em;
+    background-color: #eeeeee;
+}
+
+table{
+    width: 100%;
+    border: 1px solid rgb(218, 217, 217);
+    border-collapse: collapse;
+}
+
+thead{
+    color: #fff;
+    background-color: #333333;
+}
+
+th,td{
+    border: 1px solid rgb(218, 217, 217);
+    padding-left: 0.5em;
+    text-align: left;
+}
+
+tr:nth-child(even){
+    background-color: #ffffff;
+}
+
+@media (max-width: 480px){
+    table{
+        display: flex;
+    }
+}
