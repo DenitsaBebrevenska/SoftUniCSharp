@@ -1,41 +1,73 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-html{
-    font: 16px/1.2 Arial, Helvetica, sans-serif;
+html {
+  font: 16px/1.2 Arial, Helvetica, sans-serif;
 }
 
-body{
-    margin: 1em;
-    background-color: #eeeeee;
+body {
+  margin: 1em;
+  background-color: #eeeeee;
 }
 
-table{
-    width: 100%;
-    border: 1px solid rgb(218, 217, 217);
-    border-collapse: collapse;
+table {
+  width: 100%;
+  border: 1px solid rgb(218, 217, 217);
+  border-collapse: collapse;
 }
 
-thead{
-    color: #fff;
-    background-color: #333333;
+thead {
+  color: #fff;
+  background-color: #333333;
 }
 
-th,td{
-    border: 1px solid rgb(218, 217, 217);
-    padding-left: 0.5em;
-    text-align: left;
+th,
+td {
+  border: 1px solid rgb(218, 217, 217);
+  padding-left: 0.5em;
+  text-align: left;
 }
 
-tr:nth-child(even){
-    background-color: #ffffff;
+tr:nth-child(even) {
+  background-color: #ffffff;
 }
 
-@media (max-width: 480px){
-    table{
-        display: flex;
-    }
+@media (max-width: 480px) {
+  table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
+    display: block;
+  }
+  thead tr {
+   display: none;
+  }
+  td {
+    border: none;
+    border-bottom: 1px solid #ddd;
+    position: relative;
+    padding-left: 50%;
+  }
+  td:before {
+    position: absolute;
+    top: 0;
+    left: 6px;
+    width: 45%;
+    padding-right: 10px;
+    font-weight: bold;
+  }
+  td:nth-of-type(1):before {
+    content: "First Name";
+  }
+  td:nth-of-type(2):before {
+    content: "Last Name";
+  }
+  td:nth-of-type(3):before {
+    content: "Job Title";
+  }
 }
