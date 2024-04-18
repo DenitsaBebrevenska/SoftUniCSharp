@@ -1,7 +1,47 @@
+@import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css);
 /* RESET */
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
+/* GENERAL */
+html{
+    font: 16px/1.2 Arial, sans-serif;
+}
+body{
+    background-color: #fbfbfb;
+    margin: 2em auto;
+}
+
+/* HEADER */
+.site-header{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.site-title{
+    color: #8a0c7d;
+    font-weight: 450;
+    font-size: 2.8rem;
+}
+
+.site-title-container p{
+    text-transform: uppercase;
+    font-size: 12px;
+}
+
+.menu ul{
+    display: flex;
+    gap: 2em;
+    list-style: none;
+}
+
+.menu ul li a {
+    color: #000;
+    text-decoration: none;
+}
+
+/* INTRO */
 
