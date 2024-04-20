@@ -52,7 +52,7 @@ body{
     gap: 2em;
 }
 
-.fa-solid {
+.fa-earth-americas {
     font-size: 6em;
 }
 
@@ -79,7 +79,7 @@ p{
     margin: 2em auto;
     width: 60vw;
     display: flex;
-    gap: 10em;
+    gap: 5em;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
@@ -88,30 +88,135 @@ p{
     text-align: center;
     flex: 1 1 100%;
     position: relative;
+    padding-bottom: 0.5em;
+    font-size: 2.2em;
 }
 
-.team h2:after{
+.team h2::after{
     content: '';
     position: absolute;
-    
-    width: 8%;
-    height: 4px;
+    bottom: 0;
+    left: 45%;
+    width: 10%;
+    height: 3px;
     background-color: #000;
 }
 
 .card{
     width: 200px;
+    text-align: center;
 }
 
-.member-photo-container{
+.photo-container{
     width: 100px;
     height: 100px;
     border-radius: 50%;
     overflow: hidden;
+    margin: 2em auto;
+    box-shadow: 2px -3px 14px -6px rgba(0,0,0,0.5);
 }
+
+/*need some kind of :before*/
 
 img{
     width: 100%;
-    height: auto;
+    height: 100%;
     object-fit: cover;
 }
+
+.description{
+    font-style: italic;
+}
+
+/* SIGN-UP TO NEWSLETTER */
+
+.sign-up-container{
+    width: 100%;
+    text-align: center;
+    background-color: #6d3980;
+    position: relative;
+}
+
+.sign-up-container h2{
+    color: #fff;
+    padding: 2em 0;
+    font-weight: 400;
+}
+
+.sign-up-container h2::after{
+    content: '';
+    position: absolute;
+    bottom: 50%;
+    left: 47%;
+    width: 5%;
+    height: 3px;
+    background-color: #000;
+}
+
+.sign-up-container form{
+    padding: 2em 0;
+}
+
+.sign-up-container form button{
+    font-weight: bold;
+    padding: 2px;
+}
+
+.sign-up-container form input{
+    padding: 2px;
+}
+
+/* TESTIMONIALS */
+
+.testimonials-container{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5em;
+    justify-content: center;
+    width: 60vw;
+    margin: 2em auto;
+}
+
+.testimonials-container h2{
+    flex: 1 1 100%;
+    text-align: center;
+    font-weight: 400;
+    font-size: 2.2em;
+    position: relative;
+    padding: 0.5em;
+}
+
+.testimonials-container h2::after{
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 45%;
+    width: 12%;
+    height: 3px;
+    background-color: #000;
+}
+
+/* FOOTER */
+
+.site-footer{
+    display: flex;
+    align-content: center;
+    padding: 3em 2em;
+    justify-content: space-between;
+}
+
+.site-footer .summary{
+    flex: 0 1 30%;
+}
+
+.site-footer .summary h3{
+    font-size: 1.8em;
+    font-weight: 450;
+    padding-bottom: 0.5em;
+}
+
+h4{
+    padding-bottom: 1em;
+}
+
+/* to do: finish the footer, make a pseudo element for image, check responsiveness, probably resize full view
