@@ -45,15 +45,19 @@ body{
 
 /* INTRO */
 .introduction{
-    width: 40vw;
+    width: 60vw;
     display: flex;
     justify-content: center;
     margin: 5em auto;
     gap: 2em;
 }
 
+.intro-text-wrapper{
+    width: 60%;
+}
+
 .fa-earth-americas {
-    font-size: 6em;
+    font-size: 10em;
 }
 
 .intro-title{
@@ -66,7 +70,6 @@ p{
 
 .info-button a{
     text-decoration: none;
-    font-size: 0.8em;
     border: 2px solid #000;
     padding: 0.5em 1em;
     border-radius: 0.5em;
@@ -77,7 +80,7 @@ p{
 
 .team{
     margin: 2em auto;
-    width: 60vw;
+    width: 80vw;
     display: flex;
     gap: 5em;
     justify-content: center;
@@ -103,8 +106,10 @@ p{
 }
 
 .card{
-    width: 200px;
+    width: 300px;
     text-align: center;
+    display: flex;
+    flex-direction: column;
 }
 
 .photo-container{
@@ -114,9 +119,20 @@ p{
     overflow: hidden;
     margin: 2em auto;
     box-shadow: 2px -3px 14px -6px rgba(0,0,0,0.5);
+    position: relative;
 }
 
-/*need some kind of :before*/
+.photo-container::after{
+    content: '';
+    width: 90px;
+    height: 90px;
+    border: 5px solid #fff;
+    opacity: 0.3;
+    left: 0;
+    bottom: 0;
+    position: absolute;
+    border-radius: 50%;
+}
 
 img{
     width: 100%;
@@ -139,7 +155,8 @@ img{
 
 .sign-up-container h2{
     color: #fff;
-    padding: 2em 0;
+    padding: 1em 0;
+    font-size: 2em;
     font-weight: 400;
 }
 
@@ -159,11 +176,13 @@ img{
 
 .sign-up-container form button{
     font-weight: bold;
-    padding: 2px;
+    padding: 4px;
+    cursor: pointer;
 }
 
 .sign-up-container form input{
-    padding: 2px;
+    padding: 4px;
+    width: 20%;
 }
 
 /* TESTIMONIALS */
@@ -173,7 +192,7 @@ img{
     flex-wrap: wrap;
     gap: 5em;
     justify-content: center;
-    width: 60vw;
+    width: 80vw;
     margin: 2em auto;
 }
 
@@ -191,10 +210,27 @@ img{
     position: absolute;
     bottom: 0;
     left: 45%;
-    width: 12%;
+    width: 10%;
     height: 3px;
     background-color: #000;
 }
+
+.testimonials-container .card .photo-container{
+    order: 1;
+}
+
+.testimonials-container .card .description{
+    order: 2;
+}
+
+.testimonials-container .card .name{
+    order: 3;
+}
+
+.testimonials-container .card .title{
+    order: 4;
+}
+
 
 /* FOOTER */
 
@@ -219,4 +255,4 @@ h4{
     padding-bottom: 1em;
 }
 
-/* to do: finish the footer, make a pseudo element for image, check responsiveness, probably resize full view
+/* to do: finish the footer,  check responsiveness
