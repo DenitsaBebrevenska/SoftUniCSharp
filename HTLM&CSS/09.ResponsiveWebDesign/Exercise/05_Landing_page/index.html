@@ -13,12 +13,23 @@
         <p>The last web agency you will ever need</p>
       </span>
       <nav class="menu">
-        <ul>
+        <ul class="side-bar">
+          <li onclick="hideSidebar()"><i class="fa-solid fa-xmark"></i></li>
           <li><a href="#">Home</a></li>
           <li><a href="#">About us</a></li>
           <li><a href="#">Services</a></li>
           <li><a href="#">Blog</a></li>
           <li><a href="#">Contacts</a></li>
+        </ul>
+        <ul class="header-menu">
+          <li class="hide-on-mobile"><a href="#">Home</a></li>
+          <li class="hide-on-mobile"><a href="#">About us</a></li>
+          <li class="hide-on-mobile"><a href="#">Services</a></li>
+          <li class="hide-on-mobile"><a href="#">Blog</a></li>
+          <li class="hide-on-mobile"><a href="#">Contacts</a></li>
+          <li class="menu-button" onclick="showSidebar()">
+            <i class="fa-solid fa-bars"></i>
+          </li>
         </ul>
       </nav>
     </header>
@@ -49,8 +60,8 @@
             alt=""
           />
         </div>
-          <h3 class="name">Genghis Khan</h3>
-          <p class="title">CTO</p>
+        <h3 class="name">Genghis Khan</h3>
+        <p class="title">CTO</p>
         <p class="description">
           Smart dude, geeky, knows his stuff! Nothing else.
         </p>
@@ -63,11 +74,9 @@
             alt=""
           />
         </div>
-          <h3 class="name">Sun Tzu</h3>
-          <p class="title">Sales</p>
-        <p class="description">
-          Very agressive! Results driven.
-        </p>
+        <h3 class="name">Sun Tzu</h3>
+        <p class="title">Sales</p>
+        <p class="description">Very agressive! Results driven.</p>
       </div>
 
       <div class="card">
@@ -77,11 +86,9 @@
             alt=""
           />
         </div>
-          <h3 class="name">Genghis Khan</h3>
-          <p class="title">CTO</p>
-        <p class="description">
-          Drinks a lot. Loves meetings!
-        </p>
+        <h3 class="name">Genghis Khan</h3>
+        <p class="title">CTO</p>
+        <p class="description">Drinks a lot. Loves meetings!</p>
       </div>
 
       <div class="card">
@@ -91,11 +98,9 @@
             alt=""
           />
         </div>
-          <h3 class="name">Some Guy</h3>
-          <p class="title">SEO Optimisation</p>
-        <p class="description">
-          Drinks. Hates computers ...
-        </p>
+        <h3 class="name">Some Guy</h3>
+        <p class="title">SEO Optimisation</p>
+        <p class="description">Drinks. Hates computers ...</p>
       </div>
 
       <div class="card">
@@ -105,11 +110,9 @@
             alt=""
           />
         </div>
-          <h3 class="name">Generic Dude</h3>
-          <p class="title">Front End</p>
-        <p class="description">
-          Cares too much about useless things
-        </p>
+        <h3 class="name">Generic Dude</h3>
+        <p class="title">Front End</p>
+        <p class="description">Cares too much about useless things</p>
       </div>
 
       <div class="card">
@@ -119,18 +122,16 @@
             alt=""
           />
         </div>
-          <h3 class="name">Nice Guy</h3>
-          <p class="title">Lead Developer</p>
-        <p class="description">
-          We are not sure what he does!
-        </p>
+        <h3 class="name">Nice Guy</h3>
+        <p class="title">Lead Developer</p>
+        <p class="description">We are not sure what he does!</p>
       </div>
     </div>
 
     <div class="sign-up-container">
       <h2>Sign-up to our newsletter</h2>
       <form action="#" method="get">
-        <input type="text">
+        <input type="text" />
         <button>Абонирай се</button>
       </form>
     </div>
@@ -144,10 +145,11 @@
             alt=""
           />
         </div>
-          <h3 class="name">Genghis Khan</h3>
-          <p class="title">Mongolian emperor</p>
+        <h3 class="name">Genghis Khan</h3>
+        <p class="title">Mongolian emperor</p>
         <p class="description">
-          The most amazingly professional and absolutely great people I have had the pleasure to work with on the face of the earth.
+          The most amazingly professional and absolutely great people I have had
+          the pleasure to work with on the face of the earth.
         </p>
       </div>
 
@@ -158,10 +160,11 @@
             alt=""
           />
         </div>
-          <h3 class="name">Genghis Khan</h3>
-          <p class="title">Mongolian emperor</p>
+        <h3 class="name">Genghis Khan</h3>
+        <p class="title">Mongolian emperor</p>
         <p class="description">
-          The most amazingly professional and absolutely great people I have had the pleasure to work with on the face of the earth.
+          The most amazingly professional and absolutely great people I have had
+          the pleasure to work with on the face of the earth.
         </p>
       </div>
 
@@ -172,10 +175,11 @@
             alt=""
           />
         </div>
-          <h3 class="name">Genghis Khan</h3>
-          <p class="title">Mongolian emperor</p>
+        <h3 class="name">Genghis Khan</h3>
+        <p class="title">Mongolian emperor</p>
         <p class="description">
-          The most amazingly professional and absolutely great people I have had the pleasure to work with on the face of the earth.
+          The most amazingly professional and absolutely great people I have had
+          the pleasure to work with on the face of the earth.
         </p>
       </div>
 
@@ -186,10 +190,11 @@
             alt=""
           />
         </div>
-          <h3 class="name">Genghis Khan</h3>
-          <p class="title">Mongolian emperor</p>
+        <h3 class="name">Genghis Khan</h3>
+        <p class="title">Mongolian emperor</p>
         <p class="description">
-          The most amazingly professional and absolutely great people I have had the pleasure to work with on the face of the earth.
+          The most amazingly professional and absolutely great people I have had
+          the pleasure to work with on the face of the earth.
         </p>
       </div>
 
@@ -200,10 +205,11 @@
             alt=""
           />
         </div>
-          <h3 class="name">Genghis Khan</h3>
-          <p class="title">Mongolian emperor</p>
+        <h3 class="name">Genghis Khan</h3>
+        <p class="title">Mongolian emperor</p>
         <p class="description">
-          The most amazingly professional and absolutely great people I have had the pleasure to work with on the face of the earth.
+          The most amazingly professional and absolutely great people I have had
+          the pleasure to work with on the face of the earth.
         </p>
       </div>
 
@@ -214,10 +220,11 @@
             alt=""
           />
         </div>
-          <h3 class="name">Genghis Khan</h3>
-          <p class="title">Mongolian emperor</p>
+        <h3 class="name">Genghis Khan</h3>
+        <p class="title">Mongolian emperor</p>
         <p class="description">
-          The most amazingly professional and absolutely great people I have had the pleasure to work with on the face of the earth.
+          The most amazingly professional and absolutely great people I have had
+          the pleasure to work with on the face of the earth.
         </p>
       </div>
     </div>
@@ -225,7 +232,10 @@
     <footer class="site-footer">
       <div class="summary">
         <h3>Purple Spider</h3>
-        <p>We are the best web gurus you will ever have the pleasure to encounter. We are amazing!</p>
+        <p>
+          We are the best web gurus you will ever have the pleasure to
+          encounter. We are amazing!
+        </p>
       </div>
       <nav class="site-map">
         <h4>Sitemap</h4>
@@ -244,11 +254,31 @@
         <ul>
           <li><i class="fa-solid fa-phone-volume"></i> 0700 12 345</li>
           <li><i class="fa-solid fa-envelope"></i> office@purplespider.bg</li>
-          <li><i class="fa-solid fa-clock"></i> Monday - Friday: 09:00 - 18:00</li>
-          <li><i class="fa-solid fa-map-location"></i> Sofia, 28 Some Place Str. fl.1</li>
+          <li>
+            <i class="fa-solid fa-clock"></i> Monday - Friday: 09:00 - 18:00
+          </li>
+          <li>
+            <i class="fa-solid fa-map-location"></i> Sofia, 28 Some Place Str.
+            fl.1
+          </li>
         </ul>
       </div>
     </footer>
 
+    <script>
+      function showSidebar() {
+        const sidebar = document.querySelector(".side-bar");
+        sidebar.style.display = "flex";
+      }
+      function hideSidebar() {
+        const sidebar = document.querySelector(".side-bar");
+        sidebar.style.display = "none";
+      }
+      window.addEventListener("resize", function () {
+        if (window.innerWidth > 800) {
+          hideSidebar();
+        }
+      });
+    </script>
   </body>
 </html>
