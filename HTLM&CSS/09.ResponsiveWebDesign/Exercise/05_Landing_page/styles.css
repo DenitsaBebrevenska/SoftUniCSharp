@@ -257,6 +257,13 @@ img{
     position: absolute;
 }
 
+@media (max-width:800px){
+    .site-footer{
+        flex-direction: column;
+        padding-top: 5em;
+    }
+}
+
 .site-footer .summary{
     flex: 0 1 20%;
 }
