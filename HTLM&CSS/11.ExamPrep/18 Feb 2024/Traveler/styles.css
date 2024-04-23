@@ -4,92 +4,160 @@
 /* RESET */
 *,
 *::before,
-*::after{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 /* GENERAL */
-html{
-    font: 18px/1.2 Karla, Helvetica, sans-serif;
+html {
+  font: 18px/1.2 Karla, Helvetica, sans-serif;
 }
 
-a{
-    text-decoration: none;
-    color: #000;
+a {
+  text-decoration: none;
+  color: #000;
 }
 
-ul{
-    list-style: none;
+ul {
+  list-style: none;
 }
 
-p{
-    padding-bottom: 5em;
+p {
+  padding-bottom: 5em;
 }
 
 .site-header,
 .support,
 .find-local-guide,
-.site-footer{
-    color: #fff;
+.site-footer {
+  color: #fff;
+}
+
+.testimonial,
+.understand {
+  background-color: #f8f0e9;
+  color: #000;
 }
 
 /* LOGO */
-.logo{
-    width: 100px;
+.logo {
+  width: 100px;
 }
 
 /* HEADER */
 
-.site-header{
-    background-image: url(images/poster.jpg);
-    background-size: cover;
-    background-position: 100%;
-    width: 100vw;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 10em;
-    position: relative;
-    order: 0;
+.site-header {
+  background-image: url(images/poster.jpg);
+  background-size: cover;
+  background-position: 100%;
+  width: 100vw;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10em;
+  position: relative;
 }
 
 .site-header:before {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    opacity: 0.2;
-    background-color: #000;
-    order: 1;
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0.2;
+  background-color: #000;
+  z-index: 1;
 }
 
-.nav-container{
-    display: flex;
-    justify-content: space-between;
-    padding: 1em 5em;
-    order: 2;
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 1em 5em;
+  z-index: 2;
 }
 
-.header-nav ul{
-    display: flex;
-    gap: 2em;
+.header-nav ul {
+  display: flex;
+  gap: 2em;
 }
 
-.welcome-message{
-    align-self: center;
-    display: flex;
-    flex-direction: column;
-    gap: 5em;
-    order: 2;
+.welcome-message {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  gap: 5em;
+  z-index: 2;
 }
 
-.welcome-message h1{
-    font-size: 90px;
-    font-family: "Cormorant Infant", serif;
+.welcome-message h1 {
+  font-size: 90px;
+  font-family: "Cormorant Infant", serif;
 }
 
-.welcome-message p{
-    text-align: center;
+.welcome-message p {
+  text-align: center;
+  padding-bottom: 10em;
+}
+
+/* TESTIMONIAL */
+
+.testimonial {
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+}
+
+.testimonial h3 {
+  font-weight: 400;
+  padding: 2em 12em;
+}
+
+.testimonial p {
+  font-size: 60px;
+  font-style: italic;
+  padding: 0 4em 2em 4em;
+  font-weight: 600;
+  font-family: "Cormorant Infant", serif;
+}
+
+/* SUPPORT */
+
+.support {
+  background-color: #e14747;
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+  justify-content: center;
+  align-items: center;
+}
+
+.support h2 {
+  padding-top: 2em;
+}
+
+/* UNDERSTAND YOUR MIND */
+
+.understand {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+}
+
+.understand img {
+  width: 30%;
+  margin: 2em auto;
+}
+
+.understand h2{
+  font-family: "Cormorant Infant", serif;
+  font-size: 40px;
+  text-align: center;
+  padding-bottom: 2em;
+}
+
+.understand p{
+    width: 30%;
+    margin: 0 auto;
 }
