@@ -28,6 +28,18 @@ p {
   padding-bottom: 5em;
 }
 
+span{
+    background-color: #fff;
+    border: 1px solid #000;
+    border-radius: 4px;
+}
+
+span a{
+    display: block;
+    font-size: 14px;
+    padding: 0.5em 1em;
+}
+
 .site-header,
 .support,
 .find-local-guide,
@@ -130,10 +142,16 @@ p {
   gap: 2em;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .support h2 {
   padding-top: 2em;
+}
+
+.support p{
+    text-align: center;
+    max-width: 20%;
 }
 
 /* UNDERSTAND YOUR MIND */
@@ -143,14 +161,16 @@ p {
   flex-direction: column;
   justify-content: center;
   align-content: center;
+  flex-wrap: wrap;
 }
 
 .understand img {
-  width: 30%;
+  width: 35%;
   margin: 2em auto;
 }
 
 .understand h2{
+  width: 35%;
   font-family: "Cormorant Infant", serif;
   font-size: 40px;
   text-align: center;
@@ -158,6 +178,28 @@ p {
 }
 
 .understand p{
-    width: 30%;
+    width: 35%;
     margin: 0 auto;
+}
+
+/* so lost on the buttons */
+
+
+
+
+
+
+/* FIND LOCAL GIUIDE */
+
+.find-local-guide{
+    background-color: #e14747;
+}
+
+.find-local-guide h2{
+    font-family: "Cormorant Infant", serif;
+    font-size: 40px;
+}
+
+.find-guide-btn{
+    background-color: #fad87a;
 }
