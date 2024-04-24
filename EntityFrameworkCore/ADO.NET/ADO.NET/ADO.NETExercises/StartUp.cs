@@ -1,7 +1,9 @@
 ﻿using Microsoft.Data.SqlClient;
+using System.Text;
 
 public class StartUp
 {
+    //Problem 02
     private const string GetAllVillainsAndCountOfMinionsSQL =
         @"SELECT v.Name, COUNT(mv.VillainId) AS MinionsCount  
             FROM Villains AS v 
@@ -10,7 +12,7 @@ public class StartUp
           HAVING COUNT(mv.VillainId) > 3 
         ORDER BY COUNT(mv.VillainId)";
 
-
+    //Problem 03
     private const string GetVillainNameById = @"SELECT Name FROM Villains WHERE Id = @Id";
 
     private const string GetVillainMinionsOrdered =
@@ -21,7 +23,7 @@ public class StartUp
                                                 JOIN Minions As m ON mv.MinionId = m.Id
                                                WHERE mv.VillainId = @Id
                                             ORDER BY m.Name";
-
+    //Problem 04
     private const string GetTownIdByName = @"SELECT Id FROM Towns WHERE Name = @townName";
     private const string GetVillainIdByName = @"SELECT Id FROM Villains WHERE Name = @Name";
     private const string GetMinionIdByName = @"SELECT Id FROM Minions WHERE Name = @Name";
@@ -33,6 +35,25 @@ public class StartUp
 
     private const string ConnectVillainToMinion =
         @"INSERT INTO MinionsVillains (MinionId, VillainId) VALUES (@minionId, @villainId)";
+    //Problem 05
+    private const string UpdateTownsToUpper =
+        @"UPDATE Towns
+             SET Name = UPPER(Name)
+           WHERE CountryCode = (SELECT c.Id FROM Countries AS c WHERE c.Name = @countryName)";
+
+    private const string GetTownsByCountry =
+            @" SELECT t.Name 
+                 FROM Towns as t
+                 JOIN Countries AS c ON c.Id = t.CountryCode
+                WHERE c.Name = @countryName";
+    //Problem 06
+    private const string DeleteMinionsConnectionToVillain =
+            @"DELETE FROM MinionsVillains 
+                    WHERE VillainId = @villainId";
+
+    private const string DeleteVillain =
+            @"DELETE FROM Villains
+                    WHERE Id = @villainId";
 
     static async Task Main()
     {
@@ -41,12 +62,25 @@ public class StartUp
         await using SqlConnection connection = new SqlConnection(connectionString);
         connection.Open();
 
+        //problem 02
         //await PrintVillainsAndMinionCountAsync(connection);
+
+        //problem 03
         //int villainId = int.Parse(Console.ReadLine());
         //await PrintVillainMinionNameAsync(connection, villainId);
-        string[] minionDetails = Console.ReadLine().Split(": ", StringSplitOptions.RemoveEmptyEntries);
-        string[] villainDetails = Console.ReadLine().Split(": ", StringSplitOptions.RemoveEmptyEntries);
-        await AddingMinionsToVillainAsync(connection, minionDetails[1], villainDetails[1]);
+
+        //problem 04
+        //string[] minionDetails = Console.ReadLine().Split(": ", StringSplitOptions.RemoveEmptyEntries);
+        //string[] villainDetails = Console.ReadLine().Split(": ", StringSplitOptions.RemoveEmptyEntries);
+        //await AddingMinionsToVillainAsync(connection, minionDetails[1], villainDetails[1]);
+
+        //problem 05
+        //string countryName = Console.ReadLine();
+        //await ChangeTownNamesCasing(connection, countryName);
+
+        //problem 06
+        //int villainId = int.Parse(Console.ReadLine());
+        //await DeleteVillainAndRemoveHisMinions(connection, villainId);
     }
 
     // Problem 02
@@ -165,5 +199,73 @@ public class StartUp
 
 
 
+    }
+
+    //Problem 05
+    static async Task ChangeTownNamesCasing(SqlConnection connection, string countryName)
+    {
+        SqlCommand getTownsByCountryNameCmd = new SqlCommand(GetTownsByCountry, connection);
+        getTownsByCountryNameCmd.Parameters.AddWithValue("@countryName", countryName);
+        SqlDataReader reader = await getTownsByCountryNameCmd.ExecuteReaderAsync();
+
+        if (!reader.HasRows)
+        {
+            Console.WriteLine("No town names were affected.");
+            return;
+        }
+
+        StringBuilder sb = new StringBuilder();
+        int townCount = 0;
+        List<string> towns = new List<string>();
+
+        while (await reader.ReadAsync())
+        {
+            SqlCommand updateTownNameToUpper = new SqlCommand(UpdateTownsToUpper, connection);
+            updateTownNameToUpper.Parameters.AddWithValue("@countryName", countryName);
+            string currentTown = reader.GetString(reader.GetOrdinal("Name")).ToUpper();
+            towns.Add(currentTown);
+            townCount++;
+        }
+
+        Console.WriteLine($"{townCount} town names were affected."); //could be done through another command with ExecuteNonQuery as well
+        Console.WriteLine($"[{string.Join(", ", towns)}]");
+    }
+
+    //Problem 06
+    static async Task DeleteVillainAndRemoveHisMinions(SqlConnection connection, int villainId)
+    {
+        await using SqlTransaction transaction = connection.BeginTransaction();
+
+        try
+        {
+            SqlCommand getVillainNameCmd = new SqlCommand(GetVillainNameById, connection, transaction);
+            getVillainNameCmd.Parameters.AddWithValue("@Id", villainId);
+            string foundVillainName = (string)await getVillainNameCmd.ExecuteScalarAsync();
+
+            if (foundVillainName is null)
+            {
+                Console.WriteLine("No such villain was found.");
+                return;
+            }
+
+            SqlCommand removeVillainMinionRelationsCmd =
+                new SqlCommand(DeleteMinionsConnectionToVillain, connection, transaction);
+
+            removeVillainMinionRelationsCmd.Parameters.AddWithValue("@villainId", villainId);
+            int releasedMinionCount = await removeVillainMinionRelationsCmd.ExecuteNonQueryAsync();
+
+            SqlCommand deleteVillainCmd = new SqlCommand(DeleteVillain, connection, transaction);
+            deleteVillainCmd.Parameters.AddWithValue("@villainId", villainId);
+            await deleteVillainCmd.ExecuteNonQueryAsync();
+
+            Console.WriteLine($"{foundVillainName} was deleted.");
+            Console.WriteLine($"{releasedMinionCount} minions were released.");
+
+            await transaction.CommitAsync();
+        }
+        catch (Exception)
+        {
+            await transaction.RollbackAsync();
+        }
     }
 }
