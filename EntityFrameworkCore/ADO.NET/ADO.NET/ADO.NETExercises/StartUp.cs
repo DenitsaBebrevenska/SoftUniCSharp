@@ -58,6 +58,13 @@ public static class StartUp
                     WHERE Id = @villainId";
     //Problem 07
     private const string GetAllMinionNames = @"SELECT Name FROM Minions";
+    //Problem 08
+    private const string UpdateMinionAgeAndNameById =
+            @"UPDATE Minions
+                 SET Name = LOWER(LEFT(Name, 1)) + SUBSTRING(Name, 2, LEN(Name)), Age += 1
+               WHERE Id = @Id";
+
+    private const string SelectNameAndAgeMinion = @"SELECT Name, Age FROM Minions";
     static async Task Main()
     {
         string connectionString =
@@ -87,6 +94,15 @@ public static class StartUp
 
         //problem 07
         //await PrintMinionNames(connection);
+
+        //problem 08
+        //int[] minionIds = Console.ReadLine()
+        //    .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+        //    .Select(int.Parse)
+        //    .ToArray();
+        //await ChangeSelectedMinionsAgesAndNamesAndPrintAll(connection, minionIds);
+
+
     }
 
     // Problem 02
@@ -288,6 +304,30 @@ public static class StartUp
         {
             Console.WriteLine(minionList[i]);
             Console.WriteLine(minionList[minionList.Count - i - 1]);
+        }
+    }
+
+    //Problem 08
+    static async Task ChangeSelectedMinionsAgesAndNamesAndPrintAll(SqlConnection connection, int[] minionIds)
+    {
+        //could be done it a transaction but not needed by the task`s instructions
+
+        foreach (int id in minionIds)
+        {
+            SqlCommand changeAgeAndNameCmd = new SqlCommand(UpdateMinionAgeAndNameById, connection);
+            changeAgeAndNameCmd.Parameters.AddWithValue("@Id", id);
+            await changeAgeAndNameCmd.ExecuteNonQueryAsync();
+        }
+
+        SqlCommand getAllMinionNamesAndAgesCmd = new SqlCommand(SelectNameAndAgeMinion, connection);
+        SqlDataReader reader = await getAllMinionNamesAndAgesCmd.ExecuteReaderAsync();
+
+        while (reader.Read())
+        {
+            string minionName = (string)reader["Name"];
+            int minionAge = (int)reader["Age"];
+
+            Console.WriteLine($"{minionName} {minionAge}");
         }
     }
 }
