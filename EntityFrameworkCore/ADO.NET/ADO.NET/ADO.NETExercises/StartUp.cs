@@ -1,10 +1,17 @@
 ﻿using Microsoft.Data.SqlClient;
+using System.Data;
 using System.Text;
 
 namespace ADO.NETExercises;
 
 public static class StartUp
 {
+    //there were errors:
+    //in the task examples at problem 04
+    //task 08 SQL command as given in the SQL file
+    //04 order of creation will affect the result of task 07
+    //08 will change the results from task 09
+
     //Problem 02
     private const string GetAllVillainsAndCountOfMinionsSQL =
         @"SELECT v.Name, COUNT(mv.VillainId) AS MinionsCount  
@@ -64,7 +71,10 @@ public static class StartUp
                  SET Name = LOWER(LEFT(Name, 1)) + SUBSTRING(Name, 2, LEN(Name)), Age += 1
                WHERE Id = @Id";
 
-    private const string SelectNameAndAgeMinion = @"SELECT Name, Age FROM Minions";
+    private const string SelectNameAndAgeAllMinions = @"SELECT Name, Age FROM Minions";
+    //problem 09
+    private const string StoredProcedureIncreaseMinionAge = "usp_GetOlder";
+    private const string SelectNameAndAgeMinionById = @"SELECT Name, Age FROM Minions WHERE Id = @Id";
     static async Task Main()
     {
         string connectionString =
@@ -102,7 +112,9 @@ public static class StartUp
         //    .ToArray();
         //await ChangeSelectedMinionsAgesAndNamesAndPrintAll(connection, minionIds);
 
-
+        //problem 09
+        //int minionId = int.Parse(Console.ReadLine());
+        //await IncreaseAgeThroughStoredProcedure(connection, minionId);
     }
 
     // Problem 02
@@ -319,7 +331,7 @@ public static class StartUp
             await changeAgeAndNameCmd.ExecuteNonQueryAsync();
         }
 
-        SqlCommand getAllMinionNamesAndAgesCmd = new SqlCommand(SelectNameAndAgeMinion, connection);
+        SqlCommand getAllMinionNamesAndAgesCmd = new SqlCommand(SelectNameAndAgeAllMinions, connection);
         SqlDataReader reader = await getAllMinionNamesAndAgesCmd.ExecuteReaderAsync();
 
         while (reader.Read())
@@ -328,6 +340,27 @@ public static class StartUp
             int minionAge = (int)reader["Age"];
 
             Console.WriteLine($"{minionName} {minionAge}");
+        }
+    }
+
+    //Problem 09
+    static async Task IncreaseAgeThroughStoredProcedure(SqlConnection connection, int minionId)
+    {
+        SqlCommand increaseAgeThroughProcedureCmd = new SqlCommand(StoredProcedureIncreaseMinionAge, connection);
+        increaseAgeThroughProcedureCmd.CommandType = CommandType.StoredProcedure;
+        increaseAgeThroughProcedureCmd.Parameters.AddWithValue("@id", minionId);
+        await increaseAgeThroughProcedureCmd.ExecuteNonQueryAsync();
+
+        SqlCommand getMinionAgeAndNameByIdCmd = new SqlCommand(SelectNameAndAgeMinionById, connection);
+        getMinionAgeAndNameByIdCmd.Parameters.AddWithValue("@Id", minionId);
+        SqlDataReader reader = await getMinionAgeAndNameByIdCmd.ExecuteReaderAsync();
+
+        while (reader.Read())
+        {
+            string minionName = (string)reader["Name"];
+            int minionAge = (int)reader["Age"];
+
+            Console.WriteLine($"{minionName} - {minionAge} years old");
         }
     }
 }
