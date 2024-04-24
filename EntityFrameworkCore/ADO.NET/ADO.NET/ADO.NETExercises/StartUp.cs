@@ -1,7 +1,9 @@
 ﻿using Microsoft.Data.SqlClient;
 using System.Text;
 
-public class StartUp
+namespace ADO.NETExercises;
+
+public static class StartUp
 {
     //Problem 02
     private const string GetAllVillainsAndCountOfMinionsSQL =
@@ -42,19 +44,20 @@ public class StartUp
            WHERE CountryCode = (SELECT c.Id FROM Countries AS c WHERE c.Name = @countryName)";
 
     private const string GetTownsByCountry =
-            @" SELECT t.Name 
+        @" SELECT t.Name 
                  FROM Towns as t
                  JOIN Countries AS c ON c.Id = t.CountryCode
                 WHERE c.Name = @countryName";
     //Problem 06
     private const string DeleteMinionsConnectionToVillain =
-            @"DELETE FROM MinionsVillains 
+        @"DELETE FROM MinionsVillains 
                     WHERE VillainId = @villainId";
 
     private const string DeleteVillain =
-            @"DELETE FROM Villains
+        @"DELETE FROM Villains
                     WHERE Id = @villainId";
-
+    //Problem 07
+    private const string GetAllMinionNames = @"SELECT Name FROM Minions";
     static async Task Main()
     {
         string connectionString =
@@ -81,6 +84,9 @@ public class StartUp
         //problem 06
         //int villainId = int.Parse(Console.ReadLine());
         //await DeleteVillainAndRemoveHisMinions(connection, villainId);
+
+        //problem 07
+        //await PrintMinionNames(connection);
     }
 
     // Problem 02
@@ -172,7 +178,6 @@ public class StartUp
                 villainId = await getVillainNameById.ExecuteScalarAsync();
             }
 
-
             SqlCommand addMinionCmd = new SqlCommand(InsertMinion, connection, transaction);
             addMinionCmd.Parameters.AddWithValue("@name", minionName);
             addMinionCmd.Parameters.AddWithValue("@age", minionAge);
@@ -196,8 +201,6 @@ public class StartUp
         {
             await transaction.RollbackAsync();
         }
-
-
 
     }
 
@@ -266,6 +269,25 @@ public class StartUp
         catch (Exception)
         {
             await transaction.RollbackAsync();
+        }
+    }
+
+    //Problem 07
+    static async Task PrintMinionNames(SqlConnection connection)
+    {
+        SqlCommand getMinionNamesCmd = new SqlCommand(GetAllMinionNames, connection);
+        SqlDataReader reader = await getMinionNamesCmd.ExecuteReaderAsync();
+        List<string> minionList = new List<string>();
+
+        while (reader.Read())
+        {
+            minionList.Add((string)reader["Name"]);
+        }
+
+        for (int i = 0; i < minionList.Count / 2; i++)
+        {
+            Console.WriteLine(minionList[i]);
+            Console.WriteLine(minionList[minionList.Count - i - 1]);
         }
     }
 }
