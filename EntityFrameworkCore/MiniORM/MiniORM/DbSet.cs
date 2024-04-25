@@ -6,7 +6,7 @@ namespace MiniORM;
 /// DbSet represents a table in DB. Entity class acts as column description.
 /// </summary>
 /// <typeparam name="TEntity"></typeparam>
-internal class DbSet<TEntity> : ICollection<TEntity>
+public class DbSet<TEntity> : ICollection<TEntity>
     where TEntity : class, new()
 {
     internal ChangeTracker<TEntity> ChangeTracker { get; set; }
