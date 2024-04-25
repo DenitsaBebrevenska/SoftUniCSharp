@@ -135,6 +135,7 @@ span a {
   .site-header {
     gap: 2em;
     justify-content: flex-start;
+    /* height: 100%; */
   }
 
   .header-nav ul {
