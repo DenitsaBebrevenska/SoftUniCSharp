@@ -28,16 +28,13 @@ p {
   padding-bottom: 5em;
 }
 
-span{
-    background-color: #fff;
-    border: 1px solid #000;
-    border-radius: 4px;
-}
-
-span a{
-    display: block;
-    font-size: 14px;
-    padding: 0.5em 1em;
+span a {
+  display: block;
+  font-size: 14px;
+  padding: 0.5em 1em;
+  background-color: #fff;
+  border: 1px solid #000;
+  border-radius: 4px;
 }
 
 .site-header,
@@ -94,6 +91,10 @@ span a{
   gap: 2em;
 }
 
+.header-nav ul a {
+  color: inherit;
+}
+
 .welcome-message {
   align-self: center;
   display: flex;
@@ -122,13 +123,13 @@ span a{
 
 .testimonial h3 {
   font-weight: 400;
-  padding: 2em 12em;
+  padding: 2em 14em;
 }
 
 .testimonial p {
   font-size: 60px;
   font-style: italic;
-  padding: 0 4em 2em 4em;
+  padding: 0 5em 2em 5em;
   font-weight: 600;
   font-family: "Cormorant Infant", serif;
 }
@@ -149,9 +150,9 @@ span a{
   padding-top: 2em;
 }
 
-.support p{
-    text-align: center;
-    max-width: 20%;
+.support p {
+  text-align: center;
+  max-width: 20%;
 }
 
 /* UNDERSTAND YOUR MIND */
@@ -162,6 +163,7 @@ span a{
   justify-content: center;
   align-content: center;
   flex-wrap: wrap;
+  gap: 3em;
 }
 
 .understand img {
@@ -169,37 +171,88 @@ span a{
   margin: 2em auto;
 }
 
-.understand h2{
+.understand h2 {
   width: 35%;
   font-family: "Cormorant Infant", serif;
   font-size: 40px;
   text-align: center;
-  padding-bottom: 2em;
 }
 
-.understand p{
-    width: 35%;
-    margin: 0 auto;
+.understand p {
+  width: 35%;
+  margin: 0 auto;
+  padding-bottom: 0;
 }
 
-/* so lost on the buttons */
+.read-more-btn {
+  display: flex;
+  justify-content: flex-start;
+}
 
-
-
-
-
+.read-all-btn {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 3em;
+}
 
 /* FIND LOCAL GIUIDE */
 
-.find-local-guide{
-    background-color: #e14747;
+.find-local-guide {
+  background-color: #e14747;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 3em;
+  padding: 5em 12em;
 }
 
-.find-local-guide h2{
-    font-family: "Cormorant Infant", serif;
-    font-size: 40px;
+.find-local-guide h2 {
+  font-family: "Cormorant Infant", serif;
+  font-size: 40px;
+  align-self: center;
 }
 
-.find-guide-btn{
-    background-color: #fad87a;
+.find-local-guide p {
+  padding-bottom: 0;
+  align-self: center;
+  text-align: center;
+  font-size: 16px;
+}
+
+.find-guide-btn {
+  display: flex;
+  justify-content: center;
+}
+
+.find-guide-btn a {
+  padding: 1em;
+  background-color: #fad87a;
+  border: none;
+  border-radius: 20px;
+}
+
+/* SITE-FOOTER */
+
+.site-footer{
+  background-color: #352b2a;
+  display: flex;
+  flex-direction: column;
+  padding: 2em 5em;
+}
+
+.copyright{
+  color: #63685c;
+  font-size: 14px;
+}
+
+.site-footer p{
+  padding-bottom: 2em;
+  font-size: 16px;
+  width: 40%;
+}
+
+.site-footer .logo{
+  width: 60px;
+  padding-bottom: 2em;
 }
