@@ -7,76 +7,84 @@ namespace MiniORM;
 /// </summary>
 /// <typeparam name="TEntity"></typeparam>
 public class DbSet<TEntity> : ICollection<TEntity>
-    where TEntity : class, new()
+        where TEntity : class, new()
 {
-    internal ChangeTracker<TEntity> ChangeTracker { get; set; }
-    internal IList<TEntity> Entities { get; set; }
-
-    public int Count => Entities.Count;
-    public bool IsReadOnly => Entities.IsReadOnly;
-
     internal DbSet(IEnumerable<TEntity> entities)
     {
-        Entities = entities.ToList();
-        ChangeTracker = new ChangeTracker<TEntity>(entities);
+        this.Entities = entities.ToList();
+        this.ChangeTracker = new ChangeTracker<TEntity>(entities);
     }
 
-    public void Add(TEntity entity)
+    internal ChangeTracker<TEntity> ChangeTracker { get; set; }
+
+    internal IList<TEntity> Entities { get; set; }
+
+    public int Count => this.Entities.Count;
+
+    public bool IsReadOnly => this.Entities.IsReadOnly;
+
+    public void Add(TEntity item)
     {
-        if (entity == null)
+        if (item == null)
         {
-            throw new ArgumentNullException(nameof(entity), ExceptionMessages.EntityNullException);
+            throw new ArgumentNullException(nameof(item), "Item cannot be null");
         }
 
-        Entities.Add(entity);
-        ChangeTracker.Add(entity);
+        this.Entities.Add(item);
+        this.ChangeTracker.Add(item);
+    }
+
+    public bool Remove(TEntity item)
+    {
+        if (item == null)
+        {
+            throw new ArgumentNullException(nameof(item), "Item cannot be null");
+        }
+
+        bool removedSuccessfully = this.Entities.Remove(item);
+
+        if (removedSuccessfully)
+        {
+            this.ChangeTracker.Remove(item);
+        }
+
+        return removedSuccessfully;
+    }
+
+    public void RemoveRange(IEnumerable<TEntity> entities)
+    {
+        foreach (TEntity entity in entities)
+        {
+            this.Remove(entity);
+        }
     }
 
     public void Clear()
     {
-        while (Entities.Any())
+        while (this.Entities.Any())
         {
-            TEntity entityToRemove = Entities.First();
-            Remove(entityToRemove);
+            TEntity entity = this.Entities.First();
+            this.Remove(entity);
         }
     }
 
-    public bool Contains(TEntity entity)
-        => Entities.Contains(entity);
+    public bool Contains(TEntity item)
+    {
+        return this.Entities.Contains(item);
+    }
 
-    //this method comes from the interface, but will not be used
     public void CopyTo(TEntity[] array, int arrayIndex)
-        => Entities.CopyTo(array, arrayIndex);
-
-    public bool Remove(TEntity entity)
     {
-        if (entity == null)
-        {
-            throw new ArgumentNullException(nameof(entity), ExceptionMessages.EntityNullException);
-        }
-
-        bool isRemoved = Entities.Remove(entity);
-
-        if (isRemoved)
-        {
-            ChangeTracker.Remove(entity);
-        }
-
-        return isRemoved;
-    }
-
-    public void RemoveRange(IEnumerable<TEntity> entitiesToRemove)
-    {
-        foreach (TEntity entity in entitiesToRemove)
-        {
-            Remove(entity);
-        }
+        this.Entities.CopyTo(array, arrayIndex);
     }
 
     public IEnumerator<TEntity> GetEnumerator()
-        => Entities.GetEnumerator();
+    {
+        return this.Entities.GetEnumerator();
+    }
 
     IEnumerator IEnumerable.GetEnumerator()
-        => GetEnumerator();
-
+    {
+        return this.GetEnumerator();
+    }
 }
