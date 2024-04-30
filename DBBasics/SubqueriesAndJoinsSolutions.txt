@@ -1,0 +1,284 @@
+Subqueries And Joins Solutions
+
+-- 01. Employee Address
+
+  SELECT TOP (5)
+	     e.EmployeeID,
+		 e.JobTitle,
+		 e.AddressID,
+		 a.AddressText
+    FROM Employees AS e
+    JOIN Addresses AS a
+      ON e.AddressID = a.AddressID
+ORDER BY e.AddressID
+
+
+-- 02. Addresses with Towns
+
+  SELECT 
+		 TOP(50)
+		 e.FirstName,
+		 e.LastName,
+		 t.[Name] AS Town,
+		 a.AddressText
+	FROM Addresses AS a
+	JOIN  Towns as t
+	  ON a.TownID = t.TownID
+	JOIN Employees as e
+      ON e.AddressID = a.AddressID
+ORDER BY e.FirstName, e.LastName
+
+
+-- 03. Sales Employees
+
+  SELECT	
+		 e.EmployeeID,
+		 e.FirstName,
+		 e.LastName,
+		 d.[Name]
+	FROM Departments AS d
+	JOIN Employees AS e
+	  ON d.DepartmentID = e.DepartmentID 
+		 AND d.[Name] = 'Sales'
+ORDER BY e.EmployeeID
+
+
+-- 04. Employee Departments
+
+  SELECT 
+         TOP(5)
+		 e.EmployeeID,
+		 e.FirstName,
+		 e.Salary,
+		 d.[Name]
+	FROM Departments AS d
+	JOIN Employees AS e
+	  ON d.DepartmentID = e.DepartmentID
+   WHERE e.Salary > 15000
+ORDER BY d.DepartmentID
+
+
+-- 05. Employees Without Projects
+
+   SELECT 
+		  TOP(3)
+		  e.EmployeeID, 
+		  e.FirstName		
+	 FROM Employees AS e
+LEFT JOIN EmployeesProjects AS ep
+       ON e.EmployeeID = ep.EmployeeID
+    WHERE ep.ProjectID IS NULL
+ ORDER BY e.EmployeeID
+
+-- 06. Employees Hired After
+
+  SELECT 
+		 e.FirstName,
+		 e.LastName,
+		 e.HireDate,
+		 d.[Name]
+	FROM Departments AS d
+	JOIN Employees AS e
+	  ON d.DepartmentID = e.DepartmentID
+   WHERE d.[Name] IN ('Sales', 'Finance') AND e.HireDate > 1991-1-1
+ORDER BY e.HireDate
+
+
+-- 07. Employees With Project
+
+  SELECT 
+		 TOP(5)
+		 e.EmployeeID,
+		 e.FirstName,
+		 p.[Name]
+	FROM Employees AS e
+	JOIN EmployeesProjects AS ep
+	  ON e.EmployeeID = ep.EmployeeID
+	JOIN Projects AS p
+	  ON ep.ProjectID = p.ProjectID
+   WHERE p.StartDate > 2002-08-13 AND p.EndDate IS NULL
+ORDER BY e.EmployeeID
+
+
+-- 08. Employee 24
+
+SELECT
+		e.EmployeeID,
+		e.FirstName,
+  CASE
+  WHEN YEAR(p.[StartDate]) >= 2005 THEN NULL
+  ELSE p.[Name]
+END AS ProjectName
+  FROM Employees AS e
+  JOIN EmployeesProjects AS ep
+    ON e.EmployeeID = ep.EmployeeID AND ep.EmployeeID = 24
+  JOIN Projects AS p
+    ON ep.ProjectID = p.ProjectID
+
+
+-- 09. Employee Manager
+
+  SELECT
+		 e.EmployeeID,
+		 e.FirstName,
+		 e.ManagerID,
+		 m.FirstName AS ManagerName
+	FROM Employees AS e
+	JOIN Employees AS m
+	  ON e.ManagerID = m.EmployeeID AND e.ManagerID IN (3,7)
+ORDER BY e.EmployeeID
+
+
+-- 10. Employees Summary
+
+  SELECT TOP(50)
+		 e.EmployeeID,
+		 CONCAT_WS(' ', e.FirstName, e.LastName) AS EmployeeName,
+		 CONCAT_WS(' ', m.FirstName, m.LastName) AS ManagerName,
+		 d.[Name]
+    FROM Employees AS e
+    JOIN Employees AS m
+	  ON e.ManagerID = m.EmployeeID
+	JOIN Departments AS d
+	  ON e.DepartmentID = d.DepartmentID
+ORDER BY e.EmployeeID
+
+
+
+-- 11. Min Average Salary
+
+    WITH AverageSalaries AS(
+  SELECT AVG(Salary) AS Average
+    FROM Employees	
+GROUP BY DepartmentID)
+  SELECT MIN(Average) AS MinAverageSalary
+    FROM AverageSalaries
+
+
+-- 12. Highest Peaks in Bulgaria
+
+SELECT
+		 c.CountryCode,
+		 m.MountainRange,
+		 p.PeakName,
+		 p.Elevation
+	FROM Countries AS c
+	JOIN MountainsCountries AS mc
+	  ON c.CountryCode = mc.CountryCode AND c.CountryCode = 'BG'
+	JOIN Mountains AS m
+	  ON m.Id = mc.MountainId
+	JOIN Peaks AS p
+	  ON p.MountainId = m.Id AND p.Elevation > 2835
+ORDER BY p.Elevation DESC
+
+
+-- 13. Count Mountain Ranges
+
+  WITH SummedRanges AS
+(
+	   SELECT COUNT(mc.MountainId) AS MountainRanges, mc.CountryCode AS CountryCode
+	   FROM MountainsCountries AS mc
+       GROUP BY mc.CountryCode
+)
+SELECT sr.CountryCode, sr.MountainRanges
+  FROM SummedRanges AS sr
+  JOIN Countries AS c
+    ON sr.CountryCode = c.CountryCode
+ WHERE c.CountryName IN ('United States', 'Russia', 'Bulgaria')
+
+
+-- 14. Countries With or Without Rivers
+
+   SELECT TOP(5)
+		  c.CountryName,
+		  r.RiverName
+	 FROM Continents AS cn
+	 JOIN Countries AS c
+	   ON c.ContinentCode = cn.ContinentCode AND cn.ContinentName = 'Africa'
+LEFT JOIN CountriesRivers AS cr
+	   ON c.CountryCode = cr.CountryCode
+LEFT JOIN Rivers AS r
+	   ON cr.RiverId = r.Id
+ ORDER BY c.CountryName
+
+
+
+-- 15. Continents and Currencies
+
+WITH CurrencyCounts AS
+(
+	SELECT 
+		   ContinentCode,
+		   CurrencyCode,
+		   Count(CurrencyCode) AS CurrencyCount,
+		   DENSE_RANK() OVER(PARTITION BY ContinentCode ORDER BY COUNT(CurrencyCode) DESC)
+		   AS CurrencyRank
+	  FROM Countries
+  GROUP BY ContinentCode, CurrencyCode
+)
+  SELECT ContinentCode,
+		 CurrencyCode,
+		 CurrencyCount
+	FROM CurrencyCounts
+   WHERE CurrencyCount > 1 AND CurrencyRank = 1
+ORDER BY ContinentCode, CurrencyCode
+
+
+-- 16. Countries Without any Mountains
+
+SELECT COUNT(c.CountryCode)
+  FROM Countries AS c
+  LEFT JOIN MountainsCountries AS mc
+    ON c.CountryCode = mc.CountryCode
+ WHERE mc.MountainId IS NULL
+
+
+-- 17. Highest Peak and Longest River by Country
+
+  SELECT 
+   TOP(5) 
+		  c.CountryName, 
+		  MAX(p.Elevation) AS HighestPeakElevation,
+		  MAX(r.[Length]) AS LongestRiverLength FROM Countries AS c
+LEFT JOIN MountainsCountries AS mc
+	   ON c.CountryCode = mc.CountryCode
+LEFT JOIN Mountains AS m
+	   ON m.Id = mc.MountainId
+LEFT JOIN Peaks AS p
+	   ON m.Id = p.MountainId
+LEFT JOIN CountriesRivers AS cr
+	   ON cr.CountryCode = c.CountryCode
+LEFT JOIN Rivers AS r
+	   ON r.Id = cr.RiverId
+ GROUP BY c.CountryName
+ ORDER BY HighestPeakElevation DESC,
+		  LongestRiverLength DESC,
+		  CountryName
+
+
+-- 18. Highest Peak Name and Elevation by Country
+
+
+WITH RankedPeaks AS(
+	SELECT 
+		  c.CountryName,
+		  p.PeakName,
+		  p.Elevation,
+		  m.MountainRange,
+		  DENSE_RANK() OVER(PARTITION BY c.CountryName ORDER BY p.Elevation) AS RankPeak
+	 FROM Countries AS c
+LEFT JOIN MountainsCountries AS mc
+	   ON c.CountryCode = mc.CountryCode
+LEFT JOIN Mountains AS m
+	   ON m.Id = mc.MountainId
+LEFT JOIN Peaks AS p
+	   ON m.Id = p.MountainId)
+   SELECT 
+   TOP(5)
+		  CountryName AS Country,
+		  ISNULL([PeakName], '(no highest peak)') AS [Highest Peak Name],
+		  ISNULL([Elevation], 0) AS [Highest Peak Elevation],
+		  ISNULL([MountainRange], '(no mountain)') AS Mountain
+	 FROM RankedPeaks
+    WHERE RankPeak = 1
+ ORDER BY Country, [Highest Peak Name]

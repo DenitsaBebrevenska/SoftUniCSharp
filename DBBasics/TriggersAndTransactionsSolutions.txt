@@ -1,0 +1,201 @@
+Triggers And Transactions Solutions
+
+-- 01. Create Table Logs
+
+CREATE TRIGGER tr_AddToLogOnBalanceUpdate
+			ON Accounts FOR UPDATE
+			AS
+				INSERT INTO Logs(AccountId, OldSum, NewSum)
+					 SELECT i.Id, d.Balance, i.Balance
+					   FROM inserted AS i
+					   JOIN deleted AS d
+						 ON i.Id = d.Id
+					  WHERE i.Balance <> d.Balance
+
+-- 02. Create Table Emails
+
+CREATE TRIGGER tr_AddToNotificationEmailOnLogsInsert
+			ON Logs FOR INSERT
+			AS
+
+				INSERT INTO NotificationEmails(Recipient, [Subject], Body)
+					 SELECT i.AccountId, 
+							CONCAT('Balance change for account: ', i.AccountId),
+							CONCAT('On ', GETDATE(), 'your balance was changed from ', i.OldSum, ' to ', i.NewSum,'.')
+					   FROM inserted AS i
+
+
+
+-- 03. Deposit Money
+
+CREATE PROCEDURE usp_DepositMoney
+				 (@AccountId INT, @MoneyAmount MONEY)
+			  AS
+		   BEGIN
+   
+				   IF (@MoneyAmount > 0)
+				UPDATE Accounts
+				   SET Balance += @MoneyAmount
+				 WHERE Id = @AccountId;
+			END;
+
+
+-- 04. Withdraw Money Procedure
+
+CREATE PROC usp_WithdrawMoney 
+			(@AccountId INT, @MoneyAmount MONEY)
+		 AS
+	  BEGIN
+			    IF(@MoneyAmount > 0)
+			UPDATE Accounts
+			   SET Balance -= @MoneyAmount
+			 WHERE Id = @AccountId
+	    END
+
+-- 05. Money Transfer
+
+CREATE PROC usp_TransferMoney
+			(@SenderId INT, @ReceiverId INT, @Amount MONEY)
+		 AS
+	  BEGIN
+			IF(@Amount > 0)
+			EXEC usp_WithdrawMoney @SenderId, @Amount
+			EXEC usp_DepositMoney @ReceiverId, @Amount
+	   END
+
+
+-- 07. Massive Shopping but Jugde can`t fine Items
+
+DECLARE @UserId INT
+DECLARE @GameId INT
+DECLARE @UserGameId INT
+DECLARE @CashRequired MONEY
+DECLARE @CashAvailable MONEY
+
+-- Begin transaction for items level 11 and 12
+BEGIN TRANSACTION
+
+-- Fetch user ID
+SELECT @UserId = Id FROM Users WHERE Username = 'Stamat'
+-- Fetch game ID
+SELECT @GameId = Id FROM Games WHERE [Name] = 'Safflower'
+-- Fetch user game ID
+SELECT @UserGameId = Id FROM UsersGames WHERE GameId = @GameId AND UserId = @UserId
+-- Calculate total cash required for items with level 11 and 12
+SELECT @CashRequired = SUM(Price) FROM Items WHERE MinLevel IN (11,12)
+-- Fetch available cash for the user game
+SELECT @CashAvailable = Cash FROM UsersGames WHERE GameId = @GameId AND UserId = @UserId
+
+-- Check if the user has enough cash, if not, rollback transaction
+IF (@CashRequired > @CashAvailable)
+BEGIN
+	ROLLBACK TRANSACTION
+END
+ELSE
+BEGIN
+    -- Update user game cash
+    UPDATE UsersGames
+    SET Cash -= @CashRequired
+    WHERE Id = @UserGameId
+
+    -- Add items with level 11 and 12
+    INSERT INTO UserGameItems (ItemId, UserGameId)
+    SELECT Id, @UserGameId FROM Items
+    WHERE MinLevel IN (11, 12)
+	COMMIT TRANSACTION
+END
+
+-- Commit the transaction
+
+
+-- Begin transaction for items 19 to 21 level
+BEGIN TRANSACTION
+
+-- Fetch user ID
+SELECT @UserId = Id FROM Users WHERE FirstName = 'Stamat'
+-- Fetch game ID
+SELECT @GameId = Id FROM Games WHERE [Name] = 'Safflower'
+-- Fetch user game ID
+SELECT @UserGameId = Id FROM UsersGames WHERE GameId = @GameId AND UserId = @UserId
+-- Calculate total cash required for items with level 19 to 21
+SELECT @CashRequired = SUM(Price) FROM Items WHERE MinLevel BETWEEN 19 AND 21
+-- Fetch available cash for the user game
+SELECT @CashAvailable = Cash FROM UsersGames WHERE GameId = @GameId AND UserId = @UserId
+
+-- Check if the user has enough cash, if not, rollback transaction
+IF (@CashRequired > @CashAvailable)
+BEGIN
+    ROLLBACK TRANSACTION
+END
+ELSE
+BEGIN
+    -- Update user game cash
+    UPDATE UsersGames
+    SET Cash -= @CashRequired
+    WHERE Id = @UserGameId
+
+    -- Add items with level 19 to 21
+    INSERT INTO UserGameItems (ItemId, UserGameId)
+    SELECT Id, @UserGameId FROM Items
+    WHERE MinLevel BETWEEN 19 AND 21
+	COMMIT TRANSACTION
+END
+-- Commit the transaction
+
+
+SELECT i.[Name] AS [Item Name] FROM Items AS i
+	JOIN UserGameItems AS ugi
+	ON i.Id = ugi.ItemId
+	WHERE ugi.UserGameId = @UserGameId
+
+--SELECT i.[Name] AS [Item Name] FROM Items AS i
+--	JOIN UserGameItems AS ugi
+--	ON I.Id = ugi.ItemId
+--	JOIN UsersGames AS ug
+--	ON ug.Id = ugi.UserGameId
+--	JOIN Games AS g
+--	ON g.Id = ug.GameId
+--	JOIN Users AS u
+--	ON u.Id = ug.UserId
+--	WHERE g.[Name] = 'Safflower' AND u.Username = 'Stamat'
+	
+
+	--SELECT * FROM UsersGames
+	--WHERE Id = 110
+
+
+-- 08. Employees with Three Projects
+
+CREATE PROC dbo.usp_AssignProject
+		   (@EmloyeeId INT, @ProjectID INT)
+		 AS
+	  BEGIN
+			DECLARE @ProjectCount INT
+
+			BEGIN TRANSACTION 
+				INSERT INTO EmployeesProjects (EmployeeID, ProjectID)
+				     VALUES (@EmloyeeId, @ProjectID)
+
+				SELECT @ProjectCount = COUNT(ProjectID) 
+				  FROM EmployeesProjects
+				 WHERE EmployeeID = @EmloyeeId
+
+					                  IF(@ProjectCount > 3)
+					               BEGIN
+					ROLLBACK TRANSACTION
+					           RAISERROR('The employee has too many projects!', 16,1)
+					              RETURN
+									 END
+			COMMIT TRANSACTION	
+		END
+
+-- 09. Delete Employees
+
+CREATE TRIGGER tr_AddToDeletedEmployeesOnEmployeesDelete
+			ON Employees 
+	FOR DELETE
+			AS
+				INSERT INTO Deleted_Employees (FirstName, LastName, MiddleName, JobTitle, DepartmentId, Salary)
+					 SELECT FirstName, LastName, MiddleName, JobTitle, DepartmentID, Salary
+					   FROM deleted AS d
+					  WHERE d.EmployeeID = EmployeeID
