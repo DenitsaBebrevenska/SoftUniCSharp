@@ -48,7 +48,20 @@ public class FootballBettingContext : DbContext
 
             entity.HasOne(ps => ps.Player)
                 .WithMany(p => p.PlayersStatistics)
-                .HasForeignKey(p => p.GameId);
+                .HasForeignKey(p => p.PlayerId);
+        });
+
+        modelBuilder.Entity<Team>(entity =>
+        {
+            entity.HasOne(t => t.PrimaryKitColor)
+                .WithMany(c => c.PrimaryKitTeams)
+                .HasForeignKey(t => t.PrimaryKitColorId)
+                .OnDelete(DeleteBehavior.ClientNoAction);
+
+            entity.HasOne(t => t.SecondaryKitColor)
+                .WithMany(c => c.SecondaryKitTeams)
+                .HasForeignKey(t => t.SecondaryKitColorId)
+                .OnDelete(DeleteBehavior.ClientNoAction);
         });
     }
 }

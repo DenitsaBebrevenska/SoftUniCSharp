@@ -24,20 +24,21 @@ public class Team
 
     public decimal Budget { get; set; }
 
-    [InverseProperty(nameof(PrimaryKitColor))]
-    public string PrimaryKitColorId { get; set; }
-
+    [ForeignKey(nameof(PrimaryKitColor))]
+    public int PrimaryKitColorId { get; set; }
     public virtual Color PrimaryKitColor { get; set; }
 
-    [InverseProperty(nameof(SecondaryKitColor))]
-    public string SecondaryKitColorId { get; set; }
-
+    [ForeignKey(nameof(SecondaryKitColor))]
+    public int SecondaryKitColorId { get; set; }
     public virtual Color SecondaryKitColor { get; set; }
 
     [ForeignKey(nameof(Town))]
     public int TownId { get; set; }
 
+    [InverseProperty(nameof(Game.HomeTeam))]
     public virtual ICollection<Game> HomeGames { get; set; }
+
+    [InverseProperty(nameof(Game.AwayTeam))]
     public virtual ICollection<Game> AwayGames { get; set; }
 
     public virtual ICollection<Player> Players { get; set; }

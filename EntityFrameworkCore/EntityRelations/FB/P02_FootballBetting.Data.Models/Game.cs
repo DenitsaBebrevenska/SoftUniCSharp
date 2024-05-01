@@ -12,11 +12,11 @@ public class Game
     }
     public int GameId { get; set; }
 
-    [InverseProperty(nameof(HomeTeam))]
+    [ForeignKey(nameof(HomeTeam))]
     public int HomeTeamId { get; set; }
     public virtual Team HomeTeam { get; set; }
 
-    [InverseProperty(nameof(AwayTeam))]
+    [ForeignKey(nameof(AwayTeam))]
     public int AwayTeamId { get; set; }
     public virtual Team AwayTeam { get; set; }
 
