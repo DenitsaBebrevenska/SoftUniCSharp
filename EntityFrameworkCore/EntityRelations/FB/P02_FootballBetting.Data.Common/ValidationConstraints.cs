@@ -21,6 +21,12 @@ public static class ValidationConstraints
     //Bet constraint
     public const int BetPredictionLength = 5;
 
+    //Town constraint
+    public const int TownNameLength = 85;
+
+    //Country constraint
+    public const int CountryNameLength = 60;
+
     //User constraints
     public const int UserUsernameLength = 20;
     public const int UserPasswordLength = 255;

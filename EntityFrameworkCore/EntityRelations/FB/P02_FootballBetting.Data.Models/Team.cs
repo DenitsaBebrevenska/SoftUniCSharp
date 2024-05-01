@@ -1,9 +1,16 @@
 ﻿using P02_FootballBetting.Data.Common;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace P02_FootballBetting.Data.Models;
 public class Team
 {
+    public Team()
+    {
+        HomeGames = new HashSet<Game>();
+        AwayGames = new HashSet<Game>();
+        Players = new HashSet<Player>();
+    }
     public int TeamId { get; set; }
 
     [MaxLength(ValidationConstraints.TeamNameLength)]
@@ -14,8 +21,24 @@ public class Team
 
     [MaxLength(ValidationConstraints.TeamInitialsLength)]
     public string Initials { get; set; }
+
     public decimal Budget { get; set; }
+
+    [InverseProperty(nameof(PrimaryKitColor))]
     public string PrimaryKitColorId { get; set; }
+
+    public virtual Color PrimaryKitColor { get; set; }
+
+    [InverseProperty(nameof(SecondaryKitColor))]
     public string SecondaryKitColorId { get; set; }
+
+    public virtual Color SecondaryKitColor { get; set; }
+
+    [ForeignKey(nameof(Town))]
     public int TownId { get; set; }
+
+    public virtual ICollection<Game> HomeGames { get; set; }
+    public virtual ICollection<Game> AwayGames { get; set; }
+
+    public virtual ICollection<Player> Players { get; set; }
 }

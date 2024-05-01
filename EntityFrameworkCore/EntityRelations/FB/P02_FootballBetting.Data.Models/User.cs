@@ -4,9 +4,10 @@ using System.ComponentModel.DataAnnotations;
 namespace P02_FootballBetting.Data.Models;
 public class User
 {
-
-    //•	User – UserId, Username, Password, Email, Name, Balance
-
+    public User()
+    {
+        Bets = new HashSet<Bet>();
+    }
     public int UserId { get; set; }
 
     [MaxLength(ValidationConstraints.UserUsernameLength)]
@@ -22,4 +23,6 @@ public class User
     public string Name { get; set; }
 
     public decimal Balance { get; set; }
+
+    public virtual ICollection<Bet> Bets { get; set; }
 }
