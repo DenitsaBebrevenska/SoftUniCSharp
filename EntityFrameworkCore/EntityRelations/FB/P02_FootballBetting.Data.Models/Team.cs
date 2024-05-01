@@ -1,13 +1,18 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using P02_FootballBetting.Data.Common;
+using System.ComponentModel.DataAnnotations;
 
-namespace P02_FootballBetting.Data.Common;
+namespace P02_FootballBetting.Data.Models;
 public class Team
 {
     public int TeamId { get; set; }
 
-    [MaxLength()]
+    [MaxLength(ValidationConstraints.TeamNameLength)]
     public string Name { get; set; }
+
+    [MaxLength(ValidationConstraints.TeamUrlLogoLength)]
     public string LogoUrl { get; set; }
+
+    [MaxLength(ValidationConstraints.TeamInitialsLength)]
     public string Initials { get; set; }
     public decimal Budget { get; set; }
     public string PrimaryKitColorId { get; set; }
