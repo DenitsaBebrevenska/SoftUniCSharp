@@ -30,8 +30,6 @@ public class SalesContext : DbContext
         {
             optionsBuilder.UseSqlServer(Environment.GetEnvironmentVariable("ConnectionString", EnvironmentVariableTarget.User));
         }
-
-        base.OnConfiguring(optionsBuilder);
     }
 
     public void SeedData()

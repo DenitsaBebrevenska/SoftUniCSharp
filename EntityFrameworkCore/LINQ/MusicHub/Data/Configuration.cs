@@ -2,7 +2,7 @@
 {
     public static class Configuration
     {
-        public static string ConnectionString =
-            @"Server=.;Database=MusicHub;Trusted_Connection=True";
+        public static readonly string ConnectionString =
+            Environment.GetEnvironmentVariable("ConnectionString", EnvironmentVariableTarget.User);
     }
 }
