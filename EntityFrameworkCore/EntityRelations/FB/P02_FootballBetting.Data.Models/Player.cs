@@ -9,6 +9,7 @@ public class Player
     {
         PlayersStatistics = new HashSet<PlayerStatistic>();
     }
+
     public int PlayerId { get; set; }
 
     [MaxLength(ValidationConstraints.PlayerNameLength)]
@@ -18,7 +19,7 @@ public class Player
 
     public byte Assists { get; set; }
 
-    [ForeignKey(nameof(Town))]
+    //[ForeignKey(nameof(Town))]
     public int TownId { get; set; }
     public virtual Town Town { get; set; }
 
