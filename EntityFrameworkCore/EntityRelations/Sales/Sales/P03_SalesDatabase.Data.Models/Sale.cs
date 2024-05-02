@@ -1,4 +1,4 @@
-﻿namespace P03_SalesDatabase.Models;
+﻿namespace Models;
 public class Sale
 {
     public int SaleId { get; set; }

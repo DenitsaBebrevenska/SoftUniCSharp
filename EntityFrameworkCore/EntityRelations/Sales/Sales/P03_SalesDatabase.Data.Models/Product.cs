@@ -1,7 +1,7 @@
 ﻿using P03_SalesDatabase.Data.Common;
 using System.ComponentModel.DataAnnotations;
 
-namespace P03_SalesDatabase.Models;
+namespace Models;
 public class Product
 {
     public Product()

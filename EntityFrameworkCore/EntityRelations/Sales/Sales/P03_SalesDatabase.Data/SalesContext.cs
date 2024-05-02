@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using P03_SalesDatabase.Models;
+using Models;
 
 namespace P03_SalesDatabase.Data;
 public class SalesContext : DbContext

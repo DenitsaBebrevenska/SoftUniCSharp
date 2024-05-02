@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\P03_SalesDatabase.Models\P03_SalesDatabase.Models.csproj" />
+    <ProjectReference Include="..\P03_SalesDatabase.Data.Models\Models.csproj" />
   </ItemGroup>
 
 </Project>
