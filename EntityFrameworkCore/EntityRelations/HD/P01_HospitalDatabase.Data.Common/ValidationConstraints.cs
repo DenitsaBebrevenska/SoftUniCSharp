@@ -18,7 +18,7 @@ public static class ValidationConstraints
     public const int MedicamentNameLength = 50;
 
     //Doctor second task
-    //public const int DoctorNameLength = 100;
-    //public const int DoctorSpecialtyLength = 100;
+    public const int DoctorNameLength = 100;
+    public const int DoctorSpecialtyLength = 100;
 
 }

@@ -21,7 +21,7 @@ public class HospitalContext : DbContext
     public DbSet<Medicament> Medicaments { get; set; }
     public DbSet<PatientMedicament> PatientsMedicaments { get; set; }
 
-    //public DbSet<Doctor> Doctor {get; set;}
+    public DbSet<Doctor> Doctor { get; set; }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (!optionsBuilder.IsConfigured)
