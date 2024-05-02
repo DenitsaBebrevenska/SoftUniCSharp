@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P03_SalesDatabase.Data", "P
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P03_SalesDatabase.Models", "P03_SalesDatabase.Models\P03_SalesDatabase.Models.csproj", "{E86111AB-7A3A-441F-A55E-60990FDF7F34}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P03_SalesDatabase.Data.Common", "P03_SalesDatabase.Data.Common\P03_SalesDatabase.Data.Common.csproj", "{99E1278F-F618-46F4-9B07-1239D47608A9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{E86111AB-7A3A-441F-A55E-60990FDF7F34}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E86111AB-7A3A-441F-A55E-60990FDF7F34}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E86111AB-7A3A-441F-A55E-60990FDF7F34}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99E1278F-F618-46F4-9B07-1239D47608A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99E1278F-F618-46F4-9B07-1239D47608A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99E1278F-F618-46F4-9B07-1239D47608A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99E1278F-F618-46F4-9B07-1239D47608A9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using P03_SalesDatabase.Models;
 
 namespace P03_SalesDatabase.Data;
 public class SalesContext : DbContext
@@ -14,6 +15,14 @@ public class SalesContext : DbContext
 
     }
 
+    public DbSet<Sale> Sales { get; set; }
+
+    public DbSet<Product> Products { get; set; }
+
+    public DbSet<Customer> Customers { get; set; }
+
+    public DbSet<Store> Stores { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (!optionsBuilder.IsConfigured)
@@ -22,10 +31,5 @@ public class SalesContext : DbContext
         }
 
         base.OnConfiguring(optionsBuilder);
-    }
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        base.OnModelCreating(modelBuilder);
     }
 }
