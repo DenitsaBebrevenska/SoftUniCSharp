@@ -1,9 +1,8 @@
 ﻿namespace MusicHub
 {
-    using System;
-
     using Data;
     using Initializer;
+    using System;
 
     public class StartUp
     {
@@ -13,7 +12,6 @@
                 new MusicHubDbContext();
 
             DbInitializer.ResetDatabase(context);
-
             //Test your solutions here
         }
 
