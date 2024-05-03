@@ -1,5 +1,6 @@
 ﻿using MusicHub.Common;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MusicHub.Data.Models;
 public class Album
@@ -15,6 +16,7 @@ public class Album
 
     public DateTime ReleaseDate { get; set; }
 
+    [NotMapped]
     public decimal Price => Songs.Sum(s => s.Price);
 
     public int? ProducerId { get; set; }
