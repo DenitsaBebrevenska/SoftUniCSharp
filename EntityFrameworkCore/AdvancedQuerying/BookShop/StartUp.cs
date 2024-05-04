@@ -43,8 +43,8 @@ public class StartUp
         //Console.WriteLine(GetAuthorNamesEndingIn(db, input));
 
         //task 09
-        string input = Console.ReadLine();
-        Console.WriteLine(GetBookTitlesContaining(db, input));
+        //string input = Console.ReadLine();
+        //Console.WriteLine(GetBookTitlesContaining(db, input));
 
         //task 10
         //string input = Console.ReadLine();
