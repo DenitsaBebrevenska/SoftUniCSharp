@@ -30,8 +30,9 @@ public class StartUp
         //Console.WriteLine(GetBooksNotReleasedIn(db, year));
 
         //task 06
-        //string input = Console.ReadLine().ToLower();
+        //string input = Console.ReadLine();
         //Console.WriteLine(GetBooksByCategory(db, input));
+
 
         //task 07
         //string date = Console.ReadLine();
@@ -42,8 +43,8 @@ public class StartUp
         //Console.WriteLine(GetAuthorNamesEndingIn(db, input));
 
         //task 09
-        //string input = Console.ReadLine().ToLower();
-        //Console.WriteLine(GetBookTitlesContaining(db, input));
+        string input = Console.ReadLine();
+        Console.WriteLine(GetBookTitlesContaining(db, input));
 
         //task 10
         //string input = Console.ReadLine();
@@ -147,15 +148,19 @@ public class StartUp
     //task 06
     public static string GetBooksByCategory(BookShopContext context, string input)
     {
+        //ToLower of the input must be inside the method because unit test of Judge will fail
         string[] categories = input
+            .ToLower()
             .Split(' ', StringSplitOptions.RemoveEmptyEntries)
             .ToArray();
 
         var books = context.Books
             .AsNoTracking()
-            .Where(b => b.BookCategories.Any(c => categories.Contains(c.Category.Name.ToLower())))
+            .Where(b => b.BookCategories
+                .Any(bc => categories
+                    .Contains(bc.Category.Name.ToLower())))
+            .OrderBy(b => b.Title)
             .Select(b => b.Title)
-            .OrderBy(t => t)
             .ToArray();
 
         return string.Join(Environment.NewLine, books);
@@ -215,7 +220,7 @@ public class StartUp
             .Select(b => b.Title)
             .ToArray();
 
-        return string.Join(Environment.NewLine, titles).Trim();
+        return string.Join(Environment.NewLine, titles);
     }
 
     //task 10
