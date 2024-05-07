@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using ProductShop.Data;
+using ProductShop.DTOs.Export;
 using ProductShop.DTOs.Import;
 using ProductShop.Models;
 
@@ -29,6 +32,13 @@ namespace ProductShop
             //task 04
             //string inputJson = File.ReadAllText(@"../../../Datasets/categories-products.json");
             //Console.WriteLine(ImportCategoryProducts(context, inputJson));
+
+            //task 05
+            //Console.WriteLine(GetProductsInRange(context));
+
+            //task 06
+            //anonymous type would be faster  for export Json
+            //Console.WriteLine(GetSoldProducts(context));
         }
 
         private static IMapper CreateMapper()
@@ -116,6 +126,35 @@ namespace ProductShop
             context.CategoriesProducts.AddRange(categoriesProducts);
             context.SaveChanges();
             return $"Successfully imported {categoriesProducts.Count}";
+        }
+
+        //task 05
+        public static string GetProductsInRange(ProductShopContext context)
+        {
+            var mapper = CreateMapper();
+            var productDtos = context.Products
+                .Where(p => p.Price >= 500 && p.Price <= 1000)
+                .OrderBy(p => p.Price)
+                .AsNoTracking()
+                .ProjectTo<ExportProductRangeDto>(mapper.ConfigurationProvider)
+                .ToArray();
+
+            return JsonConvert.SerializeObject(productDtos, Formatting.Indented);
+        }
+
+        //task 06
+        public static string GetSoldProducts(ProductShopContext context)
+        {
+            var mapper = CreateMapper();
+
+            var users = context.Users
+                .Where(u => u.ProductsSold.Any(p => p.Buyer != null))
+                .OrderBy(u => u.LastName)
+                .ThenBy(u => u.FirstName)
+                .ProjectTo<ExportUserSoldProductDto>(mapper.ConfigurationProvider)
+                .ToArray();
+
+            return JsonConvert.SerializeObject(users, Formatting.Indented);
         }
     }
 }
