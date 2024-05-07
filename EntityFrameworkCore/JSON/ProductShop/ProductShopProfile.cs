@@ -26,7 +26,6 @@ namespace ProductShop
                             BuyerLastName = p.Buyer.LastName
                         })));
 
-
             //Product
             CreateMap<ImportProductDto, Product>();
             CreateMap<Product, ExportProductRangeDto>()
@@ -39,6 +38,15 @@ namespace ProductShop
 
             //Category
             CreateMap<ImportCategoryDto, Category>();
+            CreateMap<Category, ExportCategoryProductCountDto>()
+                .ForMember(s => s.Name,
+                    opt => opt.MapFrom(d => d.Name))
+                .ForMember(s => s.AveragePrice,
+                    opt =>
+                        opt.MapFrom(d => d.CategoriesProducts.Average(p => p.Product.Price).ToString("F2")))
+                .ForMember(s => s.ProductsCount, opt => opt.MapFrom(d => d.CategoriesProducts.Count))
+                .ForMember(s => s.TotalRevenue, opt =>
+                    opt.MapFrom(d => d.CategoriesProducts.Sum(p => p.Product.Price).ToString("F2")));
 
             //CategoryProduct
             CreateMap<ImportCategoryProductDto, CategoryProduct>();

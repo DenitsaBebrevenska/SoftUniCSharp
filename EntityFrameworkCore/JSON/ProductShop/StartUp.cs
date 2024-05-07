@@ -2,6 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using ProductShop.Data;
 using ProductShop.DTOs.Export;
 using ProductShop.DTOs.Import;
@@ -39,6 +40,12 @@ namespace ProductShop
             //task 06
             //anonymous type would be faster  for export Json
             //Console.WriteLine(GetSoldProducts(context));
+
+            //task 07
+            //Console.WriteLine(GetCategoriesByProductsCount(context));
+
+            //task 08
+            //Console.WriteLine(GetUsersWithProducts(context));
         }
 
         private static IMapper CreateMapper()
@@ -49,6 +56,14 @@ namespace ProductShop
             }));
 
             return mapper;
+        }
+
+        private static IContractResolver CreateContractResolver()
+        {
+            return new DefaultContractResolver
+            {
+                NamingStrategy = new CamelCaseNamingStrategy()
+            };
         }
 
         //task 01
@@ -155,6 +170,70 @@ namespace ProductShop
                 .ToArray();
 
             return JsonConvert.SerializeObject(users, Formatting.Indented);
+        }
+
+        //task 07
+        public static string GetCategoriesByProductsCount(ProductShopContext context)
+        {
+            var mapper = CreateMapper();
+
+            var categories = context.Categories
+                .OrderByDescending(c => c.CategoriesProducts.Count)
+                .ProjectTo<ExportCategoryProductCountDto>(mapper.ConfigurationProvider)
+                .ToArray();
+
+
+            string json = JsonConvert.SerializeObject(categories, new JsonSerializerSettings
+            {
+                ContractResolver = CreateContractResolver(),
+                Formatting = Formatting.Indented
+            });
+
+
+            return json;
+        }
+
+        //task 08
+        public static string GetUsersWithProducts(ProductShopContext context)
+        {
+            var users = context.Users
+                .Where(u => u.ProductsSold
+                    .Any(p => p.Buyer != null))
+                .Select(u => new
+                {
+                    u.FirstName,
+                    u.LastName,
+                    u.Age,
+                    SoldProducts = new
+                    {
+                        Count = u.ProductsSold.Count(p => p.Buyer != null),
+                        Products = u.ProductsSold
+                            .Where(p => p.Buyer != null)
+                            .Select(p => new
+                            {
+                                p.Name,
+                                p.Price
+                            })
+                            .ToArray()
+                    }
+                })
+                .OrderByDescending(u => u.SoldProducts.Count)
+                .AsNoTracking()
+                .ToArray();
+
+            var userWrapperDto = new
+            {
+                UsersCount = users.Length,
+                Users = users
+            };
+
+            return JsonConvert.SerializeObject(userWrapperDto, new JsonSerializerSettings
+            {
+                ContractResolver = CreateContractResolver(),
+                Formatting = Formatting.Indented,
+                NullValueHandling = NullValueHandling.Ignore
+            });
+
         }
     }
 }
