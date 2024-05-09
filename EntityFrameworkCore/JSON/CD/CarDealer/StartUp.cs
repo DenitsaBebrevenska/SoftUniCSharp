@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using CarDealer.Data;
+using CarDealer.DTOs.Export;
 using CarDealer.DTOs.Import;
 using CarDealer.Models;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
 namespace CarDealer
@@ -23,6 +25,20 @@ namespace CarDealer
             //task 11
             //string inputJson = File.ReadAllText(@"../../../Datasets/cars.json");
             //Console.WriteLine(ImportCars(context, inputJson));
+
+            //task 12 
+            //string inputJson = File.ReadAllText(@"../../../Datasets/customers.json");
+            //Console.WriteLine(ImportCustomers(context, inputJson));
+
+            //task 13
+            //string inputJson = File.ReadAllText(@"../../../Datasets/sales.json");
+            //Console.WriteLine(ImportSales(context, inputJson));
+
+            //task 14
+            //Console.WriteLine(GetOrderedCustomers(context));
+
+            //task 15
+            Console.WriteLine();
         }
 
         private static IMapper CreateMapper()
@@ -114,5 +130,63 @@ namespace CarDealer
 
             return $"Successfully imported {cars.Count}.";
         }
+
+        //task 12
+        public static string ImportCustomers(CarDealerContext context, string inputJson)
+        {
+            var mapper = CreateMapper();
+            var customerDtos = JsonConvert.DeserializeObject<ImportCustomerDto[]>(inputJson);
+            var customers = new HashSet<Customer>();
+
+            foreach (var dto in customerDtos)
+            {
+                customers.Add(mapper.Map<ImportCustomerDto, Customer>(dto));
+            }
+
+            context.Customers.AddRange(customers);
+            context.SaveChanges();
+            return $"Successfully imported {customers.Count}.";
+        }
+
+        //task 13
+        public static string ImportSales(CarDealerContext context, string inputJson)
+        {
+            var mapper = CreateMapper();
+            var salesDtos = JsonConvert.DeserializeObject<ImportSaleDto[]>(inputJson);
+            var sales = new HashSet<Sale>();
+
+            foreach (var dto in salesDtos)
+            {
+                sales.Add(mapper.Map<Sale>(dto));
+            }
+
+            context.Sales.AddRange(sales);
+            context.SaveChanges();
+
+            return $"Successfully imported {sales.Count}.";
+        }
+
+        //task 14
+        public static string GetOrderedCustomers(CarDealerContext context)
+        {
+            var mapper = CreateMapper();
+            var customers = context.Customers
+                .OrderBy(c => c.BirthDate)
+                .ThenBy(c => c.IsYoungDriver) //that will order them by false first
+                .AsNoTracking();
+
+            //Honestly, I can do just one CustomerDTO for export and import but keeping them separate for the principle of it
+            var customerDtos = mapper.ProjectTo<ExportCustomerDto>(customers);
+
+            return JsonConvert.SerializeObject(customerDtos, Formatting.Indented);
+        }
+
+        //task 15
+        public static string GetCarsFromMakeToyota(CarDealerContext context)
+        {
+            var mapper = CreateMapper();
+
+        }
     }
+
 }
