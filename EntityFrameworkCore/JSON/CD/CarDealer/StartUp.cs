@@ -50,11 +50,10 @@ namespace CarDealer
             //Console.WriteLine(GetCarsWithTheirListOfParts(context));
 
             //task 18
-            //something is wrong here - sample output from document differs from Judge test
             //Console.WriteLine(GetTotalSalesByCustomer(context));
 
             //task 19
-            Console.WriteLine(GetSalesWithAppliedDiscount(context));
+            //Console.WriteLine(GetSalesWithAppliedDiscount(context));
 
         }
 
@@ -262,10 +261,10 @@ namespace CarDealer
                 {
                     FullName = c.Name,
                     BoughtCars = c.Sales.Count,
-                    SpendMoney = c.Sales.SelectMany(s => s.Car.PartsCars)
+                    SpentMoney = c.Sales.SelectMany(s => s.Car.PartsCars)
                         .Sum(pc => pc.Part.Price)
                 })
-                .OrderByDescending(c => c.SpendMoney)
+                .OrderByDescending(c => c.SpentMoney)
                 .ThenByDescending(c => c.BoughtCars);
 
             string jsonString = JsonConvert.SerializeObject(customerSales, new JsonSerializerSettings
@@ -282,17 +281,28 @@ namespace CarDealer
         //task 19
         public static string GetSalesWithAppliedDiscount(CarDealerContext context)
         {
+            //The naming is mixed and I won`t be doing nested DTOs just for that...
             var sales = context.Sales
                 .Take(10)
                 .Select(s => new
                 {
-                    car = s.Car,
-                    s.Customer.Name,
-                    s.Discount,
-
+                    car = new
+                    {
+                        s.Car.Make,
+                        s.Car.Model,
+                        s.Car.TraveledDistance
+                    },
+                    customerName = s.Customer.Name,
+                    discount = s.Discount.ToString("F2"),
+                    price = s.Car.PartsCars
+                        .Sum(pc => pc.Part.Price)
+                        .ToString("F2"),
+                    priceWithDiscount = (s.Car.PartsCars
+                        .Sum(pc => pc.Part.Price) * (1 - s.Discount / 100))
+                        .ToString("F2")
                 });
 
-            return default;
+            return JsonConvert.SerializeObject(sales, Formatting.Indented);
         }
     }
 
