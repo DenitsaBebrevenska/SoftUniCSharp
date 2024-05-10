@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using CarDealer.Data;
 using CarDealer.DTOs.Export;
 using CarDealer.DTOs.Import;
 using CarDealer.Models;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace CarDealer
 {
@@ -37,8 +39,23 @@ namespace CarDealer
             //task 14
             //Console.WriteLine(GetOrderedCustomers(context));
 
+            //something is wrong here with Judge - what was wrong: the naming of long TraveledDistance/TravelledDistance in models and tests
             //task 15
-            Console.WriteLine();
+            //Console.WriteLine(GetCarsFromMakeToyota(context));
+
+            //task 16
+            //Console.WriteLine(GetLocalSuppliers(context));
+
+            //task 17
+            //Console.WriteLine(GetCarsWithTheirListOfParts(context));
+
+            //task 18
+            //something is wrong here - sample output from document differs from Judge test
+            //Console.WriteLine(GetTotalSalesByCustomer(context));
+
+            //task 19
+            Console.WriteLine(GetSalesWithAppliedDiscount(context));
+
         }
 
         private static IMapper CreateMapper()
@@ -108,7 +125,7 @@ namespace CarDealer
                 {
                     Make = dto.Make,
                     Model = dto.Model,
-                    TravelledDistance = dto.TravelledDistance
+                    TraveledDistance = dto.TravelledDistance
                 };
 
                 cars.Add(car);
@@ -173,19 +190,109 @@ namespace CarDealer
             var customers = context.Customers
                 .OrderBy(c => c.BirthDate)
                 .ThenBy(c => c.IsYoungDriver) //that will order them by false first
-                .AsNoTracking();
+                .AsNoTracking()
+                .ProjectTo<ExportCustomerDto>(mapper.ConfigurationProvider);
 
             //Honestly, I can do just one CustomerDTO for export and import but keeping them separate for the principle of it
-            var customerDtos = mapper.ProjectTo<ExportCustomerDto>(customers);
 
-            return JsonConvert.SerializeObject(customerDtos, Formatting.Indented);
+            return JsonConvert.SerializeObject(customers, Formatting.Indented);
         }
 
         //task 15
         public static string GetCarsFromMakeToyota(CarDealerContext context)
         {
             var mapper = CreateMapper();
+            var carsToyota = context.Cars
+                .Where(c => c.Make == "Toyota")
+                .OrderBy(c => c.Model)
+                .ThenByDescending(c => c.TraveledDistance)
+                .AsNoTracking()
+                .ProjectTo<ExportCarDto>(mapper.ConfigurationProvider)
+                .ToArray();
 
+            return JsonConvert.SerializeObject(carsToyota, Formatting.None);
+        }
+
+        //task 16
+        public static string GetLocalSuppliers(CarDealerContext context)
+        {
+            var localSuppliers = context.Suppliers
+                .Where(s => !s.IsImporter)
+                .Select(s => new
+                {
+                    s.Id,
+                    s.Name,
+                    PartsCount = s.Parts.Count
+                });
+
+            return JsonConvert.SerializeObject(localSuppliers, Formatting.Indented);
+
+        }
+
+        //task 17
+        public static string GetCarsWithTheirListOfParts(CarDealerContext context)
+        {
+            var carAndParts = context.Cars
+                .Select(c => new
+                {
+                    car = new
+                    {
+                        c.Make,
+                        c.Model,
+                        c.TraveledDistance
+                    },
+                    parts = c.PartsCars
+                        .Select(p => new
+                        {
+                            p.Part.Name,
+                            Price = p.Part.Price.ToString("F2")
+                        })
+                });
+
+
+            return JsonConvert.SerializeObject(carAndParts, Formatting.None);
+        }
+
+        //task 18 
+        public static string GetTotalSalesByCustomer(CarDealerContext context)
+        {
+            var customerSales = context.Customers
+                .Where(c => c.Sales.Count > 0)
+                .Select(c => new
+                {
+                    FullName = c.Name,
+                    BoughtCars = c.Sales.Count,
+                    SpendMoney = c.Sales.SelectMany(s => s.Car.PartsCars)
+                        .Sum(pc => pc.Part.Price)
+                })
+                .OrderByDescending(c => c.SpendMoney)
+                .ThenByDescending(c => c.BoughtCars);
+
+            string jsonString = JsonConvert.SerializeObject(customerSales, new JsonSerializerSettings
+            {
+                ContractResolver = new DefaultContractResolver()
+                {
+                    NamingStrategy = new CamelCaseNamingStrategy()
+                }
+            });
+
+            return jsonString;
+        }
+
+        //task 19
+        public static string GetSalesWithAppliedDiscount(CarDealerContext context)
+        {
+            var sales = context.Sales
+                .Take(10)
+                .Select(s => new
+                {
+                    car = s.Car,
+                    s.Customer.Name,
+                    s.Discount,
+
+                });
+
+            return default;
         }
     }
 
