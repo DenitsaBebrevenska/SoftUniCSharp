@@ -52,9 +52,8 @@ WHERE Salary IN (25000, 14000, 12500, 23600)
 
 11. Find All Employees Without Manager
 
-SELECT TOP 5 FirstName, LastName
-FROM Employees
-ORDER BY Salary DESC
+SELECT  FirstName, LastName FROM Employees
+WHERE ManagerID IS NULL
 
 
 12. Find All Employees with Salary More Than
