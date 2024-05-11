@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Microsoft.EntityFrameworkCore;
 using ProductShop.Data;
+using ProductShop.DTOs.Export;
 using ProductShop.DTOs.Import;
 using ProductShop.Models;
 using ProductShop.Utilities;
@@ -12,7 +15,7 @@ namespace ProductShop
         public static void Main()
         {
             using ProductShopContext context = new ProductShopContext();
-            string inputXml = File.ReadAllText(@"../../../Datasets/categories.xml");
+            //string inputXml = File.ReadAllText(@"../../../Datasets/categories-products.xml");
 
             //task 01
             //Console.WriteLine(ImportUsers(context, inputXml));
@@ -24,7 +27,14 @@ namespace ProductShop
             //Console.WriteLine(ImportCategories(context, inputXml));
 
             //task 04
-            Console.WriteLine();
+            //Console.WriteLine(ImportCategoryProducts(context, inputXml));
+
+            //task 05
+            //not finished...some tests don`t pass
+            //Console.WriteLine(GetProductsInRange(context));
+
+            //task 06
+            //Console.WriteLine(GetSoldProducts(context));
         }
 
         private static IMapper InitializeMapper()
@@ -98,6 +108,59 @@ namespace ProductShop
         //task 04
         public static string ImportCategoryProducts(ProductShopContext context, string inputXml)
         {
+            var mapper = InitializeMapper();
+            var xmlHelper = new XmlHelper();
+            string rootName = "CategoryProducts";
+            var categoriesProducts = xmlHelper.Deserialize<ImportCategoryProductDto[]>(inputXml, rootName);
+            var validCategoriesProducts = new HashSet<CategoryProduct>();
+
+            foreach (var dto in categoriesProducts)
+            {
+                validCategoriesProducts.Add(mapper.Map<CategoryProduct>(dto));
+            }
+
+            context.CategoryProducts.AddRange(validCategoriesProducts);
+            context.SaveChanges();
+
+            return $"Successfully imported {validCategoriesProducts.Count}";
+        }
+
+        //task 05
+        public static string GetProductsInRange(ProductShopContext context)
+        {
+            var mapper = InitializeMapper();
+            var xmlHelper = new XmlHelper();
+            var productsInRange = context.Products
+                .Where(p => p.Price >= 500 && p.Price <= 1000)
+                .OrderBy(p => p.Price)
+                .Take(10)
+                .AsNoTracking()
+                .ProjectTo<ExportProductDto>(mapper.ConfigurationProvider)
+                .ToArray();
+
+            string rootName = "Products";
+
+            return xmlHelper.Serialize(productsInRange, rootName);
+        }
+
+        //task 06
+        public static string GetSoldProducts(ProductShopContext context)
+        {
+            var mapper = InitializeMapper();
+            var xmlHelper = new XmlHelper();
+            string rootName = "Users";
+
+
+            var usersProducts = context.Users
+                .Where(u => u.ProductsSold.Any())
+                .OrderBy(u => u.LastName)
+                .ThenBy(u => u.FirstName)
+                .Take(5)
+                .AsNoTracking()
+                .ProjectTo<ExportUserDto>(mapper.ConfigurationProvider)
+                .ToArray();
+
+            return xmlHelper.Serialize(usersProducts, rootName);
 
         }
     }
