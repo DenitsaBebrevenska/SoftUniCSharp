@@ -27,4 +27,17 @@ public class XmlHelper
 
         return sb.ToString().TrimEnd();
     }
+
+    //questionable
+    //public string Serialize(Type classType)
+    //{
+    //    XmlSerializer serializer = new XmlSerializer(classType);
+    //    XmlSerializerNamespaces namespaces = new XmlSerializerNamespaces();
+    //    namespaces.Add(string.Empty, string.Empty);
+    //    StringBuilder sb = new StringBuilder();
+    //    using StringWriter writer = new StringWriter(sb);
+    //    serializer.Serialize(writer, classType);
+
+    //    return sb.ToString().TrimEnd();
+    //}
 }

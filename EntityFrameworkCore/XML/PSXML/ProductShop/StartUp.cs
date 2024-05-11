@@ -35,6 +35,9 @@ namespace ProductShop
 
             //task 06
             //Console.WriteLine(GetSoldProducts(context));
+
+            //task 07
+            //Console.WriteLine(GetCategoriesByProductsCount(context));
         }
 
         private static IMapper InitializeMapper()
@@ -134,11 +137,14 @@ namespace ProductShop
                 .Where(p => p.Price >= 500 && p.Price <= 1000)
                 .OrderBy(p => p.Price)
                 .Take(10)
+                .Include(p => p.Buyer)
                 .AsNoTracking()
                 .ProjectTo<ExportProductDto>(mapper.ConfigurationProvider)
                 .ToArray();
 
             string rootName = "Products";
+
+            //tried both manual and automapper, both fail, it is not the mapping
 
             return xmlHelper.Serialize(productsInRange, rootName);
         }
@@ -162,6 +168,40 @@ namespace ProductShop
 
             return xmlHelper.Serialize(usersProducts, rootName);
 
+        }
+
+        //task 07
+        public static string GetCategoriesByProductsCount(ProductShopContext context)
+        {
+            var mapper = InitializeMapper();
+            var xmlHelper = new XmlHelper();
+            string rootName = "Categories";
+
+            var categories = context.Categories
+                .OrderByDescending(c => c.CategoryProducts.Count)
+                .ThenBy(c => c.CategoryProducts.Sum(cp => cp.Product.Price))
+                .AsNoTracking()
+                .ProjectTo<ExportCategoryDto>(mapper.ConfigurationProvider)
+                .ToArray();
+
+            return xmlHelper.Serialize(categories, rootName);
+        }
+
+        //task 08
+        public static string GetUsersWithProducts(ProductShopContext context)
+        {
+            var mapper = InitializeMapper();
+            var xmlHelper = new XmlHelper();
+
+            var usersProducts = context.Users
+                .Where(u => u.ProductsSold.Any())
+                .OrderByDescending(u => u.ProductsSold.Count)
+                .Take(10)
+                .AsNoTracking()
+                .ProjectTo<ExportUserWithAgeDto>(mapper.ConfigurationProvider)
+                .ToArray();
+
+            return xmlHelper.Serialize();
         }
     }
 }
