@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using CarDealer.Models;
+﻿using CarDealer.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarDealer.Data
 {
@@ -13,7 +13,7 @@ namespace CarDealer.Data
             : base(options)
         {
         }
-      
+
         public DbSet<Car> Cars { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Part> Parts { get; set; }
@@ -25,7 +25,8 @@ namespace CarDealer.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(Configuration.ConnectionString);
+                optionsBuilder.UseSqlServer(Environment.GetEnvironmentVariable("ConnectionString", EnvironmentVariableTarget.User))
+                    .UseLazyLoadingProxies();
             }
         }
 
