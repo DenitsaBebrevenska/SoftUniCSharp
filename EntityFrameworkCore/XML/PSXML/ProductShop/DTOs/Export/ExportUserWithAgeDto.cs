@@ -14,7 +14,7 @@ public class ExportUserWithAgeDto
     [XmlElement("age")]
     public int? Age { get; set; }
 
-    [XmlElement("soldProducts")]
+    [XmlElement("SoldProducts")]
     public ExportProductsWrapper Wrapper { get; set; }
 
 }

@@ -13,6 +13,6 @@ public class ExportProductDto
     public decimal Price { get; set; }
 
     [XmlElement("buyer")]
-    public string? Buyer { get; set; }
+    public string? BuyerName { get; set; }
 
 }

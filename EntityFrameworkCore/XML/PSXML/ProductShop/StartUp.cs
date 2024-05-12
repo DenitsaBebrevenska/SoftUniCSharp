@@ -30,7 +30,7 @@ namespace ProductShop
             //Console.WriteLine(ImportCategoryProducts(context, inputXml));
 
             //task 05
-            //not finished...some tests don`t pass
+            //Judge and task description fail, sample output is incorrect
             //Console.WriteLine(GetProductsInRange(context));
 
             //task 06
@@ -38,6 +38,9 @@ namespace ProductShop
 
             //task 07
             //Console.WriteLine(GetCategoriesByProductsCount(context));
+
+            //task 08
+            //Console.WriteLine(GetUsersWithProducts(context));
         }
 
         private static IMapper InitializeMapper()
@@ -134,10 +137,9 @@ namespace ProductShop
             var mapper = InitializeMapper();
             var xmlHelper = new XmlHelper();
             var productsInRange = context.Products
-                .Where(p => p.Price >= 500 && p.Price <= 1000)
+                .Where(p => p.Price > 500 && p.Price <= 1000)
                 .OrderBy(p => p.Price)
                 .Take(10)
-                .Include(p => p.Buyer)
                 .AsNoTracking()
                 .ProjectTo<ExportProductDto>(mapper.ConfigurationProvider)
                 .ToArray();
@@ -145,6 +147,8 @@ namespace ProductShop
             string rootName = "Products";
 
             //tried both manual and automapper, both fail, it is not the mapping
+            //actual problem was that despite the shown sample output in the exercise and the zero test in Judge
+            //the buyer element has to be present as " " if buyer is null
 
             return xmlHelper.Serialize(productsInRange, rootName);
         }
@@ -190,7 +194,7 @@ namespace ProductShop
         //task 08
         public static string GetUsersWithProducts(ProductShopContext context)
         {
-            var mapper = InitializeMapper();
+            //setting that through mapper is more complex and will be heavy reflection, not a good payoff
             var xmlHelper = new XmlHelper();
 
             var usersProducts = context.Users
@@ -198,10 +202,34 @@ namespace ProductShop
                 .OrderByDescending(u => u.ProductsSold.Count)
                 .Take(10)
                 .AsNoTracking()
-                .ProjectTo<ExportUserWithAgeDto>(mapper.ConfigurationProvider)
+                .Select(u => new ExportUserWithAgeDto()
+                {
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    Age = u.Age,
+                    Wrapper = new ExportProductsWrapper()
+                    {
+                        Count = u.ProductsSold.Count,
+                        Products = u.ProductsSold
+                            .Select(p => new ExportSoldProductDto()
+                            {
+                                Name = p.Name,
+                                Price = p.Price
+                            })
+                            .OrderByDescending(p => p.Price)
+                            .ToArray()
+                    }
+                })
                 .ToArray();
 
-            return xmlHelper.Serialize();
+            ExportUserRootDto dtoRoot = new ExportUserRootDto()
+            {
+                Count = context.Users.Count(u => u.ProductsSold.Any()),
+                Users = usersProducts
+            };
+
+            string rootName = "Users";
+            return xmlHelper.Serialize(dtoRoot, rootName);
         }
     }
 }

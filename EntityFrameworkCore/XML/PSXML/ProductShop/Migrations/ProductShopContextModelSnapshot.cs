@@ -128,7 +128,7 @@ namespace ProductShop.Migrations
 
             modelBuilder.Entity("ProductShop.Models.Product", b =>
                 {
-                    b.HasOne("ProductShop.Models.User", "Buyer")
+                    b.HasOne("ProductShop.Models.User", "BuyerName")
                         .WithMany("ProductsBought")
                         .HasForeignKey("BuyerId")
                         .OnDelete(DeleteBehavior.NoAction);
@@ -139,7 +139,7 @@ namespace ProductShop.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("Buyer");
+                    b.Navigation("BuyerName");
 
                     b.Navigation("Seller");
                 });
