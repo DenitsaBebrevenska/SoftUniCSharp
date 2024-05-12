@@ -24,9 +24,19 @@ namespace CarDealer
                 .ForSourceMember(s => s.PartIds, opt => opt.DoNotValidate());
             CreateMap<Car, ExportCarDto>();
             CreateMap<Car, ExportBmwCarDto>();
+            CreateMap<Car, ExportCarWithPartsDto>()
+                .ForMember(d => d.Parts, opt =>
+                    opt.MapFrom(s => s.PartsCars
+                        .Select(pc => new ExportPartDto()
+                        {
+                            Name = pc.Part.Name,
+                            Price = pc.Part.Price
+                        })
+                        .OrderByDescending(p => p.Price)));
 
             //Customer
             CreateMap<ImportCustomerDto, Customer>();
+
 
             //Sale
             CreateMap<ImportSaleDto, Sale>();

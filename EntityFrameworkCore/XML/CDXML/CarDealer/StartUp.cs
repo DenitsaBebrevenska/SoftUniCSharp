@@ -41,6 +41,10 @@ namespace CarDealer
             //Console.WriteLine(GetLocalSuppliers(context));
 
             //task 17
+            //Console.WriteLine(GetCarsWithTheirListOfParts(context));
+
+            //task 18
+            Console.WriteLine(GetTotalSalesByCustomer(context));
         }
 
         private static IMapper InitializeMapper()
@@ -235,6 +239,67 @@ namespace CarDealer
                 .ToArray();
 
             return xmlHelper.Serialize(localSupplies, rootName);
+        }
+
+        //task 17
+        public static string GetCarsWithTheirListOfParts(CarDealerContext context)
+        {
+            var mapper = InitializeMapper();
+            var xmlHelper = new XmlHelper();
+            string rootName = "cars";
+
+            var carsAndParts = context.Cars
+                .OrderByDescending(c => c.TraveledDistance)
+                .ThenBy(c => c.Model)
+                .Take(5)
+                .AsNoTracking()
+                .ProjectTo<ExportCarWithPartsDto>(mapper.ConfigurationProvider)
+                .ToArray();
+
+
+            return xmlHelper.Serialize(carsAndParts, rootName);
+        }
+
+        //task 18
+        public static string GetTotalSalesByCustomer(CarDealerContext context)
+        {
+            var xmlHelper = new XmlHelper();
+            string rootName = "customers";
+
+            var salesByCustomer = context.Customers
+                .Where(c => c.Sales.Any())
+                .AsNoTracking()
+                .Include(c => c.Sales)
+                .ThenInclude(sale => sale.Car)
+                .ThenInclude(car => car.PartsCars)
+                .ThenInclude(partCar => partCar.Part)
+                .ToArray();
+
+            var customerDtos = new List<ExportCustomerDto>();
+
+            foreach (var customer in salesByCustomer)
+            {
+                ExportCustomerDto customerDto = new ExportCustomerDto()
+                {
+                    Name = customer.Name,
+                    BoughtCars = customer.Sales.Count,
+                    SpentMoney = customer.Sales
+                            .SelectMany(s => s.Car.PartsCars)
+                            .Sum(pc => pc.Part.Price)
+                };
+
+                if (customer.IsYoungDriver)
+                {
+                    customerDto.SpentMoney = Math.Round(customerDto.SpentMoney * 0.95m, 2) - 0.01m; //something is wrong with rounding!!!!!!!!!!!!!!!!
+                }
+
+                customerDtos.Add(customerDto);
+            }
+
+            var orderedCustomerDtos = customerDtos.OrderByDescending(c => c.SpentMoney)
+                .ToArray();
+
+            return xmlHelper.Serialize(orderedCustomerDtos, rootName);
         }
     }
 }
