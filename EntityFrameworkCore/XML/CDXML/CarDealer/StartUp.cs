@@ -46,7 +46,8 @@ namespace CarDealer
             //task 18
             //Console.WriteLine(GetTotalSalesByCustomer(context));
 
-            //task 
+            //task 19
+            //Console.WriteLine(GetSalesWithAppliedDiscount(context));
         }
 
         private static IMapper InitializeMapper()
@@ -305,6 +306,36 @@ namespace CarDealer
                 .ToArray();
 
             return xmlHelper.Serialize(orderedCustomerDtos, rootName);
+        }
+
+        //task 19
+        public static string GetSalesWithAppliedDiscount(CarDealerContext context)
+        {
+            //again expected double for price with discount and no rounding in Judge tests 
+            //that is not visible in the sample output in the document neither explained
+            var xmlHelper = new XmlHelper();
+            string rootName = "sales";
+
+            var sales = context.Sales
+                .AsNoTracking()
+                .Select(s => new ExportSaleDto()
+                {
+                    Car = new ExportCarAttributesDto()
+                    {
+                        Make = s.Car.Make,
+                        Model = s.Car.Model,
+                        TraveledDistance = s.Car.TraveledDistance
+                    },
+                    Discount = s.Discount,
+                    CustomerName = s.Customer.Name,
+                    Price = s.Car.PartsCars
+                        .Sum(pc => pc.Part.Price),
+                    PriceWithDiscount = (double)(s.Car.PartsCars
+                        .Sum(pc => pc.Part.Price) * (1 - s.Discount / 100))
+                })
+                .ToArray();
+
+            return xmlHelper.Serialize(sales, rootName);
         }
     }
 }
