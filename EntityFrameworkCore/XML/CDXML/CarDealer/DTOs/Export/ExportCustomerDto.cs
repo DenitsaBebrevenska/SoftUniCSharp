@@ -12,5 +12,5 @@ public class ExportCustomerDto
     public int BoughtCars { get; set; }
 
     [XmlAttribute("spent-money")]
-    public decimal SpentMoney { get; set; }
+    public string SpentMoney { get; set; }
 }
