@@ -1,4 +1,9 @@
-﻿namespace Cadastre.DataProcessor
+﻿using AutoMapper;
+using Cadastre.Common;
+using Cadastre.DataProcessor.ImportDtos;
+using System.Text;
+
+namespace Cadastre.DataProcessor
 {
     using Cadastre.Data;
     using System.ComponentModel.DataAnnotations;
@@ -12,9 +17,18 @@
         private const string SuccessfullyImportedCitizen =
             "Succefully imported citizen - {0} {1} with {2} properties.";
 
+        private static IMapper InitializeMapper()
+            => new Mapper(new MapperConfiguration(cfg =>
+                cfg.AddProfile(new CadastreProfile())));
+
+
         public static string ImportDistricts(CadastreContext dbContext, string xmlDocument)
         {
-            throw new NotImplementedException();
+            var mapper = InitializeMapper();
+            string rootName = "Districts";
+            var districtDtos = XmlHelper.Deserialize<ImportDistrictDto[]>(xmlDocument, rootName);
+            StringBuilder sb = new StringBuilder();
+            return default;
         }
 
         public static string ImportCitizens(CadastreContext dbContext, string jsonDocument)
