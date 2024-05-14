@@ -10,8 +10,8 @@ public static class TableConstraints
     //Property
     public const int PropertyIdentifierMinLength = 16;
     public const int PropertyIdentifierMaxLength = 20;
-    public const uint PropertyAreaMinValue = 0;
-    public const uint PropertyAreaMaxValue = uint.MaxValue;
+    public const int PropertyAreaMinValue = 0;
+    public const int PropertyAreaMaxValue = int.MaxValue;
     public const int PropertyDetailsMinLength = 5;
     public const int PropertyDetailsMaxLength = 500;
     public const int PropertyAddressMinLength = 5;

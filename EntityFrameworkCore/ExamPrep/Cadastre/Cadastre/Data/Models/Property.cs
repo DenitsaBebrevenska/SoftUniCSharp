@@ -15,13 +15,13 @@ public class Property
     public string PropertyIdentifier { get; set; } = null!;
 
     [Range(TableConstraints.PropertyAreaMinValue, TableConstraints.PropertyAreaMaxValue)]
-    public uint Area { get; set; }
+    public int Area { get; set; }
 
     [StringLength(TableConstraints.PropertyDetailsMaxLength, MinimumLength = TableConstraints.PropertyDetailsMinLength)]
     public string? Details { get; set; }
 
     [StringLength(TableConstraints.PropertyAddressMaxLength, MinimumLength = TableConstraints.PropertyAddressMinLength)]
-    public string? Address { get; set; }
+    public string Address { get; set; } = null!;
 
     public DateTime DateOfAcquisition { get; set; }
 
