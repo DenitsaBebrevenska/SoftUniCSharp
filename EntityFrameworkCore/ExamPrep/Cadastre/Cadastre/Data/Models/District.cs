@@ -11,9 +11,11 @@ public class District
     }
     public int Id { get; set; }
 
-    [StringLength(TableConstraints.DistrictNameMaximumLength, MinimumLength = TableConstraints.DistrictNameMinimumLength)]
+    [StringLength(TableConstraints.DistrictNameMaxLength, MinimumLength = TableConstraints.DistrictNameMinLength)]
     public string Name { get; set; } = null!;
 
+    [StringLength(TableConstraints.DistrictPostalCodeLength)]
+    [RegularExpression(TableConstraints.DistrictPostalCodeRegex)]
     public string PostalCode { get; set; } = null!;
 
     public Region Region { get; set; }
