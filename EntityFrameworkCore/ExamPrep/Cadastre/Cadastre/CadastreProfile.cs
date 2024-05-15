@@ -14,7 +14,7 @@ namespace Cadastre
             CreateMap<ImportDistrictDto, District>();
             CreateMap<ImportPropertyDto, Property>()
                 .ForMember(d => d.DateOfAcquisition, opt =>
-                    opt.MapFrom(s => DateTime.ParseExact(s, "dd/MM/yyyy", CultureInfo.InvariantCulture));
+                    opt.MapFrom(s => DateTime.ParseExact(s.DateOfAcquisition, "dd/MM/yyyy", CultureInfo.InvariantCulture)));
         }
     }
 }
