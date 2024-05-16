@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Cadastre.Common;
+using Cadastre.Data.Enumerations;
 using Cadastre.Data.Models;
 using Cadastre.DataProcessor.ImportDtos;
+using Newtonsoft.Json;
 using System.Globalization;
 using System.Text;
 
@@ -96,7 +98,47 @@ namespace Cadastre.DataProcessor
 
         public static string ImportCitizens(CadastreContext dbContext, string jsonDocument)
         {
-            throw new NotImplementedException();
+            var citizenDtos = JsonConvert.DeserializeObject<ImportCitizenDto[]>(jsonDocument);
+            var validCitizens = new HashSet<Citizen>();
+            StringBuilder sb = new StringBuilder();
+
+            foreach (var citizenDto in citizenDtos)
+            {
+                if (!IsValid(citizenDto)
+                    || !Enum.TryParse(typeof(MaritalStatus), citizenDto.MaritalStatus, true, out object result))
+                {
+                    sb.AppendLine(ErrorMessage);
+                    continue;
+                }
+
+                Citizen citizen = new Citizen()
+                {
+                    FirstName = citizenDto.FirstName,
+                    LastName = citizenDto.LastName,
+                    BirthDate = DateTime.ParseExact(citizenDto.BirthDate, "dd-MM-yyyy", CultureInfo.InvariantCulture),
+                    MaritalStatus = (MaritalStatus)result
+                };
+
+                foreach (int propertyId in citizenDto.Properties.Distinct())
+                {
+                    PropertyCitizen pc = new PropertyCitizen()
+                    {
+                        Citizen = citizen,
+                        PropertyId = propertyId
+                    };
+
+                    citizen.PropertiesCitizens.Add(pc);
+                }
+
+                sb.AppendLine(string.Format(SuccessfullyImportedCitizen, citizen.FirstName, citizen.LastName,
+                    citizen.PropertiesCitizens.Count));
+                validCitizens.Add(citizen);
+            }
+
+            dbContext.Citizens.AddRange(validCitizens);
+            dbContext.SaveChanges();
+
+            return sb.ToString().TrimEnd();
         }
 
         private static bool IsValid(object dto)

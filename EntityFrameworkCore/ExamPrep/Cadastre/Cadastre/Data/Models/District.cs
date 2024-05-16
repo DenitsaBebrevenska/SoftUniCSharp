@@ -17,6 +17,7 @@ public class District
     [MaxLength(TableConstraints.DistrictPostalCodeLength)]
     public string PostalCode { get; set; } = null!;
 
+    [Required]
     public Region Region { get; set; }
 
     public virtual ICollection<Property> Properties { get; set; } = null!;
