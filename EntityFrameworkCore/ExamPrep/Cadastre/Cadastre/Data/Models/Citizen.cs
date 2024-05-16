@@ -11,10 +11,10 @@ public class Citizen
     }
     public int Id { get; set; }
 
-    [StringLength(TableConstraints.CitizenFirstNameMaxLength, MinimumLength = TableConstraints.CitizenFirstNameMinLength)]
+    [MaxLength(TableConstraints.CitizenFirstNameMaxLength)]
     public string FirstName { get; set; } = null!;
 
-    [StringLength(TableConstraints.CitizenLastNameMaxLength, MinimumLength = TableConstraints.CitizenLastNameMinLength)]
+    [MaxLength(TableConstraints.CitizenLastNameMaxLength)]
     public string LastName { get; set; } = null!;
 
     public DateTime BirthDate { get; set; }

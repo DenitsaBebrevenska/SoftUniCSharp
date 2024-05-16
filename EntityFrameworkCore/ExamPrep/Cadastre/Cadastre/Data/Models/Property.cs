@@ -11,16 +11,15 @@ public class Property
 
     public int Id { get; set; }
 
-    [StringLength(TableConstraints.PropertyIdentifierMaxLength, MinimumLength = TableConstraints.PropertyIdentifierMinLength)]
+    [MaxLength(TableConstraints.PropertyIdentifierMaxLength)]
     public string PropertyIdentifier { get; set; } = null!;
 
-    [Range(TableConstraints.PropertyAreaMinValue, TableConstraints.PropertyAreaMaxValue)]
     public int Area { get; set; }
 
-    [StringLength(TableConstraints.PropertyDetailsMaxLength, MinimumLength = TableConstraints.PropertyDetailsMinLength)]
+    [MaxLength(TableConstraints.PropertyDetailsMaxLength)]
     public string? Details { get; set; }
 
-    [StringLength(TableConstraints.PropertyAddressMaxLength, MinimumLength = TableConstraints.PropertyAddressMinLength)]
+    [MaxLength(TableConstraints.PropertyAddressMaxLength)]
     public string Address { get; set; } = null!;
 
     public DateTime DateOfAcquisition { get; set; }
