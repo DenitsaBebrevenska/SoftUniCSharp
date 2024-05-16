@@ -2,6 +2,7 @@
 using Cadastre.Common;
 using Cadastre.Data.Models;
 using Cadastre.DataProcessor.ImportDtos;
+using System.Globalization;
 using System.Text;
 
 namespace Cadastre.DataProcessor
@@ -25,49 +26,70 @@ namespace Cadastre.DataProcessor
 
         public static string ImportDistricts(CadastreContext dbContext, string xmlDocument)
         {
-            var mapper = InitializeMapper();
             string rootName = "Districts";
-            var districtDtos = XmlHelper.Deserialize<ImportDistrictDto[]>(xmlDocument, rootName);
-            StringBuilder sb = new StringBuilder();
+            var districtsDtos = XmlHelper.Deserialize<ImportDistrictDto[]>(xmlDocument, rootName);
 
+            var existingDistrictNames = dbContext.Districts
+                .Select(d => d.Name)
+                .ToArray();
+
+            var existingPropertyIdentifiers = dbContext.Properties
+                .Select(p => p.PropertyIdentifier)
+                .ToArray();
+
+            var existingPropertyAddresses = dbContext.Properties
+                .Select(p => p.Address)
+                .ToArray();
+
+            StringBuilder sb = new StringBuilder();
             var districts = new HashSet<District>();
 
-            foreach (var districtDto in districtDtos)
+            foreach (var districtDto in districtsDtos)
             {
                 if (!IsValid(districtDto)
-                    || dbContext.Districts.Any(d => d.Name == districtDto.Name))
+                    || existingDistrictNames.Any(d => d == districtDto.Name))
                 {
                     sb.AppendLine(ErrorMessage);
                     continue;
                 }
 
-                District district = mapper.Map<District>(districtDto);
+                District district = new District()
+                {
+                    Name = districtDto.Name,
+                    PostalCode = districtDto.PostalCode
+                };
 
                 foreach (var propertyDto in districtDto.Properties)
                 {
                     if (!IsValid(propertyDto)
+                        || existingPropertyIdentifiers.Any(pi => pi == propertyDto.PropertyIdentifier)
                         || district.Properties.Any(p => p.PropertyIdentifier == propertyDto.PropertyIdentifier)
-                        || dbContext.Properties.Any(p => p.PropertyIdentifier == propertyDto.PropertyIdentifier)
-                        || district.Properties.Any(p => p.Address == propertyDto.Address)
-                        || dbContext.Properties.Any(p => p.Address == propertyDto.Address))
+                        || existingPropertyAddresses.Any(pi => pi == propertyDto.Address)
+                        || district.Properties.Any(p => p.Address == propertyDto.Address))
                     {
                         sb.AppendLine(ErrorMessage);
-                        Property propertyToRemove = district.Properties.FirstOrDefault(p =>
-                            p.PropertyIdentifier == propertyDto.PropertyIdentifier);
-                        district.Properties.Remove(propertyToRemove);
                         continue;
                     }
 
-                    district.Properties.Add(mapper.Map<Property>(propertyDto));
+                    Property property = new Property()
+                    {
+                        PropertyIdentifier = propertyDto.PropertyIdentifier,
+                        Area = propertyDto.Area,
+                        Details = propertyDto.Details,
+                        Address = propertyDto.Address,
+                        DateOfAcquisition = DateTime.ParseExact(propertyDto.DateOfAcquisition, "dd/MM/yyyy",
+                            CultureInfo.InvariantCulture)
+                    };
+
+                    district.Properties.Add(property);
                 }
 
                 districts.Add(district);
-
                 sb.AppendLine(string.Format(SuccessfullyImportedDistrict, district.Name, district.Properties.Count));
             }
 
-            //dbContext.Districts.AddRange(districts);
-            //dbContext.SaveChanges();
+            dbContext.Districts.AddRange();
+            dbContext.SaveChanges();
 
             return sb.ToString().TrimEnd();
         }

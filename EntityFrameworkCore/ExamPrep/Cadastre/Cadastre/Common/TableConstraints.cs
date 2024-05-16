@@ -6,8 +6,6 @@ public static class TableConstraints
     public const int DistrictNameMaxLength = 80;
     public const int DistrictPostalCodeLength = 8;
     public const string DistrictPostalCodeRegex = @"[A-Z]{2}-[0-9]{5}";
-    public const int DistrictRegionEnumMin = 0;
-    public const int DistrictRegionEnumMax = 3;
 
     //Property
     public const int PropertyIdentifierMinLength = 16;

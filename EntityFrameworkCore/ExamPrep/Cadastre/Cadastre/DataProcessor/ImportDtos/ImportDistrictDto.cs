@@ -9,17 +9,16 @@ namespace Cadastre.DataProcessor.ImportDtos;
 public class ImportDistrictDto
 {
     [XmlAttribute("Region")]
-    [Range(TableConstraints.DistrictRegionEnumMin, TableConstraints.DistrictRegionEnumMax)]
     [Required]
     public Region Region { get; set; }
 
     [XmlElement("Name")]
-    [Range(TableConstraints.DistrictNameMinLength, TableConstraints.DistrictNameMaxLength)]
+    [StringLength(TableConstraints.DistrictNameMaxLength, MinimumLength = TableConstraints.DistrictNameMinLength)]
     [Required]
     public string Name { get; set; } = null!;
 
     [XmlElement("PostalCode")]
-    [Range(TableConstraints.DistrictPostalCodeLength, TableConstraints.DistrictPostalCodeLength)]
+    [StringLength(TableConstraints.DistrictPostalCodeLength, MinimumLength = TableConstraints.DistrictPostalCodeLength)]
     [RegularExpression(TableConstraints.DistrictPostalCodeRegex)]
     [Required]
     public string PostalCode { get; set; } = null!;

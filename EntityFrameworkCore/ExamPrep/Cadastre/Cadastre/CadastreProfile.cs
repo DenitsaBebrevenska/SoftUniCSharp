@@ -1,8 +1,4 @@
-﻿using Cadastre.Data.Models;
-using Cadastre.DataProcessor.ImportDtos;
-using System.Globalization;
-
-namespace Cadastre
+﻿namespace Cadastre
 {
     using AutoMapper;
 
@@ -11,10 +7,6 @@ namespace Cadastre
     {
         public CadastreProfile()
         {
-            CreateMap<ImportDistrictDto, District>();
-            CreateMap<ImportPropertyDto, Property>()
-                .ForMember(d => d.DateOfAcquisition, opt =>
-                    opt.MapFrom(s => DateTime.ParseExact(s.DateOfAcquisition, "dd/MM/yyyy", CultureInfo.InvariantCulture)));
         }
     }
 }

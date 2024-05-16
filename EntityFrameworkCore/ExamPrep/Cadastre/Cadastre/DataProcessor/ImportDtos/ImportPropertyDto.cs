@@ -8,7 +8,7 @@ namespace Cadastre.DataProcessor.ImportDtos;
 public class ImportPropertyDto
 {
     [XmlElement("PropertyIdentifier")]
-    [Range(TableConstraints.PropertyIdentifierMinLength, TableConstraints.PropertyIdentifierMaxLength)]
+    [StringLength(TableConstraints.PropertyIdentifierMaxLength, MinimumLength = TableConstraints.PropertyIdentifierMinLength)]
     [Required]
     public string PropertyIdentifier { get; set; } = null!;
 
@@ -18,11 +18,11 @@ public class ImportPropertyDto
     public int Area { get; set; }
 
     [XmlElement("Details")]
-    [Range(TableConstraints.PropertyDetailsMinLength, TableConstraints.PropertyDetailsMaxLength)]
+    [StringLength(TableConstraints.PropertyDetailsMaxLength, MinimumLength = TableConstraints.PropertyDetailsMinLength)]
     public string? Details { get; set; }
 
     [XmlElement("Address")]
-    [Range(TableConstraints.PropertyAddressMinLength, TableConstraints.PropertyAddressMaxLength)]
+    [StringLength(TableConstraints.PropertyAddressMaxLength, MinimumLength = TableConstraints.PropertyAddressMinLength)]
     [Required]
     public string Address { get; set; } = null!;
 
