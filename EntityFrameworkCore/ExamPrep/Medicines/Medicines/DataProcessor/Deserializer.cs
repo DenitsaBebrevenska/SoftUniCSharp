@@ -39,12 +39,13 @@ namespace Medicines.DataProcessor
                     Gender = (Gender)patientDto.Gender
                 };
 
-                //todo invalid data missing on line 15 in actual result!
 
-                foreach (var medicineId in patientDto.Medicines.Distinct())
+                foreach (var medicineId in patientDto.Medicines)
                 {
-                    if (!availableMedicineIds.Contains(medicineId))
+                    if (!availableMedicineIds.Contains(medicineId)
+                        || patient.PatientsMedicines.Any(pm => pm.MedicineId == medicineId))
                     {
+                        sb.AppendLine(ErrorMessage);
                         continue;
                     }
 
