@@ -1,5 +1,4 @@
 ﻿using Cadastre.Common;
-using Cadastre.Data.Enumerations;
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Serialization;
 
@@ -10,7 +9,7 @@ public class ImportDistrictDto
 {
     [XmlAttribute("Region")]
     [Required]
-    public Region Region { get; set; }
+    public string Region { get; set; } = null!;
 
     [XmlElement("Name")]
     [StringLength(TableConstraints.DistrictNameMaxLength, MinimumLength = TableConstraints.DistrictNameMinLength)]

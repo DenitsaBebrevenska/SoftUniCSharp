@@ -21,10 +21,10 @@
         }
         private static void ImportEntities(CadastreContext dbContext, string baseDirectory, string exportDir)
         {
-            //var districts = DataProcessor.Deserializer
-            //    .ImportDistricts(dbContext, File.ReadAllText(baseDirectory + "districts.xml"));
+            var districts = DataProcessor.Deserializer
+                .ImportDistricts(dbContext, File.ReadAllText(baseDirectory + "districts.xml"));
 
-            //PrintAndExportEntityToFile(districts, exportDir + "Actualt Result - ImportedDistricts.txt");
+            PrintAndExportEntityToFile(districts, exportDir + "Actualt Result - ImportedDistricts.txt");
 
             var citizens = DataProcessor.Deserializer
                 .ImportCitizens(dbContext, File.ReadAllText(baseDirectory + "citizens.json"));

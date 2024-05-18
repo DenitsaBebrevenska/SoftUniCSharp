@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Cadastre.Common;
+﻿using Cadastre.Common;
 using Cadastre.Data.Enumerations;
 using Cadastre.Data.Models;
 using Cadastre.DataProcessor.ImportDtos;
@@ -9,7 +8,7 @@ using System.Text;
 
 namespace Cadastre.DataProcessor
 {
-    using Cadastre.Data;
+    using Data;
     using System.ComponentModel.DataAnnotations;
 
     public class Deserializer
@@ -20,11 +19,6 @@ namespace Cadastre.DataProcessor
             "Successfully imported district - {0} with {1} properties.";
         private const string SuccessfullyImportedCitizen =
             "Succefully imported citizen - {0} {1} with {2} properties.";
-
-        private static IMapper InitializeMapper()
-            => new Mapper(new MapperConfiguration(cfg =>
-                cfg.AddProfile(new CadastreProfile())));
-
 
         public static string ImportDistricts(CadastreContext dbContext, string xmlDocument)
         {
@@ -58,7 +52,8 @@ namespace Cadastre.DataProcessor
                 District district = new District()
                 {
                     Name = districtDto.Name,
-                    PostalCode = districtDto.PostalCode
+                    PostalCode = districtDto.PostalCode,
+                    Region = Enum.Parse<Region>(districtDto.Region)
                 };
 
                 foreach (var propertyDto in districtDto.Properties)
@@ -90,7 +85,7 @@ namespace Cadastre.DataProcessor
                 sb.AppendLine(string.Format(SuccessfullyImportedDistrict, district.Name, district.Properties.Count));
             }
 
-            dbContext.Districts.AddRange();
+            dbContext.Districts.AddRange(districts);
             dbContext.SaveChanges();
 
             return sb.ToString().TrimEnd();
@@ -100,6 +95,10 @@ namespace Cadastre.DataProcessor
         {
             var citizenDtos = JsonConvert.DeserializeObject<ImportCitizenDto[]>(jsonDocument);
             var validCitizens = new HashSet<Citizen>();
+            var existingPropertyIds = dbContext.Properties
+                .Select(p => p.Id)
+                .ToArray();
+
             StringBuilder sb = new StringBuilder();
 
             foreach (var citizenDto in citizenDtos)
@@ -121,11 +120,17 @@ namespace Cadastre.DataProcessor
 
                 foreach (int propertyId in citizenDto.Properties.Distinct())
                 {
+                    if (existingPropertyIds.All(p => p != propertyId))
+                    {
+                        continue;
+                    }
+
                     PropertyCitizen pc = new PropertyCitizen()
                     {
                         Citizen = citizen,
                         PropertyId = propertyId
                     };
+
 
                     citizen.PropertiesCitizens.Add(pc);
                 }
