@@ -10,8 +10,8 @@ public static class TableConstraints
     //Medicine
     public const int MedicineNameMinLength = 3;
     public const int MedicineNameMaxLength = 150;
-    public const decimal MedicinePriceMinValue = 0.01m;
-    public const decimal MedicinePriceMaxValue = 1000m;
+    public const double MedicinePriceMinValue = 0.01;
+    public const double MedicinePriceMaxValue = 1000;
     public const int MedicineProducerMinLength = 3;
     public const int MedicineProducerMaxLength = 100;
 
