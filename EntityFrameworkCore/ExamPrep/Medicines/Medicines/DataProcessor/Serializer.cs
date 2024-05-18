@@ -1,6 +1,9 @@
-﻿namespace Medicines.DataProcessor
+﻿using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+
+namespace Medicines.DataProcessor
 {
-    using Medicines.Data;
+    using Data;
 
     public class Serializer
     {
@@ -11,7 +14,24 @@
 
         public static string ExportMedicinesFromDesiredCategoryInNonStopPharmacies(MedicinesContext context, int medicineCategory)
         {
-            throw new NotImplementedException();
+            var medicines = context.Medicines
+                .Where(m => (int)m.Category == medicineCategory && m.Pharmacy.IsNonStop)
+                .AsNoTracking()
+                .OrderBy(m => m.Price)
+                .ThenBy(m => m.Name)
+                .Select(m => new
+                {
+                    m.Name,
+                    Price = m.Price.ToString("F2"),
+                    Pharmacy = new
+                    {
+                        m.Pharmacy.Name,
+                        m.Pharmacy.PhoneNumber
+                    }
+                })
+                .ToArray();
+
+            return JsonConvert.SerializeObject(medicines, Formatting.Indented);
         }
     }
 }
