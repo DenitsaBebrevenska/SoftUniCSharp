@@ -67,3 +67,45 @@ function getPrice(amount, groupType, day){
 //getPrice(110,"Business","Saturday");
 
 //03. Leap Year
+function leapYearOrNot(year){
+    let result = 'no';
+
+    if((year % 4 === 0 && year % 100 !== 0)
+        || (year % 400 === 0)){
+            result = 'yes';
+        }
+
+    console.log(result);
+}
+
+//leapYearOrNot(2003);
+
+//04. Print And Sum
+
+function printNumbersAndSum(a, b){
+    let biggerNumber = Math.max(a, b);
+    let smallerNumber = Math.min(a, b);
+    let resultString = '';
+    let sum = 0;
+
+    for(i = smallerNumber; i <= biggerNumber; i++){
+        resultString += i + ' ';
+        sum += i;
+    }
+
+    console.log(resultString.trimEnd());
+    console.log(`Sum: ${sum}`);
+}
+
+//printNumbersAndSum(0, 26);
+
+//05. Multiplication Table
+
+function getMultiplicationTableOfANumber(number){
+    
+    for(i = 1; i <= 10; i++){
+        console.log(`${number} X ${i} = ${number * i}`);
+    }
+}
+
+//getMultiplicationTableOfANumber(100);
