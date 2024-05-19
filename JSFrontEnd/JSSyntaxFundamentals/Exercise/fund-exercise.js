@@ -109,3 +109,70 @@ function getMultiplicationTableOfANumber(number){
 }
 
 //getMultiplicationTableOfANumber(100);
+
+//06. Sum Digits
+
+function getDigitsSum(number){
+    let sum = 0;
+
+    while(number > 0){
+        let currentDigit = number % 10;
+        sum += currentDigit;
+        number = Math.floor(number / 10);
+    }
+
+    console.log(sum);
+}
+
+//getDigitsSum(97561);
+
+//07. Chars to String
+
+function concatChars(a, b, c){
+    console.log(`${a}${b}${c}`);
+}
+
+//concatChars('1','5','p');
+
+//08. Reversed Chars
+
+function printReversedChars(a, b, c){
+    console.log(`${c} ${b} ${a}`);
+}
+
+//printReversedChars('A','B','C');
+
+//09. Fruit
+
+function getFruitPrice(fruit, weightGr, pricePerKg){
+    let weigthInKg = weightGr / 1000;
+    console.log(`I need $${(pricePerKg * weigthInKg).toFixed(2)} to buy ${weigthInKg.toFixed(2)} kilograms ${fruit}.`);
+}
+
+//getFruitPrice('apple', 1563, 2.35);
+
+//10. Same Numbers
+
+function sameDigits(number){
+    let areSameDigits = true;
+    let sum = 0;
+    let lastDigit = number % 10;
+
+    while(number > 0){
+        let currentDigit = number % 10;
+        sum += currentDigit;
+        number = Math.floor(number / 10);
+
+        if(currentDigit !== lastDigit){
+            areSameDigits = false;
+        }
+        lastDigit = currentDigit;
+
+    }
+    console.log(areSameDigits);
+    console.log(sum);
+}
+
+//sameDigits(1234);
+
+//11. Road Radar
