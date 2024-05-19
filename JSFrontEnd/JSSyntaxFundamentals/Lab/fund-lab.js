@@ -144,3 +144,36 @@ function getTicketPrice(dayType, age){
 //getTicketPrice('Holiday', 15);
 
 //08. Circle Area
+function solve(argument){
+    let result;
+
+    if(typeof(argument) === 'number'){
+        result = (Math.PI * argument ** 2).toFixed(2);
+    } else {
+        result = `We can not calculate the circle area, because we receive a ${typeof(argument)}.`;
+    }
+
+    console.log(result);
+}
+
+//solve('5');
+
+//09. Numbers from 1 to 5
+function printNumbers(){
+
+    for (i = 1; i <= 5; i++){
+        console.log(i);
+    }
+}
+
+//printNumbers();
+
+//09. Numbers from 1 to 5
+function printNumbersFromMToN(m, n){
+
+    for(i = m; i >= n; i--){
+        console.log(i);
+    }
+}
+
+//printNumbersFromMToN(6,2);
