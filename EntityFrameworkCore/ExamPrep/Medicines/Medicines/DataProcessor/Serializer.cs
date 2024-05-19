@@ -12,9 +12,6 @@ namespace Medicines.DataProcessor
     {
         public static string ExportPatientsWithTheirMedicines(MedicinesContext context, string date)
         {
-            //todo results are not ordered and the query fails to translate 
-
-
             DateTime latestDate = DateTime.ParseExact(date, "yyyy-MM-dd", CultureInfo.InvariantCulture);
             var patients = context.Patients
                 .Where(p => p.PatientsMedicines
@@ -22,15 +19,16 @@ namespace Medicines.DataProcessor
                 .ToArray()
                 .Select(p => new ExportPatientDto()
                 {
-                    Gender = p.Gender.ToString(),
+                    Gender = p.Gender.ToString().ToLower(),
                     Name = p.FullName,
                     AgeGroup = p.AgeGroup.ToString(),
                     Medicines = p.PatientsMedicines
+                        .Where(pm => pm.Medicine.ProductionDate > latestDate)
                         .OrderByDescending(pm => pm.Medicine.ExpiryDate)
                         .ThenBy(pm => pm.Medicine.Price)
                         .Select(pm => new ExportMedicineDto()
                         {
-                            Category = pm.Medicine.Category.ToString(),
+                            Category = pm.Medicine.Category.ToString().ToLower(),
                             Name = pm.Medicine.Name,
                             Price = pm.Medicine.Price.ToString("F2"),
                             Producer = pm.Medicine.Producer,
@@ -38,7 +36,7 @@ namespace Medicines.DataProcessor
                         })
                         .ToArray()
                 })
-                .OrderByDescending(p => p.Medicines)
+                .OrderByDescending(p => p.Medicines.Length)
                 .ThenBy(p => p.Name)
                 .ToArray();
 
