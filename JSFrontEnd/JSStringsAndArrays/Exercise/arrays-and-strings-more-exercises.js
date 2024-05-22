@@ -77,26 +77,27 @@ function reportNeededMaterials(base, increment){
             goldCount = Math.pow(base, 2);
         } else{
             //stone area = (base - 2) * (base - 2)
-            //required stones = area * increment
-            stoneCount += Math.pow(base - 2, 2) * increment; 
+            stoneCount += Math.pow(base - 2, 2); 
 
-            //surroding matterial = perimeter = (base * 4  - 4) * increment
+            //surroding matterial = perimeter = (base * 4  - 4)
             if(i % 5 === 0){
                 //every 5th step surrounding material is lapis lazuli
-                lapisLazuliCount +=(base * 4  - 4) * increment;
+                lapisLazuliCount +=(base * 4  - 4);
             } else{ //otherwise it is marble
-                marbleCount +=(base * 4  - 4) * increment;
+                marbleCount +=(base * 4  - 4);
             } 
         }
 
         base -= 2;
     }
 
-    console.log(`Stone required: ${Math.round(stoneCount)}`);
-    console.log(`Marble required: ${Math.round(marbleCount)}`);
-    console.log(`Lapis Lazuli required: ${Math.round(lapisLazuliCount)}`);
-    console.log(`Gold required: ${Math.round(goldCount)}`);
+    //multiplying by increment at the end because otherwise if done on each step the result vary from Judge
+    console.log(`Stone required: ${Math.ceil(stoneCount * increment)}`);
+    console.log(`Marble required: ${Math.ceil(marbleCount * increment)}`);
+    console.log(`Lapis Lazuli required: ${Math.ceil(lapisLazuliCount * increment)}`);
+    console.log(`Gold required: ${Math.ceil(goldCount * increment)}`);
     console.log(`Final pyramid height: ${height}`);
 }
 
-reportNeededMaterials(12,1);
+
+reportNeededMaterials(23,0.5);
