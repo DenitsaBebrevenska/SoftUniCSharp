@@ -59,3 +59,44 @@ function bitcoinMining(miningShift){
 //bitcoinMining([100, 200, 300]);
 
 //03. The Pyramid Of King Djoser
+function reportNeededMaterials(base, increment){
+    let stepCount = Math.round(base / 2); 
+    let height = Math.trunc(stepCount * increment);
+    //each step area is decreased by 2 until it is >= 0
+
+    let stoneCount = 0;
+    let marbleCount = 0;
+    let lapisLazuliCount = 0;
+    let goldCount = 0;
+
+    for(let i = 1; i <= stepCount; i++){
+
+        if (i === stepCount){
+            //last step is made out of gold entirely
+            //needed material is base * base
+            goldCount = Math.pow(base, 2);
+        } else{
+            //stone area = (base - 2) * (base - 2)
+            //required stones = area * increment
+            stoneCount += Math.pow(base - 2, 2) * increment; 
+
+            //surroding matterial = perimeter = (base * 4  - 4) * increment
+            if(i % 5 === 0){
+                //every 5th step surrounding material is lapis lazuli
+                lapisLazuliCount +=(base * 4  - 4) * increment;
+            } else{ //otherwise it is marble
+                marbleCount +=(base * 4  - 4) * increment;
+            } 
+        }
+
+        base -= 2;
+    }
+
+    console.log(`Stone required: ${Math.round(stoneCount)}`);
+    console.log(`Marble required: ${Math.round(marbleCount)}`);
+    console.log(`Lapis Lazuli required: ${Math.round(lapisLazuliCount)}`);
+    console.log(`Gold required: ${Math.round(goldCount)}`);
+    console.log(`Final pyramid height: ${height}`);
+}
+
+reportNeededMaterials(12,1);
