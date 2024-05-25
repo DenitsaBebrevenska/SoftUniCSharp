@@ -1,11 +1,7 @@
 //01. Smallest of Three Numbers
 
 function printSmallestNumber(a, b, c) {
-  function findSmallestNumber(a, b) {
-    return a < b ? a : b;
-  }
-
-  console.log(findSmallestNumber(findSmallestNumber(a, b), c));
+  console.log(Math.min(a, b, c));
 }
 
 //printSmallestNumber(2, 5, 3);
