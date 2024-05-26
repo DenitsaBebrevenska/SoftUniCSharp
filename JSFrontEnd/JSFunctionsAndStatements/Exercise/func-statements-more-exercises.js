@@ -70,3 +70,65 @@ function solve(points){
 //solve([2, 1, 1, 1]);
 
 //04. Radio Crystals
+function solve(tokens){
+  const desiredThickness = tokens[0];
+  tokens.shift();
+
+  const cutOre = a => a / 4;
+  const lapOre = a => a * 0.8;
+  const grindOre = a => a - 20;
+  const etchOre = a => a - 2;
+  const xrayOre = a => ++a;
+  const transportAndWashOre = a => {
+    console.log('Transporting and washing');
+    return Math.trunc(a);
+  }
+  const printActionStatus = (action, counter) => console.log(`${action} x${counter}`);
+  const processOre = (chunk, action, counter, currentAction) => {
+    while(action(chunk) >= desiredThickness || action(chunk) + 1 === desiredThickness){
+      counter++;
+      chunk = action(chunk);
+    }
+
+    printActionStatus(currentAction, counter);
+    return chunk;
+  }
+
+  for(let i = 0; i < tokens.length; i++){
+    let currentChunk = tokens[i];
+    console.log(`Processing chunk ${currentChunk} microns`);
+    let xRayUsed  = false;
+
+    if(cutOre(currentChunk) >= desiredThickness){
+      currentChunk = processOre(currentChunk, cutOre, 0, 'Cut');
+      currentChunk = transportAndWashOre(currentChunk);
+    }
+
+    if(lapOre(currentChunk) >= desiredThickness){
+      currentChunk = processOre(currentChunk, lapOre, 0, 'Lap');
+      currentChunk = transportAndWashOre(currentChunk);
+    }
+
+    if(grindOre(currentChunk) >= desiredThickness){
+      currentChunk = processOre(currentChunk, grindOre, 0, 'Grind');
+      currentChunk = transportAndWashOre(currentChunk);
+    }
+
+    if(etchOre(currentChunk) >= desiredThickness){
+      currentChunk = processOre(currentChunk, etchOre, 0, 'Etch');
+      currentChunk = transportAndWashOre(currentChunk);
+    }
+
+    if(!xRayUsed && xrayOre(currentChunk) === desiredThickness){
+      currentChunk = xrayOre(currentChunk);
+      console.log('X-ray x1');
+      xRayUsed = true;
+    }
+
+    console.log(`Finished crystal ${currentChunk} microns`);
+  }
+}
+
+//solve([1375, 50000]);
+
+//
