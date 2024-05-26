@@ -125,54 +125,57 @@ function solve(namesAndAddresses) {
 //08. Cats
 function solve(catsDetails) {
   class Cat {
-    constructor(name, age){
-        this.name = name,
-        this.age = age
+    constructor(name, age) {
+      (this.name = name), (this.age = age);
     }
 
     meow() {
-        console.log(`${this.name}, age ${this.age} says Meow`);
-    };
+      console.log(`${this.name}, age ${this.age} says Meow`);
+    }
   }
 
   let cats = [];
 
-  for(const entry of catsDetails){
-    let tokens = entry.split(' ');
+  for (const entry of catsDetails) {
+    let tokens = entry.split(" ");
     cats.push(new Cat(tokens[0], Number(tokens[1])));
   }
 
-  cats.forEach(cat => cat.meow());
+  cats.forEach((cat) => cat.meow());
 }
 
 //solve(['Mellow 2', 'Tom 5']);
 
 //9. Songs
 
-function solve(input){
-    class Song{
-        constructor(name, time, typeList){
-        this.name = name,
-        this.time = time,
-        this.typeList = typeList
-        }
+function solve(input) {
+  class Song {
+    constructor(name, time, typeList) {
+      (this.name = name), (this.time = time), (this.typeList = typeList);
     }
+  }
 
-    let songs = [];
-    let songCount = input.shift();
-    let chosenPlaylist = input.pop();
+  let songs = [];
+  let songCount = input.shift();
+  let chosenPlaylist = input.pop();
 
-    for(let i = 0; i < songCount; i++){
-        let tokens = input[i].split('_');
-        let [playlistName, songName, songDuration] = [tokens[0], tokens[1], tokens[2]];
-        songs.push(new Song(songName, songDuration, playlistName));
-    }
+  for (let i = 0; i < songCount; i++) {
+    let tokens = input[i].split("_");
+    let [playlistName, songName, songDuration] = [
+      tokens[0],
+      tokens[1],
+      tokens[2],
+    ];
+    songs.push(new Song(songName, songDuration, playlistName));
+  }
 
-    if(chosenPlaylist === 'all'){
-        songs.forEach(song => console.log(song.name));
-    } else {
-        songs.filter(song => song.typeList === chosenPlaylist).forEach(song => console.log(song.name));
-    }
+  if (chosenPlaylist === "all") {
+    songs.forEach((song) => console.log(song.name));
+  } else {
+    songs
+      .filter((song) => song.typeList === chosenPlaylist)
+      .forEach((song) => console.log(song.name));
+  }
 }
 
 // solve([4,
