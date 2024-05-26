@@ -131,4 +131,51 @@ function solve(tokens){
 
 //solve([1375, 50000]);
 
-//
+//05. Print DNA
+function solve(dnaLength){
+  const generateLine = (asteriskCount, letterA, letterB) => {
+    if(asteriskCount === 0){
+      return `${letterA}----${letterB}`;
+    }
+
+    if(asteriskCount === 2){
+      return `*${letterA}--${letterB}*`;
+    }
+
+    if(asteriskCount === 4){
+      return `**${letterA}${letterB}**`;
+    }
+  };
+
+  const asteriskMaxCount = 4;
+  const asteriskMinCount = 0;
+  let letterAIndex = 0;
+  let letterBIndex = letterAIndex + 1;
+  let currentAsteriskCount = asteriskMaxCount;
+  const dnaSequence = 'ATCGTTAGGG'.split('');
+  let asteriskCountGrowing;
+
+  for(let i = 1; i <= dnaLength; i++){
+
+    console.log(generateLine(currentAsteriskCount, dnaSequence[letterAIndex], dnaSequence[letterBIndex]));
+    
+    if(letterBIndex === dnaSequence.length - 1){
+      letterAIndex = 0;
+      letterBIndex = letterAIndex + 1;
+    } else {
+      letterAIndex += 2;
+      letterBIndex += 2;
+    }
+
+    if(currentAsteriskCount === asteriskMinCount){
+      asteriskCountGrowing = true;
+    } else if(currentAsteriskCount === asteriskMaxCount){
+      asteriskCountGrowing = false;
+    }
+
+    currentAsteriskCount = asteriskCountGrowing ? currentAsteriskCount += 2 : currentAsteriskCount -= 2;
+    
+  }
+}
+
+//solve(10);
