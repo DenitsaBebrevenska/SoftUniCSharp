@@ -261,10 +261,38 @@ function solve(input) {
   );
 }
 
-solve([
-  '{"Coffee":"A hot drink made from the roasted and ground seeds (coffee beans) of a tropical shrub."}',
-  '{"Bus":"A large motor vehicle carrying passengers by road, typically one serving the public on a fixed route and for a fare."}',
-  '{"Boiler":"A fuel-burning apparatus or container for heating water."}',
-  '{"Tape":"A narrow strip of material, typically used to hold or fasten something."}',
-  '{"Microphone":"An instrument for converting sound waves into electrical energy variations which may then be amplified, transmitted, or recorded."}',
-]);
+// solve([
+//   '{"Coffee":"A hot drink made from the roasted and ground seeds (coffee beans) of a tropical shrub."}',
+//   '{"Bus":"A large motor vehicle carrying passengers by road, typically one serving the public on a fixed route and for a fare."}',
+//   '{"Boiler":"A fuel-burning apparatus or container for heating water."}',
+//   '{"Tape":"A narrow strip of material, typically used to hold or fasten something."}',
+//   '{"Microphone":"An instrument for converting sound waves into electrical energy variations which may then be amplified, transmitted, or recorded."}',
+// ]);
+
+//10. Class Vehicle
+function solve(){
+  class Vehicle{
+  
+    constructor(type, model, parts, fuel){
+      this.type = type;
+      this.model = model;
+      this.parts = {
+        engine: parts.engine,
+        power: parts.power,
+        quality: parts.engine * parts.power
+      };
+      this.fuel = fuel;
+    }
+
+    drive(fuelLoss){
+      this.fuel -= fuelLoss;
+    }
+
+  }
+    let parts = { engine: 6, power: 100 };
+    let vehicle = new Vehicle('a', 'b', parts, 200);
+    vehicle.drive(100);
+    console.log(vehicle.fuel);
+    console.log(vehicle.parts.quality);
+
+}
