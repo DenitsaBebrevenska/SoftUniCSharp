@@ -369,59 +369,250 @@ function solve(input) {
 
 //09. Armies
 function solve(input) {
-  let leaders = {};
+  let leaders = [];
 
   for (const line of input) {
-    if (line.includes('arrives')){
-      let leaderName = line.split(' arrives')[0];
-      leaders[leaderName] = [];
-    } else if (line.includes(':')){
-      let lineTokens = line.split(': ');
+    if (line.includes("arrives")) {
+      let leaderName = line.split(" arrives")[0];
+      leaders.push({
+        name: leaderName,
+        armies: [],
+        totalArmyCount: 0,
+      });
+    } else if (line.includes(":")) {
+      let lineTokens = line.split(": ");
       let leaderName = lineTokens[0];
-      
-      if(leaders.hasOwnProperty([leaderName])){
-        let [armyName, count] = lineTokens[1].split(', ');
-        leaders[leaderName].push({
+      let leaderIndex = leaders.findIndex(
+        (leader) => leader.name === leaderName
+      );
+
+      if (leaderIndex >= 0) {
+        let armyTokens = lineTokens[1].split(", ");
+        let armyName = armyTokens[0];
+        let count = Number(armyTokens[1]);
+
+        leaders[leaderIndex].armies.push({
           armyName,
-          count: Number(count)
-        })
+          count,
+        });
+        leaders[leaderIndex].totalArmyCount += count;
       }
-    } else if(line.includes('+')){
-      let tokens = line.split(' + ');
+    } else if (line.includes("+")) {
+      let tokens = line.split(" + ");
       let armyName = tokens[0];
       let armyCount = Number(tokens[1]);
 
-      for(const leader in leaders){
-        let armyIndex = leaders[leader].findIndex(army => army.armyName === armyName);
-        if(armyIndex >= 0){
-          leaders[leader][armyIndex].count += armyCount;
+      for (const leader of leaders) {
+        let armyIndex = leader.armies.findIndex(
+          (army) => army.armyName === armyName
+        );
+        if (armyIndex >= 0) {
+          leader.armies[armyIndex].count += armyCount;
+          leader.totalArmyCount += armyCount;
           break;
         }
       }
     } else {
-      let leaderName = line.split(' defeated')[0];
-      if(leaders[leaderName]){
+      let leaderName = line.split(" defeated")[0];
+      if (leaders[leaderName]) {
         delete leaders[leaderName];
       }
     }
   }
 
-  let sortedLeaders = Array.from(Object.entries(leaders));
-  sortedLeaders.sort((a, b) => b[1].lenght - a[1].length); //not sorted 
+  leaders
+    .sort((a, b) => b.totalArmyCount - a.totalArmyCount)
+    .forEach((leader) => {
+      console.log(`${leader.name}: ${leader.totalArmyCount}`);
+      leader.armies
+        .sort((a, b) => b.count - a.count)
+        .forEach((army) => console.log(`>>> ${army.armyName} - ${army.count}`));
+    });
+}
+
+// solve(['Rick Burr arrives', 'Findlay arrives', 'Rick Burr: Juard, 1500', 'Wexamp arrives', 'Findlay: Wexamp, 34540', 'Wexamp + 340', 'Wexamp: Britox, 1155', 'Wexamp: Juard, 43423']);
+
+//10. Comments
+function solve(input) {
+  let registeredUsers = [];
+  let writtenArticles = [];
+  let articlesComments = [];
+
+  for (const line of input) {
+    if (line.includes("user")) {
+      let username = line.split("user ").filter((string) => string !== "");
+      registeredUsers.push(username);
+    } else if (line.includes("article")) {
+      let articleName = line
+        .split("article ")
+        .filter((string) => string !== "");
+      writtenArticles.push(articleName);
+      articlesComments.push({
+        name: articleName,
+        comments: [],
+      });
+    } else {
+      let tokens = line.split(" posts on ");
+      let username = tokens[0];
+
+      if (!registeredUsers.some((user) => user[0] === username)) {
+        continue;
+      }
+
+      tokens = tokens[1].split(": ");
+      let articleName = tokens[0];
+
+      if (!writtenArticles.some((article) => article[0] === articleName)) {
+        continue;
+      }
+
+      tokens = tokens[1].split(", ");
+      let commentTitle = tokens[0];
+      let commentBody = tokens[1];
+
+      let targetArticle = articlesComments.find(
+        (article) => article.name == articleName
+      );
+      targetArticle.comments.push({
+        username,
+        comment: `${commentTitle} - ${commentBody}`,
+      });
+    }
+  }
+
+  articlesComments
+    .sort((a, b) => b.comments.length - a.comments.length)
+    .forEach((article) => {
+      console.log(`Comments on ${article.name}`);
+      article.comments
+        .sort((a, b) => a.username.localeCompare(b.username))
+        .forEach((comment) =>
+          console.log(`--- From user ${comment.username}: ${comment.comment}`)
+        );
+    });
+}
+
+// solve(['user Mark', 'Mark posts on someArticle: NoTitle, stupidComment', 'article Bobby', 'article Steven', 'user Liam', 'user Henry', 'Mark posts on Bobby: Is, I do really like them', 'Mark posts on Steven: title, Run', 'someUser posts on Movies: Like']);
+
+//11. Book Shelf
+function solve(input) {
+  let shelves = [];
+
+  for (const line of input) {
+    if (line.includes("->")) {
+      let tokens = line.split(" -> ").filter((string) => string !== "");
+      let shelfId = Number(tokens[0]);
+
+      if (shelves.some((shelf) => shelf.id == shelfId)) {
+        continue;
+      }
+
+      let shelfGenre = tokens[1];
+      shelves.push({
+        id: shelfId,
+        genre: shelfGenre,
+        books: [],
+      });
+    } else {
+      let tokens = line.split(": ");
+      let bookTitle = tokens[0];
+      tokens = tokens[1].split(", ");
+      let bookAuthor = tokens[0];
+      let bookGenre = tokens[1];
+
+      let targetShelf = shelves.find((shelf) => shelf.genre == bookGenre);
+      if (targetShelf) {
+        targetShelf.books.push(`${bookTitle}: ${bookAuthor}`);
+      }
+    }
+  }
+
+  shelves
+    .sort((a, b) => b.books.length - a.books.length)
+    .forEach((shelf) => {
+      console.log(`${shelf.id} ${shelf.genre}: ${shelf.books.length}`);
+      shelf.books
+        .sort((a, b) => a.localeCompare(b))
+        .forEach((book) => console.log(`--> ${book}`));
+    });
+}
+
+// solve(['1 -> history', '1 -> action', 'Death in Time: Criss Bell, mystery', '2 -> mystery', '3 -> sci-fi', 'Child of Silver: Bruce Rich, mystery', 'Hurting Secrets: Dustin Bolt, action', 'Future of Dawn: Aiden Rose, sci-fi', 'Lions and Rats: Gabe Roads, history', '2 -> romance', 'Effect of the Void: Shay B, romance', 'Losing Dreams: Gail Starr, sci-fi', 'Name of Earth: Jo Bell, sci-fi', 'Pilots of Stone: Brook Jay, history']);
+
+//12. SoftUni Students
+function solve(input) {
+  //[courses] -> name, capacity, students[] -> student -> username, email, credits
+  let courses = [];
+
+  for (const line of input) {
+    if (line.includes(":")) {
+      let tokens = line.split(": ").filter((string) => string !== "");
+      let courseName = tokens[0];
+      let courseCapacity = Number(tokens[1]);
+
+      let courseIndex = courses.findIndex(
+        (course) => course.name === courseName
+      );
+
+      if (courseIndex >= 0) {
+        courses[courseIndex].capacity += courseCapacity;
+        continue;
+      }
+
+      courses.push({
+        name: courseName,
+        capacity: courseCapacity,
+        students: [],
+      });
+    } else {
+      let tokens = line.split('[');
+      let username = tokens[0];
+      tokens = tokens[1].split('] with email ');
+      let creditCount = Number(tokens[0]);
+      tokens = tokens[1].split(' ');
+      let email = tokens[0];
+      let courseName = tokens[2];
+
+      let courseIndex = courses.findIndex(course => course.name === courseName);
+
+      if(courseIndex < 0){
+        continue;
+      }
+
+      if(courses[courseIndex].capacity === courses[courseIndex].students.length){
+        continue;
+      }
+
+      courses[courseIndex].students.push({
+        username,
+        creditCount,
+        email
+      })
+    }
+  }
+
+  courses.sort((a, b) => b.students.length - a.students.length)
+    .forEach(course => {
+      console.log(`${course.name}: ${course.capacity - course.students.length} places left`);
+      course.students.sort((a, b) => b.creditCount - a.creditCount)
+        .forEach(student => console.log(`--- ${student.creditCount}: ${student.username}, ${student.email}`))
+    })
 }
 
 solve([
-  "Rick Burr arrives",
-  "Fergus: Wexamp, 30245",
-  "Rick Burr: Juard, 50000",
-  "Findlay arrives",
-  "Findlay: Britox, 34540",
-  "Wexamp + 6000",
-  "Juard + 1350",
-  "Britox + 4500",
-  "Porter arrives",
-  "Porter: Legion, 55000",
-  "Legion + 302",
-  "Rick Burr defeated",
-  "Porter: Retix, 3205",
+  "JavaBasics: 2",
+  "user1[25] with email user1@user.com joins C#Basics",
+  "C#Advanced: 3",
+  "JSCore: 4",
+  "user2[30] with email user2@user.com joins C#Basics",
+  "user13[50] with email user13@user.com joins JSCore",
+  "user1[25] with email user1@user.com joins JSCore",
+  "user8[18] with email user8@user.com joins C#Advanced",
+  "user6[85] with email user6@user.com joins JSCore",
+  "JSCore: 2",
+  "user11[3] with email user11@user.com joins JavaBasics",
+  "user45[105] with email user45@user.com joins JSCore",
+  "user007[20] with email user007@user.com joins JSCore",
+  "user700[29] with email user700@user.com joins JSCore",
+  "user900[88] with email user900@user.com joins JSCore",
 ]);
