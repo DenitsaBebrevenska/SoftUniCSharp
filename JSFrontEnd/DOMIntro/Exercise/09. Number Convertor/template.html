@@ -18,8 +18,10 @@
         <label for="selectMenuTo">To</label>
         <select id="selectMenuTo">
             <option selected value=""></option>
+            <option value="binary">Binary</option>
+            <option value="hexadecimal">Hexadecimal</option>
         </select>
-        <button>Convert it</button>
+        <button onclick="solve()">Convert it</button>
 
     </div>
     <footer>
@@ -27,7 +29,9 @@
         <input type="text" name="output" id="result" disabled readonly />
     </footer>
     <script>
-        solve();
+        document.addEventListener("DOMContentLoaded", function() {
+            solve();
+        });
     </script>
 </body>
 </html>
