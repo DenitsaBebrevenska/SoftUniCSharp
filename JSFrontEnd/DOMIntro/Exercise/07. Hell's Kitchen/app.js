@@ -5,13 +5,15 @@ function solve() {
       let inputElement = document.querySelector('#inputs > textarea');
       let bestRestaurantElement = document.querySelector('#bestRestaurant > p');
       let bestWorkersElement = document.querySelector('#workers > p');
-      let input = inputElement.value;
+      let input = JSON.parse(inputElement.value);
       let restaurants = [];
+   
 
       for(const line of input){
-         let tokens = line.split(' - ');
+         console.log(line);
+         let tokens = line.split(' - ').filter(string => string !== '');
          let restaurantName = tokens[0];
-         let workersInfo = tokens[1].split(', ');
+         let workersInfo = tokens[1].split(', ').filter(string => string !== '');
          let targetedRestaurant = restaurants.find(r => r.name === restaurantName);
 
          if(!targetedRestaurant){
@@ -25,7 +27,7 @@ function solve() {
          }
 
          for(const worker of workersInfo){
-            let tokens = worker.split(' ');
+            let tokens = worker.split(' ').filter(string => string !== '');;
             let name = tokens[0];
             let salary = Number(tokens[1]);
             targetedRestaurant.workers.push({
