@@ -10,7 +10,7 @@
 <body>
     <div id="container">
         <label for="input">Number</label>
-        <input type="number" id="input" /><br>
+        <input type="number" id="input"/><br>
         <label for="selectMenuFrom">From</label>
         <select id="selectMenuFrom">
             <option selected value="decimal">Decimal</option>
@@ -18,20 +18,15 @@
         <label for="selectMenuTo">To</label>
         <select id="selectMenuTo">
             <option selected value=""></option>
-            <option value="binary">Binary</option>
-            <option value="hexadecimal">Hexadecimal</option>
         </select>
-        <button onclick="solve()">Convert it</button>
-
+        <button>Convert it</button>
     </div>
     <footer>
         <label for="result">Result</label>
-        <input type="text" name="output" id="result" disabled readonly />
+        <input type="text" name="output" id="result" disabled readonly/>
     </footer>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            solve();
-        });
+        solve();
     </script>
 </body>
 </html>

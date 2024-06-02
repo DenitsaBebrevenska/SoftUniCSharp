@@ -37,16 +37,30 @@ function solve() {
         return result.reverse().join('');
     }
 
-    let numberElementValue = document.getElementById('input').value;
-    let toMenuElementValue = document.getElementById('selectMenuTo').value;
-    let resultElement = document.getElementById('result');
-    let result = '';
+    //could have used Number.toString(radix), but found about it a bit too late....
 
-    if(toMenuElementValue === 'binary'){
-        result = convertTOBinary(numberElementValue)
-    } else if (toMenuElementValue === 'hexadecimal'){
-        result = convertToHexadecimal(numberElementValue)
-    }
+    let buttonElement = document.querySelector('button');
+    let toMenuElement = document.getElementById('selectMenuTo');
+    let resultElement = document.getElementById('result');
+    
+
+    let binaryOptionElement = document.createElement('option');
+    binaryOptionElement.value = 'binary';
+    binaryOptionElement.textContent = 'Binary';
+    toMenuElement.appendChild(binaryOptionElement);
+
+    let hexadecimalOptionElement = document.createElement('option');
+    hexadecimalOptionElement.value = 'hexadecimal';
+    hexadecimalOptionElement.textContent = 'Hexadecimal';
+    toMenuElement.appendChild(hexadecimalOptionElement);
+    
+    buttonElement.addEventListener('click', () => {
+        const number = document.getElementById('input').value;
+        if(toMenuElement.value === 'binary'){
+            resultElement.value = convertTOBinary(number)
+        } else if (toMenuElement.value === 'hexadecimal'){
+            resultElement.value = convertToHexadecimal(number)
+        }
+    });
    
-    resultElement.value = result;
 }
