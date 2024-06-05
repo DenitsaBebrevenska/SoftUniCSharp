@@ -12,11 +12,13 @@ function solve() {
       button.addEventListener('click', function(){
         //add answer to answers player
         playerAnswers.push(button.textContent);
-        //switch current section class to hidden 
-        //and remove hidden from next if any
-        sectionElements[i].classList.add('hidden');
+        //switch current section to display none if any
+        //my first solution included adding class hidden to current section and removing it
+        //from the next one, but that one is not ok with Judge
+        sectionElements[i].style.display = 'none';
+
         if(i < sectionElements.length - 1){
-          sectionElements[i + 1].classList.remove('hidden');
+          sectionElements[i + 1].style.display = 'block';
         } else {
           //if no more questions check answers and visualize result
           let playerCorrectAnswers = playerAnswers
