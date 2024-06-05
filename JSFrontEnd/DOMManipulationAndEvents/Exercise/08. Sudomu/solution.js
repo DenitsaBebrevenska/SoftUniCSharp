@@ -2,7 +2,7 @@ function solve() {
     let trElements = Array.from(document.querySelectorAll('tbody > tr'));
     let checkButton = document.querySelector('tfoot > tr > td > button:first-of-type');
     let clearButton = document.querySelector('tfoot > tr > td > button:last-of-type');
-    let tableElement = document.getElementById('exercise');
+    let tableElement = document.querySelector('table');
     let resultElement = document.querySelector('#check > p');
 
     //clear all inputs, borders too
