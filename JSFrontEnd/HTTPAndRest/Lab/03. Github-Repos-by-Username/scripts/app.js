@@ -10,9 +10,9 @@ function loadRepos() {
     .then((response) => {
 		if(response.ok){
 			return response.json();
-		} else {
+    }
 			throw new Error(response.status + ' ' + response.statusText);
-		}
+
 	})
     .then((data) => {
       let fragment = document.createDocumentFragment();
