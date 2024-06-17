@@ -1,1 +1,17 @@
-/* TODO: Add the responsive styles here */
+@media screen and (max-width: 600px){
+    body > section > article > article{
+        display: none;
+    }
+
+    #about > article:first-child{
+        display: none;
+    }
+
+    #about > article:nth-child(2){
+        width: 100%;
+    }
+
+    .w3-col.l6 {
+        width: 100%;
+    }
+}
