@@ -15,7 +15,7 @@ body {
 /* main container*/
 .info {
   margin: 20px auto;
-  width: 70vw;
+  width: 65vw;
   display: flex;
   justify-content: space-between;
   background-color: #f6f8f9;
@@ -50,7 +50,7 @@ body {
 /* image */
 
 .info-image {
-  width: 30%;
+  width: 40%;
   align-self: flex-end;
   padding-right: 50px;
 }
