@@ -1,0 +1,259 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css');
+
+/* reset */
+
+*,
+*::after,
+*::before{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* general */
+
+body{
+    font-family: Raleway, serif;
+}
+
+.site-wrapper{
+    padding: 24px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.site-wrapper > section{
+    background-color: #efefef;
+    width: 100%;
+    height: 80vh;
+}
+
+/* header */
+
+/* nav menu */
+
+.menu{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    position: absolute;
+    top: 48px;
+    right: 52px;
+    font-size: 0.8rem;
+}
+
+.menu i {
+    font-size: 1.4rem;
+}
+
+/* img and text*/
+
+.site-header,
+.intro,
+.about{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.unbold{
+    font-weight: 200;
+}
+
+
+.text-wrapper{
+    padding-top: 140px;
+    flex: 0 0 25%;
+    position: relative;
+}
+
+.text-wrapper h2{
+    font-size: 2rem;
+    padding-bottom: 24px;
+}
+
+.text-wrapper p,
+.contact-me > p  {
+    font-style: italic;
+    font-size: 0.8rem;
+    line-height: 1.7;
+}
+
+.text-wrapper p.vertical-line::after{
+    content: "";
+    border-left: 1.5px solid #000;
+    height: 60px;
+    position: absolute;
+    top: 324px;
+    left: 0;
+}
+
+.img-wrapper{
+    align-self: flex-end;
+    width: 55%;
+    height: 85%;
+}
+
+.header-img,
+.camera-img,
+.about-img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+
+/* intro */
+
+.intro > .text-wrapper{
+    padding-top: 70px;
+    flex: 0 0 32%;
+}
+
+.intro > .text-wrapper > h2{
+   padding-left: 80px;
+}
+
+.intro .img-wrapper{
+    align-self: center;
+    width: 50%;
+    height: 80%;
+}
+
+.intro p{
+    padding-bottom: 20px;
+}
+
+.socials{
+    display: flex;
+    gap: 20px;
+    list-style-type: none;
+    font-size: 2rem;
+}
+
+.socials > li > i{
+    color: #909090;
+}
+
+.text-wrapper p.horizontal-line::after{
+    content: "";
+    border-top: 1.5px solid #000;
+    width: 60px;
+    position: absolute;
+    top: 88px;
+    left: 0;
+}
+
+/* fancy-photo*/
+
+.camera-girl-img{
+    width: 100%;
+    height: 100%;
+    object-fit:cover;
+}
+
+/* about */
+
+.about > .img-wrapper{
+    align-self: center;
+    width: 45%;
+}
+
+/* photo-gallery */
+
+.photo-gallery{
+    position: relative;
+}
+
+.gallery{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0 auto;
+    list-style-type: none;
+    display: flex;
+    gap: 10px;
+}
+
+.gallery-photo{
+    transition: transform 0.2s ease;
+    width: 320px;
+}
+
+.gallery-photo:hover{
+    transform: scale(1.7);
+}
+
+/* contact me */
+
+input::placeholder,
+textarea::placeholder{
+    padding: 8px 12px;
+    color: #000000;
+}
+
+
+input,
+textarea{
+    border: 1.5px solid #000000;
+    background: transparent;
+}
+
+textarea{
+    resize: none;
+}
+
+input{
+    flex-grow: 1;
+    padding: 8px;
+}
+
+#contact-message{
+    display: block;
+}
+
+.contact-me{
+    position: relative;
+}
+
+.contact-me > h2{
+    padding: 60px 0 40px 0;
+    font-size: 2rem;
+    text-align: center;
+}
+
+.contact-me > p {
+    text-align: center;
+    padding: 0 25% 40px;
+}
+
+.input-forms-wrapper{
+    display: flex;
+    justify-content: stretch;
+    gap: 20px;
+}
+
+.contact-forms-wrapper{
+    display: flex;
+    flex-direction: column;
+    padding: 0 32%;
+    gap: 20px;
+}
+
+#send-message-bnt{
+    background-color: #000000;
+    border: #000;
+    color: #ffff;
+    height: 36px;
+}
+
+/* footer */
+.site-footer{
+    text-align: center;
+    font-size: 0.7rem;
+    position: absolute;
+    bottom: 10px;
+    left: 47%;
+}
