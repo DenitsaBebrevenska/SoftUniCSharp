@@ -7,23 +7,33 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <section id="sign-up">
+    <form action="#" id="sign-up">
       <div id="sign-up-wrapper">
         <div class="upper-buttons">
-            <button id="sign-up-btn">Sign Up</button>
-            <button id="log-in-btn">Log In</button>
+          <button id="sign-up-btn">Sign Up</button>
+          <button id="log-in-btn">Log In</button>
         </div>
         <h2 id="sign-up-title">Sign Up for Free</h2>
-        <div class="sign-up-forms-wrapper">
-            <div class="name-credentials">
-                <input type="text" id="first-name" placeholder="First Name" required/>
-                <input type="text" id="last-name" placeholder="Last Name" required/>
-            </div>
-            <input type="email" id="email" placeholder="Email Address" required/>
-            <input type="password" id="password" placeholder="Set A Password" required/>
-            <button id="get-started-btn">GET STARTED</button>
+        <div class="name-credentials">
+          <div class="field">
+            <input type="text" name="first-name" id="first-name" required />
+            <label for="first-name" class="input-label">First Name</label>
+          </div>
+          <div class="field">
+            <input type="text" name="last-name" id="last-name" required />
+            <label for="last-name" class="input-label">Last Name</label>
+          </div>
         </div>
+        <div class="field">
+          <input type="email" name="email" id="email" required />
+          <label for="email" name="password" class="input-label">Email</label>
+        </div>
+        <div class="field">
+          <input type="password" id="password" required />
+          <label for="password" class="input-label">Set A Password</label>
+        </div>
+        <button id="get-started-btn">GET STARTED</button>
       </div>
-    </section>
+    </form>
   </body>
 </html>
