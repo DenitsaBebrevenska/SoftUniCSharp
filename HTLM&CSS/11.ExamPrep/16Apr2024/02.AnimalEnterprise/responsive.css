@@ -14,6 +14,9 @@
         align-items: flex-start;
     }
 
+    .home-blog{
+        padding: 30px;
+    }
     .home-container01{
         flex: 1 1 100%;
     }
@@ -24,6 +27,12 @@
 
     .blog-post-card3-blog-post-card{
         flex-direction: column;
+    }
+
+    .home-container04 img {
+        display: block;
+        width: 100%;
+        height: auto;
     }
 
     .home-stats{
