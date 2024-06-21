@@ -1,0 +1,256 @@
+@import url(https://fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i|PT+Serif:400,400i,700,700i&amp;display=swap );
+
+/* reset */
+*,
+*::after,
+*::before{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border-radius: 0;
+}
+
+
+/* general */
+
+html{
+    font: 18px/1.5 "PT Sans", sans-serif;
+}
+
+body, input, button, textarea{
+    font:inherit;
+}
+
+/* header */
+.site-header{
+    width: 100%;
+    height: auto;
+    background-image: url(images/background.jpg);
+    background-size: cover;
+    background-position: center ;
+    position: relative;
+}
+
+/* pseudo element covering background */
+
+.site-header::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.2);;
+}
+
+
+/* header wrappers */
+
+.logo-nav-wrapper{
+    display: flex;
+    justify-content: space-between;
+    padding: 60px 300px;
+    position: relative;
+    z-index: 1;
+}
+
+.header-article{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+    padding-bottom: 160px;
+}
+
+/* logo */
+.logo-wrapper{
+    width: 130px;
+    height: auto;
+}
+
+#site-logo{
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+/* header nav */
+
+#header-list{
+    list-style: none;
+    display: flex;
+    gap: 1.5em;
+}
+
+#header-list a{
+    text-decoration: none;
+    font-weight: bold;
+    color: #000000;
+}
+
+/* header text*/
+
+#site-title{
+    font-size: 2.2em;
+    text-align: center;
+    padding-bottom: 56px;
+}
+
+.header-article p {
+    font-size: 1.2em;
+    font-weight: bold;
+    text-align: center;
+}
+
+.shadowed-text{
+    text-shadow: 2px 1px 4px rgba(0, 0, 0, 0.5)
+}
+
+/* header button */
+
+#more-info-btn{
+    align-self: center;
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    border-radius: 6px;
+    background-color: #E7EEF0;
+    color: #686666;
+    padding: 14px 20px;
+    margin-top: 44px;
+}
+
+/* catalog general */
+
+.catalog{
+    background-color: #60ACC1;
+    width: 100%;
+}
+
+.catalog-text-wrapper{
+    text-align: center;
+    padding: 54px 0 40px 0;
+}
+
+.catalog-card{
+    display: flex;
+    width: 43%;
+    border-right: 12px solid #60ACC1;
+    box-shadow: 1px 1px 24px rgba(0, 0, 0, 0.4);
+}
+.catalog-card-wrapper{
+    justify-content: space-between;
+    display: flex;
+    padding: 0 100px 40px 100px;
+}
+
+.catalog-card-media-wrapper{
+    flex: 0 1 55%;
+    overflow: hidden;
+    position: relative;
+}
+
+.catalog-card-text-wrapper{
+    flex: 0 1 45%;
+    padding: 70px 30px;
+    background-color: #ffffff;
+}
+
+.project-media{
+    height: 100%;
+    width: auto;
+    object-fit: cover;
+    object-position: center;
+    position: absolute;
+}
+
+.catalog-card-title{
+    text-align: center;
+    padding-bottom: 36px;
+}
+
+/* benefits */
+
+.benefits{
+    display: flex;
+    justify-content: space-around;
+    padding: 56px 0;
+}
+
+.benefits > .benefit-card {
+    flex: 0 0 28%;
+    text-align: center;
+}
+
+.benefit-img-wrapper{
+    margin: 0 auto;
+    width: 160px;
+    height: 160px;
+}
+
+.benefit-img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+
+.benefit-title{
+    font-size: 1.2em;
+    padding-top: 12px;
+    padding-bottom: 24px;
+}
+
+.less-opacity{
+    opacity: 70%;
+}
+/* catalog 2*/
+
+.catalog2 .catalog-description{
+    font-style: italic;
+}
+
+.catalog2 .catalog-card-wrapper{
+    display: flex;
+    padding: 0 200px 48px;
+}
+
+.media-wrapper{
+    flex: 0 0 27%;
+    box-shadow: 1px 1px 18px 1px rgba(0,0,0,0.65);
+}
+
+.catalog2-img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* about us */
+
+.about{
+    padding: 60px 20% 50px;
+    text-align: center;
+}
+
+.about-subtitle{
+    font-weight: 500;
+    font-style: italic;
+    padding-bottom: 60px;
+}
+
+.about-description{
+    width: 100ch;
+}
+
+
+/* footer */
+
+.site-footer{
+    color: #ffffff;
+    background-color: #2D333C;
+    text-align: center;
+    padding: 24px 0;
+}
