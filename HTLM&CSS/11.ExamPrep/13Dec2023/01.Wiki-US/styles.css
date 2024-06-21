@@ -1,0 +1,113 @@
+@import url(https://fonts.googleapis.com/css2?family=Agbalumo&display=swap);
+/* reset */
+*,
+*::after,
+*::before{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border-radius: 0;
+}
+
+/* general */
+
+html{
+    font: 16px/1.5 Agbalumo, serif;
+}
+
+body, input, button, textarea{
+    font:inherit;
+}
+
+body{
+    padding: 2em;
+}
+
+.usa{
+    width: 840px;
+    height: auto;
+    border: 2px solid #000000;
+}
+
+p{
+    text-indent: 1.8em;
+}
+
+/* header */
+
+.article-header,
+.facts {
+    background-color: #D5EBEA;
+}
+
+.article-header{    
+    text-align: center;
+    padding: 3em 3em 0 1.2em;
+}
+
+.article-title{
+    font-size: 2em;
+    padding-bottom: 4px;
+    border-bottom: 2px solid black;
+}
+
+.article-subtitle{
+    font-size: 1.2em;
+    font-weight: normal;
+    border-bottom: 2px solid black;
+}
+
+/* main */
+
+.article-main{
+    display: flex;
+    gap: 2em;
+    padding: 2.6em 3em 2.6em 1.2em;
+}
+
+.map{
+    flex: 0 0 40%;
+    height: 100%;
+    padding: 1em;
+    border: 2px solid black;
+}
+
+.map-description{
+    font-size: 0.8em;
+}
+
+.map-img-wrapper{
+    width: 100%;
+    height: 60%;
+    padding-bottom: 1em;
+}
+
+.img-map{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.description-text p {
+    text-align: left;
+    padding-top: 2em;
+}
+ 
+
+/* footer */
+
+.footer-title{
+    color: #ffffff;
+    background-color: #000000;
+    font-size: 1.5em;
+    padding: 0.8rem 3rem 0 3rem;
+}
+
+.facts {
+    list-style-type: none;
+    padding: 1em 0 0.5em 2.4em;
+}
+
+.bolded-text{
+    font-weight: bold;
+}
