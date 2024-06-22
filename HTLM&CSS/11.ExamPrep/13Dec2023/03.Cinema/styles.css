@@ -1,0 +1,235 @@
+@import url(https://fonts.googleapis.com/css2?family=Ubuntu:wght@700&display=swap);
+@import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css);
+
+/* - - - - - - - - - - - - reset - - - - - - - - - - - - */
+
+*,
+*::after,
+*::before{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border-radius: 0;
+}
+
+/* - - - - - - - - - - - - general - - - - - - - - - - - - */
+
+html{
+    font: 16px/1.5 Ubuntu, sans-serif;
+}
+
+body, input, button, textarea{
+    font:inherit;
+}
+
+.smaller-font{
+    font-size: 14px;
+}
+.text-center{
+    text-align: center;
+}
+
+.site-header,
+.contact{
+    background-color: #ffffff;
+}
+
+.site-footer{
+    background-color: #1B9772;
+}
+
+.introduction,
+.fa-solid,
+#chosen{
+    background-color: #56DBB1;
+}
+
+.benefits,
+.about{
+    background-color: #353434;
+}
+
+.benefit-title,
+.about-us-card-title,
+i{
+    color: #ffffff;
+}
+
+.benefit-description,
+.about-us-card-description{
+    color: #5B5956;
+}
+
+/* - - - - - - - - - - - - header - - - - - - - - - - - - */
+
+/* text*/
+.title-wrapper{
+    display: flex;
+}
+
+.header-text-wrapper{
+    padding: 1.3em 3.8em;
+    display: flex;
+    justify-content: space-between;
+}
+
+.site-title{
+    font-size: 2.8rem;
+}
+
+.site-title::after{
+    content: "";
+    border-right: 3px solid #DBDBDB;
+    padding-left: 24px;
+}
+
+.site-subtitle{
+    letter-spacing: 2px;
+    font-size: 0.9rem;
+    color: #808080;
+    padding-left: 36px;
+    padding-bottom: 12px;
+    align-self: flex-end;
+}
+
+/* nav */
+
+.header-nav-links{
+    list-style-type: none;
+    display: flex;
+    gap: 0.1em;
+    padding-top: 1.4em;
+    
+}
+
+.header-nav-links a{
+    text-decoration: none;
+    background-color: #ECECEC;
+    color: #696969;
+    padding: 1.2em 1.4em;
+}
+
+#chosen{
+    color: #000000;
+}
+
+/* image */
+
+.header-img-wrapper{
+    width: 100%;
+    height: 70vh;
+}
+
+.header-image{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* - - - - - - - - - - - - main - - - - - - - - - - - - */
+
+/* introduction section */
+
+.intro-text{
+    padding: 4.8em 11.5em;
+    font-weight: bold;
+}
+
+/* benefits section */
+
+.benefit-cards-wrapper{
+    display: flex;
+    padding: 8em 6em;
+    justify-content: space-around;
+} 
+
+/* benefits section cards */
+.benefit-title{
+    font-size: 16px;
+    padding: 1em 0;
+    position: relative;
+}
+
+.benefit-title::after{
+    content: "";
+    background-color:  #ffffff;
+    position: absolute;
+    bottom: 0;
+    left: 5%;
+    height: 2px;
+    width: 90%;
+}
+
+.fa-solid{
+    font-size: 2.8em;
+    padding: 0.5em;
+}
+
+.benefit-description{
+    padding-top: 1.6em;
+    width: 40ch;
+}
+
+/* contact us section */
+
+.contact-us-wrapper{
+    padding: 4em 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-us-title{
+    margin: 0 auto;
+    font-size: 2em;
+    color: #5F5F5F;
+}
+
+.contact-us-subtitle{
+    margin: 0 auto;
+    font-size: 1em;
+    color: #C3BCB8;
+    padding-bottom: 4em;
+}
+
+.contact-us-btn{
+    letter-spacing: 2px;
+    margin: 0 auto;
+    background-color: #974D1B;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 0.7em 2em;
+}
+
+/* about us section */
+
+.about-card-wrapper{
+    display: flex;
+    padding: 8em 6em;
+    justify-content: space-around;
+}
+
+.about-us-card-title{
+    padding-bottom: 1.2em;
+}
+
+.about-us-card-description{
+    width: 40ch;
+}
+
+/* - - - - - - - - - - - - footer - - - - - - - - - - - - */
+
+.footer-tokens{
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding-top: 4em;
+    padding-bottom: 4em;
+    color: #56DBB1;
+}
+.footer-tokens li{
+    padding: 0 4px;
+}
+
+#white-text{
+    color: #ffffff;
+}
