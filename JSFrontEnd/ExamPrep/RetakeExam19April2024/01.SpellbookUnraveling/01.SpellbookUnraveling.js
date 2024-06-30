@@ -14,7 +14,7 @@ function solve(commandArray){
     let currentAction = commandArray.shift();
 
     while(currentAction !== 'End'){
-        
+
         if(currentAction === 'RemoveEven'){
             spell = getEvenPositions(spell);
             console.log(spell);
@@ -27,7 +27,11 @@ function solve(commandArray){
             let searchedPart = tokens[1];
             
             if(spell.includes(searchedPart)){
-                spell = spell.replace(searchedPart, Array.from(searchedPart).reverse().join(''))
+                let searchPartIndex = spell.indexOf(searchedPart);
+                let replasalPart = Array.from(searchedPart).reverse().join('');
+                let leftPart = spell.slice(0, searchPartIndex);
+                let rightPart = spell.slice(searchPartIndex + searchedPart.length);
+                spell = leftPart + rightPart + replasalPart;
                 console.log(spell);
             } else {
                 console.log('Error');
