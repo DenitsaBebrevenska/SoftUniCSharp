@@ -17,7 +17,7 @@ function attachEvents() {
       tdFirstName.textContent = entry.firstName;
       tdLastName.textContent = entry.lastName;
       tdNumber.textContent = entry.facultyNumber;
-      tdGrade.textContent = entry.grade;
+      tdGrade.textContent = entry.grade.toString(); //I expected this to be string always, but apparently a number can be assigned and Mocha tests fail without .toString()
 
       newTrElement.appendChild(tdFirstName);
       newTrElement.appendChild(tdLastName);
@@ -43,7 +43,7 @@ function attachEvents() {
         firstName: inputFirstNameElement.value,
         lastName: inputLastNameElement.value,
         facultyNumber: inputFacultyNumberElement.value,
-        grade: Number(inputGradeElement.value)
+        grade: inputGradeElement.value
       });
 
       let tdFirstName = document.createElement('td');
@@ -54,7 +54,7 @@ function attachEvents() {
       tdFirstName.textContent = inputFirstNameElement.value;
       tdLastName.textContent = inputLastNameElement.value;
       tdNumber.textContent = inputFacultyNumberElement.value;
-      tdGrade.textContent = Number(inputGradeElement.value);
+      tdGrade.textContent = inputGradeElement.value;
 
       let trElement = document.createElement('tr');
       trElement.appendChild(tdFirstName);
