@@ -62,7 +62,7 @@ function attachEvents() {
                 spanConditionElement.textContent = condition;
                 spanConditionElement.classList.add('forecast-data');
 
-                //appending all chidren
+                //appending all children
                 spanCondition.appendChild(spanLocationName);
                 spanCondition.appendChild(spanLocationDegrees);
                 spanCondition.appendChild(spanConditionElement);
