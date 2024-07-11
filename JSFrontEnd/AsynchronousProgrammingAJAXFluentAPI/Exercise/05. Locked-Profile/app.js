@@ -88,7 +88,7 @@ function lockedProfile() {
             let showMoreBtnElement = document.createElement('button');
             showMoreBtnElement.textContent = 'Show more';
             //add click event for show more btn
-            showMoreBtnElement.addEventListener('click', function(e){
+            showMoreBtnElement.addEventListener('click', async function(e){
                 if(inputRadioUnlockElement.checked === true){
                     showMoreBtnElement.style.display = 'none';
                     divHiddenElement.style.display = 'block';
@@ -96,7 +96,7 @@ function lockedProfile() {
                     hideItBtnElement.textContent = 'Hide it';
                     divElement.appendChild(hideItBtnElement);
                     //add click event for hide it
-                    hideItBtnElement.addEventListener('click', function(ev){
+                    hideItBtnElement.addEventListener('click', async function(ev){
                         if(inputRadioUnlockElement.checked === true){
                             showMoreBtnElement.style.display = 'block';
                             divHiddenElement.style.display = 'none';
