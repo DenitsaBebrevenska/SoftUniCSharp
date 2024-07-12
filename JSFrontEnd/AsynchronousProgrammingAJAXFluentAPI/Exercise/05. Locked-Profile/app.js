@@ -6,8 +6,8 @@ function lockedProfile() {
   let url = "http://localhost:3030/jsonstore/advanced/profiles";
 
   fetch(url)
-    .then((getResponse) => getResponse.json())
-    .then((data) => {
+    .then(getResponse => getResponse.json())
+    .then(data => {
       let fragment = document.createDocumentFragment();
 
       Object.values(data).forEach((entry) => {
@@ -50,5 +50,5 @@ function lockedProfile() {
       //delete sample card to not mess up with the tests
       mainElement.removeChild(sampleCardElement);
     })
-    .catch((error) => console.log(error));
+    .catch(error => console.log(error));
 }
