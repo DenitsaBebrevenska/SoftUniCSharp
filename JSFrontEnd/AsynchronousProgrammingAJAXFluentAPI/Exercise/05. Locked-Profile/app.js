@@ -26,7 +26,8 @@ function lockedProfile() {
         );
         inputEmailElement.value = entry.email;
         let inputAgeElement = copyCard.querySelector("input[name=user1Age]");
-        inputAgeElement.value = entry.age.toString();
+        inputAgeElement.value = entry.age;
+        inputAgeElement.type = 'email';
         //hide extra info
         let hiddenInfoElement = copyCard.querySelector('div.user1Username');
         hiddenInfoElement.style.display = 'none';
