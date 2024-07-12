@@ -1,8 +1,7 @@
 function lockedProfile() {
   let mainElement = document.getElementById("main");
-  //hide sample card
+  //target sample card
   let sampleCardElement = document.querySelector("div.profile:first-of-type");
-  sampleCardElement.style.display = "none";
   //make a get request and handle the data by creating cards for each entry
   let url = "http://localhost:3030/jsonstore/advanced/profiles";
 
@@ -27,12 +26,12 @@ function lockedProfile() {
         );
         inputEmailElement.value = entry.email;
         let inputAgeElement = copyCard.querySelector("input[name=user1Age]");
-        inputAgeElement.value = entry.age; // toString?
+        inputAgeElement.value = entry.age.toString();
         //hide extra info
         let hiddenInfoElement = copyCard.querySelector('div.user1Username');
         hiddenInfoElement.style.display = 'none';
         let cardBtnElement = copyCard.querySelector("button");
-        cardBtnElement.addEventListener("click", async function (e) {
+        cardBtnElement.addEventListener("click", async function () {
           if (unlockInputElement.checked === true && cardBtnElement.textContent === 'Show more') {
             cardBtnElement.textContent = "Hide it";
             hiddenInfoElement.style.display = "block";
@@ -47,6 +46,8 @@ function lockedProfile() {
 
       //append fragment to main
       mainElement.appendChild(fragment);
+      //delete sample card to not mess up with the tests
+      mainElement.removeChild(sampleCardElement);
     })
     .catch((error) => console.log(error));
 }
