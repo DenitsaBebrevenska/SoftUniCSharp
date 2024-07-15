@@ -25,7 +25,8 @@ async function logIn(event){
 
             const responseData = await postResponse.json();
             //store the accessToken, never the user`s password in the storage
-            localStorage.setItem('userData', JSON.stringify(responseData.accessToken));
+            localStorage.setItem('userToken', JSON.stringify(responseData.accessToken));
+            localStorage.setItem('userEmail', JSON.stringify(responseData.email));
             window.location.href = 'index.html';
 
         } catch(error){

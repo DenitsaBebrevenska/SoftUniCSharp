@@ -33,8 +33,8 @@ async function register(event){
         }
 
         //store session, just the token, never password as is
-        localStorage.setItem('UserData', JSON.stringify(responseData.accessToken));
-
+        localStorage.setItem('userToken', JSON.stringify(responseData.accessToken));
+        localStorage.setItem('userEmail', JSON.stringify(responseData.email));
         window.location.href = 'index.html';
     
     } catch(error){
