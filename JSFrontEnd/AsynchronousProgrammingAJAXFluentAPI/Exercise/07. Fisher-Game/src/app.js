@@ -4,15 +4,17 @@ catchesElement.style.display = "none";
 let legendElement = document.querySelector("legend");
 legendElement.style.display = "none";
 let mainElement = document.getElementById("main");
-mainElement.textContent = "Click to load catches";
+let mainInitialTextElement = document.createElement('p');
+mainInitialTextElement.textContent = "Click to load catches";
+mainElement.appendChild(mainInitialTextElement);
 mainElement.style.border = "none";
 let loadBtnElement = document.querySelector("button.load");
 
 loadBtnElement.addEventListener("click", async function () {
     //display hidden elements
+    mainInitialTextElement.style.display = "none";
     legendElement.style.display = "block";
     catchesElement.style.display = "inline-block";
-    mainElement.textContent = "";
     mainElement.style.border = "2px solid black";
 });
 
