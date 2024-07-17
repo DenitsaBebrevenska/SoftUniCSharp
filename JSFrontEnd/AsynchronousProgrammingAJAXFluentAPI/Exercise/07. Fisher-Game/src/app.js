@@ -1,3 +1,6 @@
+//todo logout started failing, adding new catch fails at seeming autorization
+
+
 //urls
 let allCatchesUrl = "http://localhost:3030/data/catches";
 //hide catches and add text
@@ -76,8 +79,51 @@ if (token) {
     usernameElement.textContent = "guest";
     window.location.href = "index.html";
   });
-  //when user is not logged in
+  //adding new catch for all logged users
+  let addBtnElement = document.querySelector('form#addForm button.add');
+  addBtnElement.removeAttribute('disabled');
+  addBtnElement.addEventListener('click', async function(event){
+    event.preventDefault();
+    let anglerName = document.querySelector('#addForm input.angler').value;
+    let catchWeight = document.querySelector('#addForm input.weight').value;
+    let catchSpecies = document.querySelector('#addForm input.species').value;
+    let catchLocation = document.querySelector('#addForm input.location').value;
+    let usedBait = document.querySelector('#addForm input.bait').value;
+    let catchCaptureTime = document.querySelector('#addForm input.captureTime').value;
+    const addedCatch = {
+      'angler': anglerName,
+      'weight': Number(catchWeight),
+      'species': catchSpecies,
+      'location': catchLocation,
+      'bait': usedBait,
+      'captureTime': Number(catchCaptureTime)
+    }
+
+    try{
+      const postResponse = await fetch(allCatchesUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Authorization': token
+        },
+        body: JSON.stringify(addedCatch)
+      });
+
+      if(!postResponse.ok){
+        throw new Error('Adding new catch failed!');
+      }
+
+      const postResponseData = await postResponse.json(); 
+      console.log('Successfully added catch!', postResponseData);
+      window.location.href = 'index.html';
+      
+    }catch(error){
+      console.log(error);
+    }
+    
+  })
 } else {
+  //when user is not logged in
   //remove logout
   logoutBtnElement.style.display = "none";
   //disable all buttons a guest user cannot click
