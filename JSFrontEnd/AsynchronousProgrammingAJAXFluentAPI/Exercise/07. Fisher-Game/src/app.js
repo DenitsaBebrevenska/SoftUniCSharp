@@ -44,11 +44,11 @@ loadBtnElement.addEventListener("click", async function () {
     }
 });
 
-//if user is logged in pressing logout will log them out
+//if user is logged in pressing logout will log them out and they have extra functionality on their catches
 let token = localStorage.getItem("userToken");
 let logoutBtnElement = document.getElementById("logout");
 let usernameElement = document.querySelector("p.email > span");
-
+//when user is log in
 if (token) {
   //hide inappropriate buttons register and login for logged in users
   document.getElementById("register").style.display = "none";
@@ -76,6 +76,7 @@ if (token) {
     usernameElement.textContent = "guest";
     window.location.href = "index.html";
   });
+  //when user is not logged in
 } else {
   //remove logout
   logoutBtnElement.style.display = "none";
