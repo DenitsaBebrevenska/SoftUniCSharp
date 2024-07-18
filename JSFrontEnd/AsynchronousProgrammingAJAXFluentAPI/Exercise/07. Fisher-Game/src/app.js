@@ -64,12 +64,20 @@ if (token) {
     let logoutUrl = "http://localhost:3030/users/logout";
     let userToken = localStorage.getItem("userToken");
     try {
-      await fetch(logoutUrl, {
+      const getResponse = await fetch(logoutUrl, {
         method: "GET",
         headers: {
           "X-Authorization": userToken,
         },
       });
+
+      const reponseData = await getResponse.json();
+      console.log(reponseData);
+
+      if(!getResponse.ok){
+        throw new Error('Error logging out!');
+      }
+
     } catch (error) {
       console.error("Logout failed:", error);
     }
@@ -104,7 +112,7 @@ if (token) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-Authorization': token
+          'X-Authorization': localStorage.getItem("userToken")
         },
         body: JSON.stringify(addedCatch)
       });
