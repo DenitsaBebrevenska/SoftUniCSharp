@@ -67,7 +67,10 @@ function solve() {
           newAdoptedLiItem.appendChild(clearBtn);
           adoptedAnimalsElement.appendChild(newAdoptedLiItem);
           adoptionInfoElement.removeChild(newLiElement);
-          
+          //add clear btn functionality
+          clearBtn.addEventListener('click', function(){
+            adoptedAnimalsElement.removeChild(newAdoptedLiItem);
+          })
         })
        }
   })
