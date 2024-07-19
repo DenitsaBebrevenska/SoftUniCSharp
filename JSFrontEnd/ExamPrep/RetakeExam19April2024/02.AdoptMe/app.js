@@ -7,6 +7,7 @@ function solve() {
   let genderInputElement = document.getElementById('gender');
   let adoptBtnElement = document.getElementById('adopt-btn');
   let adoptionInfoElement = document.getElementById('adoption-info');
+  let adoptedAnimalsElement = document.getElementById('adopted-list');
   //add click event
   adoptBtnElement.addEventListener('click', function(event){
     event.preventDefault(); //Judge could kick me bcs of this
@@ -25,8 +26,8 @@ function solve() {
         let petAge = ageInputElement.value;
         let petGender = genderInputElement.value;
         petTypeElement.textContent = `Pet:${petType}`;
-        petGenderElement.textContent = `Gender:${petAge}`;
-        petAgeElement.textContent = `Age:${petGender}`;
+        petGenderElement.textContent = `Gender:${petGender}`;
+        petAgeElement.textContent = `Age:${petAge}`;
         newArticleElement.appendChild(petTypeElement);
         newArticleElement.appendChild(petGenderElement);
         newArticleElement.appendChild(petAgeElement);
@@ -54,10 +55,19 @@ function solve() {
           typeInputElement.value = petType;
           ageInputElement.value = petAge;
           genderInputElement.value = petGender;
-        })
+        })  
         //add done btn functionality
         doneBtnElement.addEventListener('click', function(){
-
+          let newAdoptedLiItem = document.createElement('li');
+          let clonedArticle = newArticleElement.cloneNode(true);
+          let clearBtn = document.createElement('button');
+          clearBtn.classList.add('clear-btn');
+          clearBtn.textContent = 'Clear';
+          newAdoptedLiItem.appendChild(clonedArticle);
+          newAdoptedLiItem.appendChild(clearBtn);
+          adoptedAnimalsElement.appendChild(newAdoptedLiItem);
+          adoptionInfoElement.removeChild(newLiElement);
+          
         })
        }
   })
