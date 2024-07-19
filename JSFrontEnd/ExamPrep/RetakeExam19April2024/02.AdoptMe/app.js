@@ -10,7 +10,7 @@ function solve() {
   let adoptedAnimalsElement = document.getElementById('adopted-list');
   //add click event
   adoptBtnElement.addEventListener('click', function(event){
-    event.preventDefault(); //Judge could kick me bcs of this
+    event.preventDefault();
     //all fields must have input
     if(typeInputElement.value.length > 0 &&
        ageInputElement.value.length > 0 &&
@@ -77,7 +77,8 @@ function solve() {
 
   //add click events for all buttons on adoption-info list
   let adoptionInfoListElements = document.querySelectorAll('#adoption-info > li');
-  adoptionInfoListElements.forEach(listItem =>{
+  //must be made into an array bcs of Judge
+  Array.from(adoptionInfoListElements).forEach(listItem =>{
     //edit button functionality
     listItem.querySelector('button.edit-btn').addEventListener('click', function(){
       console.log(listItem.querySelector('p:first-child').textContent);
