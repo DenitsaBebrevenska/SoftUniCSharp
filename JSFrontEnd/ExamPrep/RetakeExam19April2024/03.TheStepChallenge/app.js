@@ -2,11 +2,22 @@ let recordsUrl = 'http://localhost:3030/jsonstore/records/';
 
 //target all needed elements from the html
 let recordsListElement = document.querySelector('#list');
+let loadRecordsBtnElement = document.getElementById('load-records');
+let addRecordBtnElement = document.getElementById('add-record');
+let inputNameElement = document.getElementById('p-name');
+let inputStepsElement = document.getElementById('steps');
+let inputCaloriesElement = document.getElementById('calories');
+
+//remove existing sample li element
+recordsListElement.innerHTML = '';
+
+//attach event to load btn
+loadRecordsBtnElement.addEventListener('click', listAllRecords);
 
 //fetching all elements and listing them
 async function listAllRecords(){
-    //remove existing li items if any
-    recordsListElement.innerHTML = '';
+    //remove existing li elements if any
+    recordsListElement.innerHTML = '';  
     //get records
     try{
         const response = await fetch(recordsUrl);
@@ -49,4 +60,33 @@ async function listAllRecords(){
     }
 }
 
-listAllRecords();
+addRecordBtnElement.addEventListener('click', async function(event){
+    event.preventDefault();
+    try {
+        const postResponse = await fetch(recordsUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type' : 'application/json'
+            },
+            body: JSON.stringify({
+                name: inputNameElement.value,
+                steps: inputStepsElement.value,
+                calories: inputCaloriesElement.value
+            })
+        })
+        
+        //the server basically creates it all even without proper headers and json
+        if(!postResponse.ok){
+            throw new Error('Error adding record!');
+        }
+
+        //refresh records and clear up inputs
+        listAllRecords();
+        inputNameElement.value = '',
+        inputStepsElement.value = '',
+        inputCaloriesElement.value = '';
+    } catch(error){
+        console.log(error);
+    }
+    
+})
