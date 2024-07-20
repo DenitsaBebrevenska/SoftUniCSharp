@@ -86,7 +86,7 @@ async function listAllRecords(){
     }
 }
 
-//add add record btn functionality
+//add record btn functionality
 addRecordBtnElement.addEventListener('click', async function(event){
     event.preventDefault();
     try {
