@@ -67,6 +67,16 @@ async function listAllRecords(){
                     //add the record unique id to the edit btn
                     editRecordBtnElement.setAttribute('data-id', entry._id);
                 })
+                //click event for delete btn
+                deleteBtnElement.addEventListener('click', async function(){
+                    const deleteResponse = await fetch(recordsUrl + entry._id, {
+                        method: 'DELETE'
+                    });
+
+                    if(deleteResponse.ok){
+                        listAllRecords();
+                    }
+                })
             });
 
         recordsListElement.appendChild(fragment);
@@ -120,7 +130,8 @@ editRecordBtnElement.addEventListener('click', async function(){
             body: JSON.stringify({
                 name: inputNameElement.value,
                 steps: inputStepsElement.value,
-                calories: inputCaloriesElement.value
+                calories: inputCaloriesElement.value,
+                _id: editRecordBtnElement.getAttribute('data-id')
             })
         });
         
