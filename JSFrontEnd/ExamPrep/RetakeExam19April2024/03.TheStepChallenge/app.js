@@ -15,6 +15,12 @@ recordsListElement.innerHTML = '';
 //attach event listener to load btn
 loadRecordsBtnElement.addEventListener('click', listAllRecords);
 
+//a function to clear up inputs
+function clearUpInputs(){
+    inputNameElement.value = '',
+    inputStepsElement.value = '',
+    inputCaloriesElement.value = '';
+}
 //fetch all elements and list them
 async function listAllRecords(){
     //remove existing li elements if any
@@ -109,9 +115,8 @@ addRecordBtnElement.addEventListener('click', async function(event){
 
         //refresh records and clear up inputs
         listAllRecords();
-        inputNameElement.value = '',
-        inputStepsElement.value = '',
-        inputCaloriesElement.value = '';
+        clearUpInputs();
+       
     } catch(error){
         console.log(error);
     }
@@ -142,9 +147,7 @@ editRecordBtnElement.addEventListener('click', async function(){
             editRecordBtnElement.disabled = 'true';
             editRecordBtnElement.removeAttribute('data-id');
             //clear up inputs
-            inputNameElement.value = '',
-            inputStepsElement.value = '',
-            inputCaloriesElement.value = '';
+           clearUpInputs();
             //enable add record btn
             addRecordBtnElement.removeAttribute('disabled');
         } else {
