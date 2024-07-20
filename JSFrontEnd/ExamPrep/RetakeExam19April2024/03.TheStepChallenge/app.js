@@ -4,17 +4,18 @@ let recordsUrl = 'http://localhost:3030/jsonstore/records/';
 let recordsListElement = document.querySelector('#list');
 let loadRecordsBtnElement = document.getElementById('load-records');
 let addRecordBtnElement = document.getElementById('add-record');
+let editRecordBtnElement = document.getElementById('edit-record');
 let inputNameElement = document.getElementById('p-name');
 let inputStepsElement = document.getElementById('steps');
 let inputCaloriesElement = document.getElementById('calories');
 
-//remove existing sample li element
+//remove existing sample li element in records list
 recordsListElement.innerHTML = '';
 
-//attach event to load btn
+//attach event listener to load btn
 loadRecordsBtnElement.addEventListener('click', listAllRecords);
 
-//fetching all elements and listing them
+//fetch all elements and list them
 async function listAllRecords(){
     //remove existing li elements if any
     recordsListElement.innerHTML = '';  
@@ -23,10 +24,12 @@ async function listAllRecords(){
         const response = await fetch(recordsUrl);
         const responseData = await response.json();
         let fragment = document.createDocumentFragment();
+        //for each record create needed html elements and append
         Object.values(responseData)
             .forEach(entry => {
                 let recordItemElement = document.createElement('li');
                 recordItemElement.classList.add('record');
+                recordItemElement.id = entry._id;
                 let infoDivElement = document.createElement('div');
                 infoDivElement.classList.add('info');
                 let nameParagraph = document.createElement('p');
@@ -51,6 +54,19 @@ async function listAllRecords(){
                 recordItemElement.appendChild(infoDivElement);
                 recordItemElement.appendChild(buttonDivElement);
                 fragment.appendChild(recordItemElement);
+                //once all is created attaching event listeners for the btns
+                //click event for the change btn
+                changeBtnElement.addEventListener('click', async function(){
+                    //put text into the input elements
+                    inputNameElement.value = entry.name,
+                    inputStepsElement.value = entry.steps,
+                    inputCaloriesElement.value = entry.calories;
+                    //deactivate add record btn and active edit record
+                    addRecordBtnElement.disabled = 'true';
+                    editRecordBtnElement.removeAttribute('disabled');
+                    //add the record unique id to the edit btn
+                    editRecordBtnElement.setAttribute('data-id', entry._id);
+                })
             });
 
         recordsListElement.appendChild(fragment);
@@ -60,6 +76,7 @@ async function listAllRecords(){
     }
 }
 
+//add add record btn functionality
 addRecordBtnElement.addEventListener('click', async function(event){
     event.preventDefault();
     try {
@@ -89,4 +106,40 @@ addRecordBtnElement.addEventListener('click', async function(event){
         console.log(error);
     }
     
+})
+
+//add click event for the edit btn
+editRecordBtnElement.addEventListener('click', async function(){
+    try{
+        console.log(editRecordBtnElement.getAttribute('data-id'));
+        const putResponse = await fetch(recordsUrl + editRecordBtnElement.getAttribute('data-id'), {
+            method: 'PUT',
+            headers: {
+                'Content-Type' : 'application/json'
+            },
+            body: JSON.stringify({
+                name: inputNameElement.value,
+                steps: inputStepsElement.value,
+                calories: inputCaloriesElement.value
+            })
+        });
+        
+        if(putResponse.ok){
+            //refresh list
+            listAllRecords();
+            //remove id from the edit btn and disable it
+            editRecordBtnElement.disabled = 'true';
+            editRecordBtnElement.removeAttribute('data-id');
+            //clear up inputs
+            inputNameElement.value = '',
+            inputStepsElement.value = '',
+            inputCaloriesElement.value = '';
+            //enable add record btn
+            addRecordBtnElement.removeAttribute('disabled');
+        } else {
+            throw new Error(putResponse.statusText);
+        }
+    }catch(error){
+        console.log(error);
+    }
 })
