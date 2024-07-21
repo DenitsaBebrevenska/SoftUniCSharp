@@ -21,5 +21,5 @@ public class Address
 
     public int ClientId { get; set; }
 
-    public Client Client { get; set; } = null!;
+    public virtual Client Client { get; set; } = null!;
 }
