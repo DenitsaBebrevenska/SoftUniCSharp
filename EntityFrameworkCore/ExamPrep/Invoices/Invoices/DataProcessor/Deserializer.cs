@@ -1,7 +1,7 @@
 ﻿namespace Invoices.DataProcessor
 {
-    using System.ComponentModel.DataAnnotations;
     using Invoices.Data;
+    using System.ComponentModel.DataAnnotations;
 
     public class Deserializer
     {
@@ -42,5 +42,5 @@
 
             return Validator.TryValidateObject(dto, validationContext, validationResult, true);
         }
-    } 
+    }
 }
