@@ -7,27 +7,27 @@ namespace Invoices.DataProcessor.ImportDto;
 [XmlType("Address")]
 public class ImportAddressDto
 {
-    [XmlAttribute("StreetName")]
+    [XmlElement("StreetName")]
     [Required]
     [StringLength(TableConstraints.AddressStreetNameMaxLength, MinimumLength = TableConstraints.AddressStreetNameMinLength)]
-    public string StreetName { get; set; }
+    public string StreetName { get; set; } = null!;
 
-    [XmlAttribute("StreetNumber")]
+    [XmlElement("StreetNumber")]
     [Required]
     public int StreetNumber { get; set; }
 
-    [XmlAttribute("PostCode")]
+    [XmlElement("PostCode")]
     [Required]
-    public string PostCode { get; set; }
+    public string PostCode { get; set; } = null!;
 
-    [XmlAttribute("City")]
+    [XmlElement("City")]
     [Required]
     [StringLength(TableConstraints.AddressCityMaxLength, MinimumLength = TableConstraints.AddressCityMinLength)]
-    public string City { get; set; }
+    public string City { get; set; } = null!;
 
-    [XmlAttribute("Country")]
+    [XmlElement("Country")]
     [Required]
     [StringLength(TableConstraints.AddressCountryMaxLength, MinimumLength = TableConstraints.AddressCountryMinLength)]
-    public string Country { get; set; }
+    public string Country { get; set; } = null!;
 
 }

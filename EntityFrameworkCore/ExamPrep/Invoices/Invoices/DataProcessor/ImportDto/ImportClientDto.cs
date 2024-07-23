@@ -7,15 +7,16 @@ namespace Invoices.DataProcessor.ImportDto;
 [XmlType("Client")]
 public class ImportClientDto
 {
-    [XmlAttribute("Name")]
+    [XmlElement("Name")]
     [Required]
     [StringLength(TableConstraints.ClientNameMaxLength, MinimumLength = TableConstraints.ClientNameMinLength)]
-    public string Name { get; set; }
+    public string Name { get; set; } = null!;
 
-    [XmlAttribute("NumberVat")]
+    [XmlElement("NumberVat")]
     [Required]
     [StringLength(TableConstraints.ClientVatMaxLength, MinimumLength = TableConstraints.ClientVatMinLength)]
-    public string NumberVat { get; set; }
+    public string NumberVat { get; set; } = null!;
 
-
+    [XmlArray("Addresses")]
+    public ImportAddressDto[] Addresses { get; set; } = null!;
 }

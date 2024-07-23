@@ -8,7 +8,7 @@ public static class XmlHelper
     {
         XmlRootAttribute root = new XmlRootAttribute(rootName);
         XmlSerializer serializer = new XmlSerializer(typeof(T), root);
-        StringReader reader = new StringReader(inputXml);
+        using StringReader reader = new StringReader(inputXml);
 
         return (T)serializer.Deserialize(reader);
     }
@@ -20,7 +20,7 @@ public static class XmlHelper
         namespaces.Add(string.Empty, string.Empty);
         XmlSerializer serializer = new XmlSerializer(typeof(T), root);
         StringBuilder sb = new StringBuilder();
-        StringWriter writer = new StringWriter(sb);
+        using StringWriter writer = new StringWriter(sb);
         serializer.Serialize(writer, obj, namespaces);
         return sb.ToString().TrimEnd();
     }

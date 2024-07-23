@@ -1,4 +1,7 @@
 ﻿using Invoices.Common;
+using Invoices.Data.Models;
+using Invoices.DataProcessor.ImportDto;
+using System.Text;
 
 namespace Invoices.DataProcessor
 {
@@ -21,7 +24,52 @@ namespace Invoices.DataProcessor
 
         public static string ImportClients(InvoicesContext context, string xmlString)
         {
-            var clientDtos = XmlHelper.Deserialize<>()
+            string rootName = "Clients";
+            var clientDtos = XmlHelper.Deserialize<ImportClientDto[]>(xmlString, rootName);
+            var validClients = new HashSet<Client>();
+            StringBuilder sb = new StringBuilder();
+
+            foreach (var clientDto in clientDtos)
+            {
+                if (!IsValid(clientDto))
+                {
+                    sb.AppendLine(ErrorMessage);
+                    continue;
+                }
+
+                Client client = new Client()
+                {
+                    Name = clientDto.Name,
+                    NumberVat = clientDto.NumberVat
+                };
+
+                foreach (var addressDto in clientDto.Addresses)
+                {
+                    if (!IsValid(addressDto))
+                    {
+                        sb.AppendLine(ErrorMessage);
+                        continue;
+                    }
+
+                    Address address = new Address()
+                    {
+                        StreetName = addressDto.StreetName,
+                        StreetNumber = addressDto.StreetNumber,
+                        PostCode = addressDto.PostCode,
+                        City = addressDto.City,
+                        Country = addressDto.Country
+                    };
+
+                    client.Addresses.Add(address);
+                }
+
+                validClients.Add(client);
+                sb.AppendLine(string.Format(SuccessfullyImportedClients, client.Name));
+            }
+
+            context.AddRange(validClients);
+            context.SaveChanges();
+            return sb.ToString().TrimEnd();
         }
 
 
