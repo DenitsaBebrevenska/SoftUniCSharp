@@ -87,7 +87,6 @@ namespace Invoices.DataProcessor
             {
                 DateTime issueDateResult;
                 DateTime dueDateResult;
-                CurrencyType currencyTypeResult;
 
                 //if invalid issue or due date, due date is before issue date, invalid amount, currency type or client, continue
                 if (!IsValid(invoiceDto) ||
