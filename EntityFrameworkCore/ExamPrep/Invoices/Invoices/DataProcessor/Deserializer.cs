@@ -1,4 +1,6 @@
-﻿namespace Invoices.DataProcessor
+﻿using Invoices.Common;
+
+namespace Invoices.DataProcessor
 {
     using Invoices.Data;
     using System.ComponentModel.DataAnnotations;
@@ -19,7 +21,7 @@
 
         public static string ImportClients(InvoicesContext context, string xmlString)
         {
-            throw new NotImplementedException();
+            var clientDtos = XmlHelper.Deserialize<>()
         }
 
 
