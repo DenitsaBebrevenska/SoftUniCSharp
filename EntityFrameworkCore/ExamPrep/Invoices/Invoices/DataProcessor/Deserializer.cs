@@ -124,9 +124,51 @@ namespace Invoices.DataProcessor
 
         public static string ImportProducts(InvoicesContext context, string jsonString)
         {
+            var productDtos = JsonConvert.DeserializeObject<ImportProductDto[]>(jsonString);
+            var validProducts = new HashSet<Product>();
+            var clients = context.Clients.ToArray();
+            StringBuilder sb = new StringBuilder();
 
+            foreach (var productDto in productDtos)
+            {
+                if (!IsValid(productDto) ||
+                    (productDto.CategoryType < (int)CategoryType.ADR || productDto.CategoryType > (int)CategoryType.Tyres))
+                {
+                    sb.AppendLine(ErrorMessage);
+                    continue;
+                }
 
-            throw new NotImplementedException();
+                Product product = new Product()
+                {
+                    Name = productDto.Name,
+                    Price = productDto.Price,
+                    CategoryType = (CategoryType)productDto.CategoryType
+                };
+
+                foreach (var clientId in productDto.Clients.Distinct())
+                {
+                    if (clients.All(c => c.Id != clientId))
+                    {
+                        sb.AppendLine(ErrorMessage);
+                        continue;
+                    }
+
+                    ProductClient pc = new ProductClient()
+                    {
+                        ClientId = clientId,
+                        Product = product
+                    };
+
+                    product.ProductsClients.Add(pc);
+                }
+
+                validProducts.Add(product);
+                sb.AppendLine(string.Format(SuccessfullyImportedProducts, product.Name, product.ProductsClients.Count));
+            }
+
+            context.Products.AddRange(validProducts);
+            context.SaveChanges();
+            return sb.ToString().TrimEnd();
         }
 
         public static bool IsValid(object dto)
