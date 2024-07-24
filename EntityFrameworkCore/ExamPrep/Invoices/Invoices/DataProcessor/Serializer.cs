@@ -1,4 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using Invoices.Common;
+using Invoices.DataProcessor.ExportDto;
+using Newtonsoft.Json;
+using System.Globalization;
 
 namespace Invoices.DataProcessor
 {
@@ -8,7 +11,33 @@ namespace Invoices.DataProcessor
     {
         public static string ExportClientsWithTheirInvoices(InvoicesContext context, DateTime date)
         {
-            throw new NotImplementedException();
+            var clients = context.Clients
+                .Where(c => c.Invoices
+                    .Count(i => i.IssueDate > date) > 0)
+                .Select(c => new ExportClientDto()
+                {
+                    Name = c.Name,
+                    NumberVat = c.NumberVat,
+                    InvoicesCount = c.Invoices.Count(),
+                    Invoices = c.Invoices
+                        .OrderBy(i => i.IssueDate)
+                        .ThenByDescending(i => i.DueDate)
+                        .Select(i => new ExportInvoiceDto()
+                        {
+                            Number = i.Number,
+                            Amount = (double)i.Amount,
+                            DueDate = i.DueDate.ToString("d", CultureInfo.InvariantCulture),
+                            CurrencyType = i.CurrencyType.ToString()
+                        })
+                    .ToArray()
+                })
+                .OrderByDescending(c => c.InvoicesCount)
+                .ThenBy(c => c.Name)
+                .ToArray();
+
+            string rootName = "Clients";
+            return XmlHelper.Serialize(clients, rootName);
+
         }
 
         public static string ExportProductsWithMostClients(InvoicesContext context, int nameLength)
