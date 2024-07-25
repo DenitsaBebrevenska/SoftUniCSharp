@@ -1,4 +1,6 @@
-﻿namespace Boardgames.Data
+﻿using Boardgames.Data.Models;
+
+namespace Boardgames.Data
 {
     using Microsoft.EntityFrameworkCore;
 
@@ -25,6 +27,8 @@
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<BoardgameSeller>(e =>
+                e.HasKey(bs => new { bs.BoardgameId, bs.SellerId }));
         }
     }
 }
