@@ -1,6 +1,5 @@
 ﻿
 using Boardgames.Common;
-using Boardgames.Data.Models.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Serialization;
 
@@ -26,7 +25,7 @@ public class ImportBoardgameDto
 
     [XmlElement("CategoryType")]
     [Required]
-    public CategoryType CategoryType { get; set; }
+    public int CategoryType { get; set; }
 
     [XmlElement("Mechanics")]
     [Required]
