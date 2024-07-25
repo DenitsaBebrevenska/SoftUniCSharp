@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Boardgames.DataProcessor
 {
-    using Boardgames.Data;
+    using Data;
     using System.ComponentModel.DataAnnotations;
 
     public class Deserializer
