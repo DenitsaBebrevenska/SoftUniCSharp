@@ -15,6 +15,11 @@ namespace Boardgames.Data
         {
         }
 
+        public DbSet<Boardgame> Boardgames { get; set; }
+        public DbSet<Seller> Sellers { get; set; }
+        public DbSet<Creator> Creators { get; set; }
+        public DbSet<BoardgameSeller> BoardgamesSellers { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
