@@ -1,15 +1,15 @@
 ﻿namespace Boardgames.Data
 {
     using Microsoft.EntityFrameworkCore;
-    
+
     public class BoardgamesContext : DbContext
     {
         public BoardgamesContext()
-        { 
+        {
         }
 
         public BoardgamesContext(DbContextOptions options)
-            : base(options) 
+            : base(options)
         {
         }
 
@@ -18,7 +18,8 @@
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder
-                    .UseSqlServer(Configuration.ConnectionString);
+                    .UseSqlServer(Environment.GetEnvironmentVariable("ConnectionString", EnvironmentVariableTarget.User))
+                    .UseLazyLoadingProxies();
             }
         }
 
