@@ -1,8 +1,8 @@
 ﻿namespace Boardgames.DataProcessor
 {
-    using System.ComponentModel.DataAnnotations;
     using Boardgames.Data;
-   
+    using System.ComponentModel.DataAnnotations;
+
     public class Deserializer
     {
         private const string ErrorMessage = "Invalid data!";
@@ -15,7 +15,8 @@
 
         public static string ImportCreators(BoardgamesContext context, string xmlString)
         {
-            throw new NotImplementedException();
+            string rootName = "Creators";
+
         }
 
         public static string ImportSellers(BoardgamesContext context, string jsonString)

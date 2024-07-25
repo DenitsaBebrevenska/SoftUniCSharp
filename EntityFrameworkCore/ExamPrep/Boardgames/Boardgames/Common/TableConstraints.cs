@@ -7,7 +7,7 @@ public class TableConstraints
     public const double BoardgameMinRating = 1;
     public const double BoardgameMaxRating = 10;
     public const int BoardgameMinYearPublished = 2018;
-    public const int BoardgameMaxearPublished = 2023;
+    public const int BoardgameMaxYearPublished = 2023;
 
     //Seller
     public const int SellerNameMinLength = 5;
