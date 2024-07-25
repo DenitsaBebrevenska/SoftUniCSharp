@@ -2,6 +2,8 @@
 using Boardgames.Data.Models;
 using Boardgames.Data.Models.Enums;
 using Boardgames.DataProcessor.ImportDto;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System.Text;
 
 namespace Boardgames.DataProcessor
@@ -75,7 +77,53 @@ namespace Boardgames.DataProcessor
 
         public static string ImportSellers(BoardgamesContext context, string jsonString)
         {
-            throw new NotImplementedException();
+            var sellerDtos = JsonConvert.DeserializeObject<ImportSellerDto[]>(jsonString);
+            StringBuilder sb = new StringBuilder();
+            var validSellers = new HashSet<Seller>();
+            var existingBoardgames = context.Boardgames
+                .AsNoTracking()
+                .ToArray();
+
+            foreach (var sellerDto in sellerDtos)
+            {
+                if (!IsValid(sellerDto))
+                {
+                    sb.AppendLine(ErrorMessage);
+                    continue;
+                }
+
+                Seller seller = new Seller()
+                {
+                    Name = sellerDto.Name,
+                    Address = sellerDto.Address,
+                    Country = sellerDto.Country,
+                    Website = sellerDto.Website
+                };
+
+                foreach (var boardgameId in sellerDto.Boardgames.Distinct())
+                {
+                    if (existingBoardgames.All(b => b.Id != boardgameId))
+                    {
+                        sb.AppendLine(ErrorMessage);
+                        continue;
+                    }
+
+                    BoardgameSeller bs = new BoardgameSeller()
+                    {
+                        BoardgameId = boardgameId,
+                        Seller = seller
+                    };
+
+                    seller.BoardgamesSellers.Add(bs);
+                }
+
+                validSellers.Add(seller);
+                sb.AppendLine(string.Format(SuccessfullyImportedSeller, seller.Name, seller.BoardgamesSellers.Count));
+            }
+
+            context.Sellers.AddRange(validSellers);
+            context.SaveChanges();
+            return sb.ToString().TrimEnd();
         }
 
         private static bool IsValid(object dto)

@@ -14,6 +14,7 @@ public class TableConstraints
     public const int SellerNameMaxLength = 20;
     public const int SellerAddressMinLength = 2;
     public const int SellerAddressMaxLength = 30;
+    public const string SellerWebsitePattern = @"www\.[A-Za-z\d-]{3,}\.com";
 
     //Creator
     public const int CreatorFirstNameMinLength = 2;
