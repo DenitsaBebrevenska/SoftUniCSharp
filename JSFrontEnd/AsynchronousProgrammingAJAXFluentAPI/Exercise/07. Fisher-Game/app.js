@@ -17,7 +17,10 @@ let registerBtnElement = document.getElementById('register');
 //At first the current active btn and active view is always home
 let currentActiveBtn = homeBtnElement;
 mainElement.appendChild(homeViewElement);
+//add render catches event
 renderCatches();
+//target add catch btn
+let addBtnElement = document.querySelector('#addForm > fieldset > button.add');
 //all btns on click change the class active to the btn clicked and change active view accordingly
 Array.from(document.querySelectorAll('nav a'))
     .forEach(btn => {
@@ -41,6 +44,8 @@ if(isLoggedUser){
     usernameSpanElement.textContent = localStorage.getItem('username');
     //get logout function
     logout();
+    //enable add catches
+    addBtnElement.removeAttribute('disabled');
 } else {
     userBtnElements.style.display = 'none';
     guestBtnElements.style.display = 'inline-block';
@@ -178,13 +183,15 @@ function logout(){
 
             localStorage.removeItem('userToken');
             localStorage.removeItem('username');
+            //disable add catch
+            addBtnElement.removeAttribute('disabled');
             window.location.href = 'index.html';
         }catch(error){
             console.error('Logout failed: ' + error.message);
         }
     })
 }
-
+//todo check for logged user
 function renderCatches(){
     let sampleDisabledDiv = document.querySelector('#catches > .catch:nth-child(even)').cloneNode(true);
     //remove sample divs
@@ -225,3 +232,6 @@ function renderCatches(){
     })
 }
 
+function addCatch(){
+
+}
