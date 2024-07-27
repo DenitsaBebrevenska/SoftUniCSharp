@@ -167,7 +167,6 @@ function logout(){
         let userToken = localStorage.getItem('userToken');
         try{
             const postResponse  = await fetch(logoutUrl, {
-                method: 'POST',
                 headers: {
                     'X-Authorization' : userToken
                 }
