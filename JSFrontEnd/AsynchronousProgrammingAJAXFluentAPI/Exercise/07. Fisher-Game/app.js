@@ -87,13 +87,12 @@ function login(){
                 emailInputElement.value = '';
                 passwordInputElement.value = '';
                 throw new Error(repsonseData.message);
-            } else {
+            }
                 let username = repsonseData.username;
                 let userToken = repsonseData.accessToken;
                 localStorage.setItem('username', username);
                 localStorage.setItem('userToken', userToken);
-            }
-
+            
             window.location.href = 'index.html';
 
         }catch(error){
@@ -124,7 +123,11 @@ function logout(){
 
             if(!postResponse.ok){
                 throw new Error(postResponse.status);
-            }
+            } 
+
+            localStorage.removeItem('userToken');
+            localStorage.removeItem('username');
+            window.location.href = 'index.html';
         }catch(error){
             console.error('Logout failed: ' + error.message);
         }
