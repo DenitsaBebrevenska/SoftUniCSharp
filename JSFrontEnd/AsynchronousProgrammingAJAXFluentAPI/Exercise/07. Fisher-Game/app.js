@@ -7,7 +7,7 @@ viewsElement.style.display = 'none';
 let registerViewElement = document.getElementById('register-view');
 let loginViewElement = document.getElementById('login-view');
 let homeViewElement = document.getElementById('home-view');
-//target all btns
+//target nav all btns
 let homeBtnElement = document.getElementById('home');
 let userBtnElements = document.getElementById('user');
 let guestBtnElements = document.getElementById('guest');
@@ -166,14 +166,14 @@ function logout(){
         const logoutUrl = 'http://localhost:3030/users/logout';
         let userToken = localStorage.getItem('userToken');
         try{
-            const postResponse  = await fetch(logoutUrl, {
+            const getResponse  = await fetch(logoutUrl, {
                 headers: {
                     'X-Authorization' : userToken
                 }
             })
 
-            if(!postResponse.ok){
-                throw new Error(postResponse.status);
+            if(!getResponse.ok){
+                throw new Error(getResponse.status);
             } 
 
             localStorage.removeItem('userToken');
@@ -181,6 +181,45 @@ function logout(){
             window.location.href = 'index.html';
         }catch(error){
             console.error('Logout failed: ' + error.message);
+        }
+    })
+}
+
+function renderCatches(){
+    //let sampleEnabledDiv = document.querySelector('#catches > .catch:first-child').cloneNode(true);
+    let sampleDisabledDiv = document.querySelector('#catches > .catch:nth-child(even)').cloneNode(true);
+    //remove sample divs
+    document.getElementById('#catches').innerHTML = '';
+    let loadBtnElement = document.querySelector('aside > button.load');
+    loadBtnElement.addEventListener('click', async function(){
+        let userToken = localStorage.getItem('userToken');
+        const catchesUrl = 'http://localhost:3030/data/catches';
+        try{
+            const getResponse = await fetch(catchesUrl);
+            const responseData = await getResponse.json();
+            let fragment = document.createDocumentFragment();
+            responseData.forEach(entry => {
+                //fill in sample element
+                sampleDisabledDiv.querySelector('input.angler').value = entry.angler;
+                sampleDisabledDiv.querySelector('input.weight').value = entry.weight;
+                sampleDisabledDiv.querySelector('input.species').value = entry.species;
+                sampleDisabledDiv.querySelector('input.location').value = entry.location;
+                sampleDisabledDiv.querySelector('input.bait').value = entry.bait;
+                sampleDisabledDiv.querySelector('input.captureTime').value = entry.captureTime;
+                sampleDisabledDiv.querySelector('button.update').setAttribute('data-id', entry._id);
+                sampleDisabledDiv.querySelector('button.delete').setAttribute('data-id', entry._id);
+
+                //enable the fields if the owner is logged
+                if(userToken === entry._ownerId){
+                    sampleDisabledDiv.querySelectorAll(':scope > :not(label)')
+                        .forEach(element => element.removeAttribute('disabled'));
+                }
+
+                fragment.appendChild(sampleDisabledDiv);
+            });
+            document.getElementById('#catches').appendChild(fragment);
+        }catch(error){
+            console.error(error);
         }
     })
 }
