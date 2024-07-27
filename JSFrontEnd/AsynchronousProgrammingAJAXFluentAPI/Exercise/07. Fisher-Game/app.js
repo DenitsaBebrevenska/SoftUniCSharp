@@ -59,6 +59,7 @@ function switchBetweenViews(){
     } else if (currentActiveBtn === registerBtnElement){
         mainElement.innerHTML = '';
         mainElement.appendChild(registerViewElement);
+        registerUser();
     }
 }
 
@@ -104,7 +105,58 @@ function login(){
 function registerUser(){
     document.querySelector('#register > button').addEventListener('click', async function(event){
         event.preventDefault();
+        let emailInputElement = document.querySelector('#register input[name=email]');
+        let passwordInputElement = document.querySelector('#register input[name=password]');
+        let repeatedPasswordInputElement = document.querySelector('#register input[name=rePass]');
+        let email = emailInputElement.value;
+        let password = passwordInputElement.value;
+        let repeatedPassword = repeatedPasswordInputElement.value;
 
+        try{
+        //check input front-end validations
+        if(email.length === 0 || 
+            password.length === 0 || 
+            repeatedPassword.length === 0){
+                throw new Error("All fields should be filled in!");
+        }
+
+        let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if(!emailPattern.test(email)){
+            throw new Error("Invalid email format!");
+        }
+
+        if(password !== password){
+            throw new Error("The passwords don`t match!");
+        }
+
+        let usernameSymbols = email.substring(0, email.indexOf('@'));
+        let username = usernameSymbols[0].toUpperCase() + usernameSymbols.slice(1);
+        const registerUrl = 'http://localhost:3030/users/register';
+        const postResponse = await fetch(registerUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                'email': email,
+                'password': password,
+                'username': username
+            })
+        })
+        
+        const responseData = await postResponse.json();
+
+        if(!postResponse.ok){
+            throw new Error(responseData.message);
+        }
+
+        localStorage.setItem('userToken', responseData.accessToken);
+        localStorage.setItem('username', username);
+        window.location.href = 'index.html';
+    
+    }catch(error){
+        document.querySelector('#register p.notification').textContent = error.message;
+        }
     })
 }
 
