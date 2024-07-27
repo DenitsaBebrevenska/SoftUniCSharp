@@ -17,7 +17,7 @@ let registerBtnElement = document.getElementById('register');
 //At first the current active btn and active view is always home
 let currentActiveBtn = homeBtnElement;
 mainElement.appendChild(homeViewElement);
-
+renderCatches();
 //all btns on click change the class active to the btn clicked and change active view accordingly
 Array.from(document.querySelectorAll('nav a'))
     .forEach(btn => {
@@ -186,10 +186,9 @@ function logout(){
 }
 
 function renderCatches(){
-    //let sampleEnabledDiv = document.querySelector('#catches > .catch:first-child').cloneNode(true);
     let sampleDisabledDiv = document.querySelector('#catches > .catch:nth-child(even)').cloneNode(true);
     //remove sample divs
-    document.getElementById('#catches').innerHTML = '';
+    document.getElementById('catches').innerHTML = '';
     let loadBtnElement = document.querySelector('aside > button.load');
     loadBtnElement.addEventListener('click', async function(){
         let userToken = localStorage.getItem('userToken');
@@ -199,25 +198,27 @@ function renderCatches(){
             const responseData = await getResponse.json();
             let fragment = document.createDocumentFragment();
             responseData.forEach(entry => {
+                //clone the sample
+                let clonedDiv = sampleDisabledDiv.cloneNode(true);
                 //fill in sample element
-                sampleDisabledDiv.querySelector('input.angler').value = entry.angler;
-                sampleDisabledDiv.querySelector('input.weight').value = entry.weight;
-                sampleDisabledDiv.querySelector('input.species').value = entry.species;
-                sampleDisabledDiv.querySelector('input.location').value = entry.location;
-                sampleDisabledDiv.querySelector('input.bait').value = entry.bait;
-                sampleDisabledDiv.querySelector('input.captureTime').value = entry.captureTime;
-                sampleDisabledDiv.querySelector('button.update').setAttribute('data-id', entry._id);
-                sampleDisabledDiv.querySelector('button.delete').setAttribute('data-id', entry._id);
+                clonedDiv.querySelector('input.angler').value = entry.angler;
+                clonedDiv.querySelector('input.weight').value = entry.weight;
+                clonedDiv.querySelector('input.species').value = entry.species;
+                clonedDiv.querySelector('input.location').value = entry.location;
+                clonedDiv.querySelector('input.bait').value = entry.bait;
+                clonedDiv.querySelector('input.captureTime').value = entry.captureTime;
+                clonedDiv.querySelector('button.update').setAttribute('data-id', entry._id);
+                clonedDiv.querySelector('button.delete').setAttribute('data-id', entry._id);
 
                 //enable the fields if the owner is logged
                 if(userToken === entry._ownerId){
-                    sampleDisabledDiv.querySelectorAll(':scope > :not(label)')
+                    clonedDiv.querySelectorAll(':scope > :not(label)')
                         .forEach(element => element.removeAttribute('disabled'));
                 }
 
-                fragment.appendChild(sampleDisabledDiv);
+                fragment.appendChild(clonedDiv);
             });
-            document.getElementById('#catches').appendChild(fragment);
+            document.getElementById('catches').appendChild(fragment);
         }catch(error){
             console.error(error);
         }
