@@ -53,9 +53,50 @@ function switchBetweenViews(){
     } else if (currentActiveBtn === loginBtnElement){
         mainElement.innerHTML = '';
         mainElement.appendChild(loginViewElement);
+        login();
     } else if (currentActiveBtn === registerBtnElement){
         mainElement.innerHTML = '';
         mainElement.appendChild(registerViewElement);
     }
+}
+
+function login(){
+    document.querySelector('#login > button').addEventListener('click', async function(event){
+        event.preventDefault();
+        let emailInputElement = document.querySelector('#login input[name=email]');
+        let passwordInputElement = document.querySelector('#login input[name=password]');
+        const postUrl = 'http://localhost:3030/users/login';
+    
+        try{
+            const postResponse = await fetch(postUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type' : 'application/json'
+                },
+                body: JSON.stringify({
+                    email: emailInputElement.value,
+                    password: passwordInputElement.value
+                })
+            })
+
+            const repsonseData = await postResponse.json();
+
+            if(!postResponse.ok){
+                emailInputElement.value = '';
+                passwordInputElement.value = '';
+                throw new Error(repsonseData.message);
+            } else {
+                let username = repsonseData.username;
+                let userToken = repsonseData.accessToken;
+                localStorage.setItem('username', username);
+                localStorage.setItem('userToken', userToken);
+            }
+
+            window.location.href = 'index.html';
+            
+        }catch(error){
+            document.querySelector('#login p.notification').textContent = error.message;
+        }
+        })
 }
 
