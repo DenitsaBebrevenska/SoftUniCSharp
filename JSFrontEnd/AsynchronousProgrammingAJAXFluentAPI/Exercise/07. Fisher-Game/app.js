@@ -39,6 +39,8 @@ if(isLoggedUser){
     //and display username
     let usernameSpanElement = document.querySelector('.email > span');
     usernameSpanElement.textContent = localStorage.getItem('username');
+    //get logout function
+    logout();
 } else {
     userBtnElements.style.display = 'none';
     guestBtnElements.style.display = 'inline-block';
@@ -93,10 +95,39 @@ function login(){
             }
 
             window.location.href = 'index.html';
-            
+
         }catch(error){
             document.querySelector('#login p.notification').textContent = error.message;
         }
         })
+}
+
+function registerUser(){
+    document.querySelector('#register > button').addEventListener('click', async function(event){
+        event.preventDefault();
+
+    })
+}
+
+function logout(){
+    logoutBtnElement.addEventListener('click', async function(event){
+        event.preventDefault();
+        const logoutUrl = 'http://localhost:3030/users/logout';
+        let userToken = localStorage.getItem('userToken');
+        try{
+            const postResponse  = await fetch(logoutUrl, {
+                method: 'POST',
+                headers: {
+                    'X-Authorization' : userToken
+                }
+            })
+
+            if(!postResponse.ok){
+                throw new Error(postResponse.status);
+            }
+        }catch(error){
+            console.error('Logout failed: ' + error.message);
+        }
+    })
 }
 
