@@ -129,12 +129,9 @@ function login(){
                 passwordInputElement.value = '';
                 throw new Error(repsonseData.message);
             }
-                let username = repsonseData.username;
-                let userToken = repsonseData.accessToken;
-                
-                localStorage.setItem('username', username);
-                localStorage.setItem('userToken', userToken);
-            
+                localStorage.setItem('username', repsonseData.username);
+                localStorage.setItem('userToken', repsonseData.accessToken);
+                localStorage.setItem('userId', repsonseData._id);
             window.location.href = 'index.html';
 
         }catch(error){
@@ -193,6 +190,7 @@ function registerUser(){
 
         localStorage.setItem('userToken', responseData.accessToken);
         localStorage.setItem('username', username);
+        localStorage.setItem('userId', responseData._id);
         window.location.href = 'index.html';
     
     }catch(error){
@@ -219,6 +217,7 @@ function logout(){
 
             localStorage.removeItem('userToken');
             localStorage.removeItem('username');
+            localStorage.removeItem('userId');
             //disable add catch
             addBtnElement.removeAttribute('disabled');
             window.location.href = 'index.html';
@@ -252,7 +251,7 @@ function renderCatches(){
                 clonedDiv.querySelector('button.delete').setAttribute('data-id', entry._id);
 
                 //enable the fields if the owner is logged
-                if(localStorage.getItem('userToken') && localStorage.getItem('userId') === entry._ownerId){
+                if(localStorage.getItem('userId') === entry._ownerId){
                     clonedDiv.querySelectorAll(':scope > :not(label)')
                         .forEach(element => element.removeAttribute('disabled'));
 
@@ -288,7 +287,6 @@ function renderCatches(){
                             const putResponse = await fetch(crudUrl + `/${entry._id}`, {
                                 method: 'DELETE',
                                 headers:{
-                                    'Content-Type': 'application/json',
                                     'X-Authorization': localStorage.getItem('userToken')
                                 }
                             })
