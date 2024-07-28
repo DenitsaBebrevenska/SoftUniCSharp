@@ -300,11 +300,10 @@ function renderCatches(){
                     })
                 }
 
-                
+                //clear up the div if there is any previous data
+                document.getElementById('catches').innerHTML = '';
                 fragment.appendChild(clonedDiv);
             });
-            //clear up the div if there is any previous data
-            document.getElementById('catches').innerHTML = '';
             document.getElementById('catches').appendChild(fragment);
         }catch(error){
             console.error(error);
