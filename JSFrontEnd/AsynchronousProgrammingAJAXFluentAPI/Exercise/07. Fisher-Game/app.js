@@ -234,10 +234,24 @@ function renderCatches(){
     let loadBtnElement = document.querySelector('aside > button.load');
     loadBtnElement.addEventListener('click', async function(){
         try{
-            const getResponse = await fetch(crudUrl);
-            const responseData = await getResponse.json();
+            let allCatches = [];
+            let offset = 0;
+            const pageSize = 10;
+            let hasMoreData = true;
+
+            while(hasMoreData){
+                const getResponse = await fetch(`${crudUrl}?offset=${offset}&pageSize=${pageSize}`);
+                const responseData = await getResponse.json();
+                allCatches = allCatches.concat(responseData);
+
+                if(responseData.length < pageSize){
+                    hasMoreData = false;
+                } else {
+                    offset += pageSize;
+                }
+            }
             let fragment = document.createDocumentFragment();
-            responseData.forEach(entry => {
+            allCatches.forEach(entry => {
                 //clone the sample
                 let clonedDiv = sampleDisabledDiv.cloneNode(true);
                 //fill in sample element
