@@ -72,7 +72,10 @@ if(isLoggedUser){
                 throw new Error(responseData.message);
             }
 
-            localStorage.setItem('userId', responseData._ownerId);
+            if(!localStorage.getItem('userId')){
+                localStorage.setItem('userId', responseData._ownerId);
+            }
+            
             window.location.href = 'index.html';
         }catch(error){
             console.error(error);
@@ -216,7 +219,6 @@ function logout(){
 
             localStorage.removeItem('userToken');
             localStorage.removeItem('username');
-            localStorage.removeItem('userId');
             //disable add catch
             addBtnElement.removeAttribute('disabled');
             window.location.href = 'index.html';
@@ -250,7 +252,7 @@ function renderCatches(){
                 clonedDiv.querySelector('button.delete').setAttribute('data-id', entry._id);
 
                 //enable the fields if the owner is logged
-                if(localStorage.getItem('userId') === entry._ownerId){
+                if(localStorage.getItem('userToken') && localStorage.getItem('userId') === entry._ownerId){
                     clonedDiv.querySelectorAll(':scope > :not(label)')
                         .forEach(element => element.removeAttribute('disabled'));
 
