@@ -128,6 +128,7 @@ function login(){
             }
                 let username = repsonseData.username;
                 let userToken = repsonseData.accessToken;
+                
                 localStorage.setItem('username', username);
                 localStorage.setItem('userToken', userToken);
             
@@ -252,6 +253,51 @@ function renderCatches(){
                 if(localStorage.getItem('userId') === entry._ownerId){
                     clonedDiv.querySelectorAll(':scope > :not(label)')
                         .forEach(element => element.removeAttribute('disabled'));
+
+                    //add click event for the now enabled buttons
+                    clonedDiv.querySelector('button.update').addEventListener('click', async function(){
+                        try{
+                            const putResponse = await fetch(crudUrl + `/${entry._id}`, {
+                                method: 'PUT',
+                                headers:{
+                                    'Content-Type': 'application/json',
+                                    'X-Authorization': localStorage.getItem('userToken')
+                                },
+                                body: JSON.stringify({
+                                    'angler': clonedDiv.querySelector('input.angler').value,
+                                    'weight': clonedDiv.querySelector('input.weight').value,
+                                    'species': clonedDiv.querySelector('input.species').value,
+                                    'location': clonedDiv.querySelector('input.location').value,
+                                    'bait': clonedDiv.querySelector('input.bait').value,
+                                    'captureTime': clonedDiv.querySelector('input.captureTime').value
+                                })
+                            })
+
+                            if(putResponse.ok){
+                                window.location.href = 'index.html';
+                            }
+                        }catch(error){
+                            console.error(error);
+                        }
+                    })
+
+                    clonedDiv.querySelector('button.delete').addEventListener('click', async function(){
+                        try{
+                            const putResponse = await fetch(crudUrl + `/${entry._id}`, {
+                                method: 'DELETE',
+                                headers:{
+                                    'Content-Type': 'application/json',
+                                    'X-Authorization': localStorage.getItem('userToken')
+                                }
+                            })
+
+                            if(putResponse.ok){
+                                window.location.href = 'index.html';
+                            }
+                        }catch(error){
+                            console.error(error);
+                        }
+                    })
                 }
 
                 fragment.appendChild(clonedDiv);
