@@ -1,3 +1,5 @@
+//CRUD base url
+const crudUrl = 'http://localhost:3030/data/catches';
 //target views and main window
 let mainElement = document.querySelector('main');
 let viewsElement = document.getElementById('views');
@@ -46,6 +48,36 @@ if(isLoggedUser){
     logout();
     //enable add catches
     addBtnElement.removeAttribute('disabled');
+    addBtnElement.addEventListener('click', async function(event){
+        event.preventDefault();
+        try{
+            const postResponse = await fetch(crudUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Authorization' : localStorage.getItem('userToken')
+                },
+                body: JSON.stringify({
+                    "angler": document.querySelector('#addForm input[name=angler]').value,
+                    "weight": document.querySelector('#addForm input[name=weight]').value,
+                    "species": document.querySelector('#addForm input[name=species]').value,
+                    "location": document.querySelector('#addForm input[name=location]').value,
+                    "bait": document.querySelector('#addForm input[name=bait]').value,
+                    "captureTime": document.querySelector('#addForm input[name=captureTime]').value
+                })
+            });
+            const responseData = await postResponse.json();
+
+            if(!postResponse.ok){
+                throw new Error(responseData.message);
+            }
+
+            localStorage.setItem('userId', responseData._ownerId);
+            window.location.href = 'index.html';
+        }catch(error){
+            console.error(error);
+        }
+    })
 } else {
     userBtnElements.style.display = 'none';
     guestBtnElements.style.display = 'inline-block';
@@ -183,6 +215,7 @@ function logout(){
 
             localStorage.removeItem('userToken');
             localStorage.removeItem('username');
+            localStorage.removeItem('userId');
             //disable add catch
             addBtnElement.removeAttribute('disabled');
             window.location.href = 'index.html';
@@ -191,17 +224,15 @@ function logout(){
         }
     })
 }
-//todo check for logged user
+
 function renderCatches(){
     let sampleDisabledDiv = document.querySelector('#catches > .catch:nth-child(even)').cloneNode(true);
     //remove sample divs
     document.getElementById('catches').innerHTML = '';
     let loadBtnElement = document.querySelector('aside > button.load');
     loadBtnElement.addEventListener('click', async function(){
-        let userToken = localStorage.getItem('userToken');
-        const catchesUrl = 'http://localhost:3030/data/catches';
         try{
-            const getResponse = await fetch(catchesUrl);
+            const getResponse = await fetch(crudUrl);
             const responseData = await getResponse.json();
             let fragment = document.createDocumentFragment();
             responseData.forEach(entry => {
@@ -218,7 +249,7 @@ function renderCatches(){
                 clonedDiv.querySelector('button.delete').setAttribute('data-id', entry._id);
 
                 //enable the fields if the owner is logged
-                if(userToken === entry._ownerId){
+                if(localStorage.getItem('userId') === entry._ownerId){
                     clonedDiv.querySelectorAll(':scope > :not(label)')
                         .forEach(element => element.removeAttribute('disabled'));
                 }
@@ -232,6 +263,4 @@ function renderCatches(){
     })
 }
 
-function addCatch(){
 
-}
