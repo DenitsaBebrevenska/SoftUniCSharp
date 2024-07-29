@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using System.Text;
 using Trucks.Common;
 using Trucks.Data.Models;
 using Trucks.Data.Models.Enums;
@@ -83,7 +85,54 @@ namespace Trucks.DataProcessor
         }
         public static string ImportClient(TrucksContext context, string jsonString)
         {
+            var clientDtos = JsonConvert.DeserializeObject<ImportClientDto[]>(jsonString);
+            StringBuilder sb = new StringBuilder();
+            var validClients = new HashSet<Client>();
+            var existingTrucksIds = context.Trucks
+                .AsNoTracking().
+                Select(t => t.Id)
+                .ToArray();
 
+            foreach (var clientDto in clientDtos)
+            {
+                if (!IsValid(clientDto) ||
+                    clientDto.Type.ToLower() == "usual")
+                {
+                    sb.AppendLine(ErrorMessage);
+                    continue;
+                }
+
+                Client client = new Client()
+                {
+                    Name = clientDto.Name,
+                    Nationality = clientDto.Nationality,
+                    Type = clientDto.Type
+                };
+
+                foreach (var truckId in clientDto.Trucks.Distinct())
+                {
+                    if (!existingTrucksIds.Contains(truckId))
+                    {
+                        sb.AppendLine(ErrorMessage);
+                        continue;
+                    }
+
+                    ClientTruck ct = new ClientTruck()
+                    {
+                        ClientId = client.Id,
+                        TruckId = truckId
+                    };
+
+                    client.ClientsTrucks.Add(ct);
+
+                }
+
+                validClients.Add(client);
+                sb.AppendLine(string.Format(SuccessfullyImportedClient, client.Name, client.ClientsTrucks.Count));
+            }
+            context.Clients.AddRange(validClients);
+            context.SaveChanges();
+            return sb.ToString().TrimEnd();
         }
 
         private static bool IsValid(object dto)
