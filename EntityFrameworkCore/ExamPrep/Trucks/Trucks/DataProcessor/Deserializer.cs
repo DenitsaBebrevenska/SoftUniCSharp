@@ -1,7 +1,7 @@
 ﻿namespace Trucks.DataProcessor
 {
-    using System.ComponentModel.DataAnnotations;
     using Data;
+    using System.ComponentModel.DataAnnotations;
 
 
     public class Deserializer
@@ -16,7 +16,7 @@
 
         public static string ImportDespatcher(TrucksContext context, string xmlString)
         {
-            throw new NotImplementedException();
+
         }
         public static string ImportClient(TrucksContext context, string jsonString)
         {
