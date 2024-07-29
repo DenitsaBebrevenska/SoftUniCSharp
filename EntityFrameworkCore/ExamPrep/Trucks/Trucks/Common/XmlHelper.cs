@@ -18,7 +18,7 @@ public static class XmlHelper
         XmlRootAttribute rootAttribute = new XmlRootAttribute(rootName);
         XmlSerializerNamespaces namespaces = new XmlSerializerNamespaces();
         namespaces.Add(string.Empty, string.Empty);
-        XmlSerializer serializer = new XmlSerializer(typeof(T), rootName);
+        XmlSerializer serializer = new XmlSerializer(typeof(T), rootAttribute);
         StringBuilder sb = new StringBuilder();
         using StringWriter writer = new StringWriter(sb);
         serializer.Serialize(writer, obj, namespaces);
