@@ -1,4 +1,6 @@
-﻿namespace Trucks.DataProcessor
+﻿using Newtonsoft.Json;
+
+namespace Trucks.DataProcessor
 {
     using Data;
 
@@ -6,12 +8,38 @@
     {
         public static string ExportDespatchersWithTheirTrucks(TrucksContext context)
         {
-            throw new NotImplementedException();
+
         }
 
         public static string ExportClientsWithMostTrucks(TrucksContext context, int capacity)
         {
-            throw new NotImplementedException();
+            var clientsAndTrucks = context.Clients
+                .Where(c => c.ClientsTrucks
+                    .Any(ct => ct.Truck.TankCapacity >= capacity))
+                .Select(c => new
+                {
+                    c.Name,
+                    Trucks = c.ClientsTrucks
+                        .Where(ct => ct.Truck.TankCapacity >= capacity)
+                        .Select(ct => new
+                        {
+                            TruckRegistrationNumber = ct.Truck.RegistrationNumber,
+                            ct.Truck.VinNumber,
+                            ct.Truck.TankCapacity,
+                            ct.Truck.CargoCapacity,
+                            ct.Truck.CategoryType,
+                            ct.Truck.MakeType
+                        })
+                        .OrderBy(t => t.MakeType)
+                        .ThenByDescending(t => t.CategoryType)
+                        .ToArray()
+                })
+                .OrderByDescending(c => c.Trucks.Length)
+                .ThenBy(c => c.Name)
+                .Take(10)
+                .ToArray();
+
+            return JsonConvert.SerializeObject(clientsAndTrucks, Formatting.Indented);
         }
     }
 }
