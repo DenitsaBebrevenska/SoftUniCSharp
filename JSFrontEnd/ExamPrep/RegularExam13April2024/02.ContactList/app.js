@@ -56,11 +56,10 @@ function solve() {
 
     //add save btn functionality
     saveBtnElement.addEventListener('click', function(){
-      newDivBtnElement.removeChild(editBtnElement);
-      newDivBtnElement.removeChild(saveBtnElement);
+      newLiElement.removeChild(newDivBtnElement);
       let newDeleteBtnElement = document.createElement('button');
       newDeleteBtnElement.classList.add('del-btn');
-      newDivBtnElement.appendChild(newDeleteBtnElement);
+      newLiElement.appendChild(newDeleteBtnElement);
       contactListElement.appendChild(newLiElement);
       //add delete btn functionality
       newDeleteBtnElement.addEventListener('click', function(){
