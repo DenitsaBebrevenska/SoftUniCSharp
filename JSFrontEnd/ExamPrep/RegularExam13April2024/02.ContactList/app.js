@@ -1,7 +1,7 @@
 window.addEventListener("load", solve);
 
 function solve() {
-   //target add btn and add its functionality
+   //target all needed elements
    let addBtnElement = document.getElementById('add-btn');
    addBtnElement.addEventListener('click', function(event){
     event.preventDefault();
@@ -50,7 +50,19 @@ function solve() {
       numberInputElement.value = newParagraphNumberElement.textContent.split(':')[1];
       categorySelectElement.value = newParagraphCategoryElement.textContent.split(':')[1];
       checkListElement.removeChild(newLiElement);
-    })
+    });
+
+    let contactListElement = document.getElementById('contact-list');
+
+    //add save btn functionality
+    saveBtnElement.addEventListener('click', function(){
+      newDivBtnElement.removeChild(editBtnElement);
+      newDivBtnElement.removeChild(saveBtnElement);
+      let newDeleteBtnElement = document.createElement('button');
+      newDeleteBtnElement.classList.add('del-btn');
+      newDivBtnElement.appendChild(newDeleteBtnElement);
+      contactListElement.appendChild(newLiElement);
+      })
 
     //clear input fields
     nameInputElement.value = '';
