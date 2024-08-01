@@ -43,6 +43,19 @@ function solve() {
     newLiElement.appendChild(newDivBtnElement);
 
     checkListElement.appendChild(newLiElement);
-   })
+
+    //add edit btn functionality
+    editBtnElement.addEventListener('click', function(){
+      nameInputElement.value = newParagraphNameElement.textContent.split(':')[1];
+      numberInputElement.value = newParagraphNumberElement.textContent.split(':')[1];
+      categorySelectElement.value = newParagraphCategoryElement.textContent.split(':')[1];
+      checkListElement.removeChild(newLiElement);
+    })
+
+    //clear input fields
+    nameInputElement.value = '';
+    numberInputElement.value= '';
+    categorySelectElement.value = '';
+   });
   }
   
