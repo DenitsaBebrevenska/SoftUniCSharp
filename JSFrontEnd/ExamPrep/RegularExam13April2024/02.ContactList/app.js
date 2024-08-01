@@ -62,6 +62,10 @@ function solve() {
       newDeleteBtnElement.classList.add('del-btn');
       newDivBtnElement.appendChild(newDeleteBtnElement);
       contactListElement.appendChild(newLiElement);
+      //add delete btn functionality
+      newDeleteBtnElement.addEventListener('click', function(){
+        contactListElement.removeChild(newLiElement);
+      })
       })
 
     //clear input fields
