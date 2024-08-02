@@ -39,6 +39,8 @@ namespace Footballers.DataProcessor
 
         public static string ExportTeamsWithMostFootballers(FootballersContext context, DateTime date)
         {
+            /* There is an error with the expected output. The data is from the unit test that seeds different data before executing these. Both this file
+             and the description of the task in word format are wrong. The Judge test pass as this, despite the difference in result files.*/
             var teamAndFootballers = context.Teams
                 .ToArray()
                 .Where(t => t.TeamsFootballers
