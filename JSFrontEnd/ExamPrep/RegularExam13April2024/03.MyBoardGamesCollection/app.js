@@ -75,7 +75,7 @@ async function displayGamesList() {
       //add event listeners for both btns
       clonedSample
         .querySelector(".change-btn")
-        .addEventListener("click", function () {
+        .addEventListener("click", async function () {
           nameInputElement.value = element.name;
           typeInputElement.value = element.type;
           playerCountInputElement.value = element.players;
@@ -93,6 +93,7 @@ async function displayGamesList() {
                   name: nameInputElement.value,
                   type: typeInputElement.value,
                   players: playerCountInputElement.value,
+                  _id: element._id,
                 }),
               });
 
@@ -109,7 +110,23 @@ async function displayGamesList() {
             }
           });
         });
-      //clonedSample.querySelector(".delete-btn").addEventListener("click");
+      clonedSample
+        .querySelector(".delete-btn")
+        .addEventListener("click", async function () {
+          try {
+            const deleteResponse = await fetch(baseUrl + element._id, {
+              method: "DELETE",
+            });
+
+            if (!deleteResponse.ok) {
+              throw new Error(deleteResponse.status);
+            }
+
+            displayGamesList();
+          } catch (error) {
+            console.error(error);
+          }
+        });
     });
 
     gamesListElement.appendChild(fragment);
