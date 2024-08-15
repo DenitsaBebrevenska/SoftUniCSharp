@@ -2,6 +2,7 @@ window.addEventListener("load", solve);
 
 function solve() {
   let taskListElement = document.getElementById("task-list");
+  let doneListElement = document.getElementById("done-list");
   let formElement = document.querySelector("#add-task > form");
   let addBtnElement = document.getElementById("add-btn");
   let placeInputElement = document.getElementById("place");
@@ -53,7 +54,15 @@ function solve() {
       taskListElement.removeChild(newLiElement);
     });
     let newDoneBtnElement = document.createElement("button");
-    //
+    //done btn functionality
+    newDoneBtnElement.addEventListener("click", function () {
+      newLiElement.removeChild(newDivWrapperElement);
+      let newDeleteBtnElement = document.createElement("button");
+      newDeleteBtnElement.classList.add("delete");
+      newDeleteBtnElement.textContent = "Delete";
+      newLiElement.appendChild(newDeleteBtnElement);
+      doneListElement.appendChild(newLiElement);
+    });
     newDoneBtnElement.classList.add("done");
     newDoneBtnElement.textContent = "Done";
     newDivWrapperElement.appendChild(newEditBtnElement);
