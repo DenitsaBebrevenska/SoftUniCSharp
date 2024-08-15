@@ -20,6 +20,9 @@ function solve() {
     }
 
     //create new items and append them accordingly
+  });
+
+  function createNewListItem() {
     let newLiElement = document.createElement("li");
     newLiElement.classList.add("clean-task");
     let newArticleElement = document.createElement("article");
@@ -39,7 +42,8 @@ function solve() {
     let newEditBtnElement = document.createElement("button");
     newEditBtnElement.classList.add("edit");
     newEditBtnElement.textContent = "Edit";
-    //
+    //edit btn functionality
+    newEditBtnElement.addEventListener("click", function () {});
     let newDoneBtnElement = document.createElement("button");
     newDoneBtnElement.classList.add("done");
     newDoneBtnElement.textContent = "Done";
@@ -48,8 +52,7 @@ function solve() {
     newLiElement.appendChild(newDivWrapperElement);
 
     taskListElement.appendChild(newLiElement);
-
     //clear up the form
     formElement.reset();
-  });
+  }
 }
