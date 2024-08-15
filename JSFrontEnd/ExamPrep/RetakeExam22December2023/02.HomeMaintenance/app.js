@@ -58,6 +58,10 @@ function solve() {
     newDoneBtnElement.addEventListener("click", function () {
       newLiElement.removeChild(newDivWrapperElement);
       let newDeleteBtnElement = document.createElement("button");
+      //delete btn functionality
+      newDeleteBtnElement.addEventListener("click", function () {
+        doneListElement.removeChild(newLiElement);
+      });
       newDeleteBtnElement.classList.add("delete");
       newDeleteBtnElement.textContent = "Delete";
       newLiElement.appendChild(newDeleteBtnElement);
