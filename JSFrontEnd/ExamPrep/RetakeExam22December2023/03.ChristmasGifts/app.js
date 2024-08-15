@@ -48,8 +48,16 @@ function createGiftItem(obj) {
   giftItem.querySelector(".content > p:first-of-type").textContent = obj.gift;
   giftItem.querySelector(".content > p:nth-child(even)").textContent = obj.for;
   giftItem.querySelector(".content > p:last-of-type").textContent = obj.price;
-  giftItem.querySelector("button.change-btn").setAttribute("data-id", obj._id);
-  giftItem.querySelector("button.delete-btn").setAttribute("data-id", obj._id);
+
+  let changeBtnElement = giftItem.querySelector("button.change-btn");
+  changeBtnElement.setAttribute("data-id", obj._id);
+  //add change btn functionality
+  changeBtnElement.addEventListener("click", changePresent);
+  let deleteBTtnElement = giftItem.querySelector("button.delete-btn");
+  deleteBTtnElement.setAttribute("data-id", obj._id);
+  //add delete btn functionality
+  deleteBTtnElement.addEventListener("click", deletePresent);
+
   return giftItem;
 }
 
@@ -72,6 +80,29 @@ async function loadPresents() {
     });
 
     giftListElement.appendChild(fragment);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function changePresent() {}
+
+async function deletePresent(event) {
+  let currrentDeleteBtn = event.currentTarget;
+
+  try {
+    const deleteResponse = await fetch(
+      baseUrl + `/${currrentDeleteBtn.getAttribute("data-id")}`,
+      {
+        method: "DELETE",
+      }
+    );
+
+    if (!deleteResponse.ok) {
+      throw new Error("Error deleting the gift!");
+    }
+
+    giftListElement.removeChild(currrentDeleteBtn.parentElement.parentElement);
   } catch (error) {
     console.error(error);
   }
