@@ -9,6 +9,7 @@ let giftInputElement = document.getElementById("gift");
 let forInputElement = document.getElementById("for");
 let priceInputElement = document.getElementById("price");
 let addPresentBtnElement = document.getElementById("add-present");
+let editPresentBtnElement = document.getElementById("edit-present");
 
 //clear up sample element
 giftListElement.innerHTML = "";
@@ -85,7 +86,49 @@ async function loadPresents() {
   }
 }
 
-async function changePresent() {}
+function changePresent(event) {
+  let currentChangeBtn = event.currentTarget;
+  let currentGiftItem = currentChangeBtn.parentElement.parentElement;
+  giftListElement.removeChild(currentGiftItem);
+  editPresentBtnElement.removeAttribute("disabled");
+  addPresentBtnElement.disabled = true;
+  giftInputElement.value =
+    currentGiftItem.querySelector("p:first-of-type").textContent;
+  forInputElement.value =
+    currentGiftItem.querySelector("p:nth-child(even)").textContent;
+  priceInputElement.value =
+    currentGiftItem.querySelector("p:last-of-type").textContent;
+  //update present
+  editPresentBtnElement.addEventListener("click", async function () {
+    try {
+      const putResponse = await fetch(
+        baseUrl + `/${currentChangeBtn.getAttribute("data-id")}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            gift: giftInputElement.value,
+            for: forInputElement.value,
+            price: priceInputElement.value,
+          }),
+        }
+      );
+
+      if (!putResponse.ok) {
+        throw new Error("Error updating the gift!");
+      }
+
+      formElement.reset();
+      editPresentBtnElement.disabled = true;
+      addPresentBtnElement.removeAttribute("disabled");
+      loadPresents();
+    } catch (error) {
+      console.error(error);
+    }
+  });
+}
 
 async function deletePresent(event) {
   let currrentDeleteBtn = event.currentTarget;
