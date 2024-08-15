@@ -112,6 +112,7 @@ function changePresent(event) {
             gift: giftInputElement.value,
             for: forInputElement.value,
             price: priceInputElement.value,
+            _id: currentChangeBtn.getAttribute("data-id"),
           }),
         }
       );
@@ -146,6 +147,7 @@ async function deletePresent(event) {
     }
 
     giftListElement.removeChild(currrentDeleteBtn.parentElement.parentElement);
+    loadPresents();
   } catch (error) {
     console.error(error);
   }
