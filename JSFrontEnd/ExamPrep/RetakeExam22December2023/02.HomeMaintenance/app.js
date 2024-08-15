@@ -19,19 +19,22 @@ function solve() {
       return;
     }
 
-    //create new items and append them accordingly
+    createNewListItem();
   });
 
   function createNewListItem() {
+    let place = placeInputElement.value;
+    let person = personInputElement.value;
+    let action = actionInputElement.value;
     let newLiElement = document.createElement("li");
     newLiElement.classList.add("clean-task");
     let newArticleElement = document.createElement("article");
     let newPlaceParagraphElement = document.createElement("p");
-    newPlaceParagraphElement.textContent = `Place:${placeInputElement.value}`;
+    newPlaceParagraphElement.textContent = `Place:${place}`;
     let newActionParagraphElement = document.createElement("p");
-    newActionParagraphElement.textContent = `Action:${actionInputElement.value}`;
+    newActionParagraphElement.textContent = `Action:${action}`;
     let newPersonParagraphElement = document.createElement("p");
-    newPersonParagraphElement.textContent = `Peson:${personInputElement.value}`;
+    newPersonParagraphElement.textContent = `Peson:${person}`;
     newArticleElement.appendChild(newPlaceParagraphElement);
     newArticleElement.appendChild(newActionParagraphElement);
     newArticleElement.appendChild(newPersonParagraphElement);
@@ -43,8 +46,14 @@ function solve() {
     newEditBtnElement.classList.add("edit");
     newEditBtnElement.textContent = "Edit";
     //edit btn functionality
-    newEditBtnElement.addEventListener("click", function () {});
+    newEditBtnElement.addEventListener("click", function () {
+      placeInputElement.value = place;
+      personInputElement.value = person;
+      actionInputElement.value = action;
+      taskListElement.removeChild(newLiElement);
+    });
     let newDoneBtnElement = document.createElement("button");
+    //
     newDoneBtnElement.classList.add("done");
     newDoneBtnElement.textContent = "Done";
     newDivWrapperElement.appendChild(newEditBtnElement);
