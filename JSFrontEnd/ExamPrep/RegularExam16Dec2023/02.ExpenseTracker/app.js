@@ -12,7 +12,9 @@ function solve() {
   let deleteBtnElement = document.querySelector("button.delete");
 
   //add add btn function
-  addBtnElement.addEventListener("click", function () {
+  addBtnElement.addEventListener("click", addExpense);
+
+  function addExpense() {
     if (
       typeInputElement.value.length === 0 ||
       amountInputElement.value.length === 0 ||
@@ -21,15 +23,19 @@ function solve() {
       return;
     }
 
+    let type = typeInputElement.value;
+    let amount = amountInputElement.value;
+    let date = dateInputElement.value;
+
     let newLiElement = document.createElement("li");
     newLiElement.classList.add("expense-item");
     let newArticleElement = document.createElement("article");
     let newTypeParagraph = document.createElement("p");
-    newTypeParagraph.textContent = `Type: ${typeInputElement.value}`;
+    newTypeParagraph.textContent = `Type: ${type}`;
     let newAmountParagraph = document.createElement("p");
-    newAmountParagraph.textContent = `Amount: ${amountInputElement.value}$`;
+    newAmountParagraph.textContent = `Amount: ${amount}$`;
     let newDateParagraph = document.createElement("p");
-    newDateParagraph.textContent = `Date: ${dateInputElement.value}`;
+    newDateParagraph.textContent = `Date: ${date}`;
     newArticleElement.appendChild(newTypeParagraph);
     newArticleElement.appendChild(newAmountParagraph);
     newArticleElement.appendChild(newDateParagraph);
@@ -41,6 +47,7 @@ function solve() {
     newEditBtnElement.classList.add("btn");
     newEditBtnElement.classList.add("edit");
     newEditBtnElement.textContent = "edit";
+    newEditBtnElement.addEventListener("click", editExpense);
     let newOkBtnElement = document.createElement("button");
     newOkBtnElement.classList.add("btn");
     newOkBtnElement.classList.add("ok");
@@ -52,5 +59,24 @@ function solve() {
     previewListElement.appendChild(newLiElement);
     formElement.reset();
     addBtnElement.disabled = true;
-  });
+  }
+
+  function editExpense(event) {
+    let currentExpenseElement = event.currentTarget.parentNode.parentNode;
+    let type = currentExpenseElement
+      .querySelector("p:first-of-type")
+      .textContent.split(": ")[1];
+    let amount = currentExpenseElement
+      .querySelector("p:nth-child(even)")
+      .textContent.split(": ")[1]
+      .split("$")[0];
+    let date = currentExpenseElement
+      .querySelector("p:last-of-type")
+      .textContent.split(": ")[1];
+    typeInputElement.value = type;
+    amountInputElement.value = amount;
+    dateInputElement.value = date;
+    addBtnElement.removeAttribute("disabled");
+    previewListElement.innerHTML = "";
+  }
 }
