@@ -4,7 +4,7 @@ let mealListElement = document.getElementById("list");
 let formElement = document.querySelector("div#form > form");
 let foodInputElement = document.getElementById("food");
 let timeInputElement = document.getElementById("time");
-let caloeriesInputElement = document.getElementById("calories");
+let caloriesInputElement = document.getElementById("calories");
 let addMealBtnElement = document.getElementById("add-meal");
 let editMealBtnElement = document.getElementById("edit-meal");
 let loadBtnElement = document.getElementById("load-meals");
@@ -41,12 +41,15 @@ async function loadMeals() {
       clonedMealElement.querySelector("h3").textContent = value.time;
       clonedMealElement.querySelector("h3:last-of-type").textContent =
         value.calories;
-      clonedMealElement
-        .querySelector("button.change-meal")
-        .setAttribute("data-id", value._id);
-      clonedMealElement
-        .querySelector("button.delete-meal")
-        .setAttribute("data-id", value._id);
+      let currentChangeBtn =
+        clonedMealElement.querySelector("button.change-meal");
+      currentChangeBtn.setAttribute("data-id", value._id);
+      currentChangeBtn.addEventListener("click", changeMeal);
+
+      let currentDeleteBtn =
+        clonedMealElement.querySelector("button.delete-meal");
+      currentDeleteBtn.setAttribute("data-id", value._id);
+      currentDeleteBtn.addEventListener("click", deleteMeal);
 
       fragment.appendChild(clonedMealElement);
     });
@@ -61,14 +64,14 @@ async function addMeal() {
   if (
     !foodInputElement.value.length ||
     !timeInputElement.value.length ||
-    !caloeriesInputElement.value.length
+    !caloriesInputElement.value.length
   ) {
     throw new Error("All fields must be filled in!");
   }
 
   let food = foodInputElement.value;
   let time = timeInputElement.value;
-  let calories = caloeriesInputElement.value;
+  let calories = caloriesInputElement.value;
 
   try {
     const postResponse = await fetch(baseUrl, {
@@ -92,4 +95,66 @@ async function addMeal() {
   } catch (error) {
     console.error(error);
   }
+}
+
+async function deleteMeal(event) {
+  let currentMealId = event.target.getAttribute("data-id");
+
+  try {
+    const deleteResponse = await fetch(baseUrl + `/${currentMealId}`, {
+      method: "DELETE",
+    });
+
+    if (!deleteResponse.ok) {
+      throw new Error("Error deleting meal");
+    }
+
+    loadMeals();
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+function changeMeal(event) {
+  let currentMeal = event.target.parentNode.parentNode;
+
+  foodInputElement.value = currentMeal.querySelector("h2").textContent;
+  timeInputElement.value = currentMeal.querySelector("h3").textContent;
+  caloriesInputElement.value =
+    currentMeal.querySelector("h3:last-of-type").textContent;
+  mealListElement.removeChild(currentMeal);
+  addMealBtnElement.disabled = true;
+  editMealBtnElement.removeAttribute("disabled");
+
+  editMealBtnElement.addEventListener("click", async function () {
+    try {
+      let dataId = currentMeal
+        .querySelector("button.change-meal")
+        .getAttribute("data-id");
+
+      const putResponse = await fetch(baseUrl + `/${dataId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          food: currentMeal.querySelector("h2").textContent,
+          calories: currentMeal.querySelector("h3:last-of-type").textContent,
+          time: currentMeal.querySelector("h3").textContent,
+          _id: dataId,
+        }),
+      });
+
+      if (!putResponse.ok) {
+        throw new Error("Error changing meal");
+      }
+
+      loadMeals();
+      formElement.reset();
+      editMealBtnElement.disabled = true;
+      addMealBtnElement.removeAttribute("disabled");
+    } catch (error) {
+      console.error(error);
+    }
+  });
 }
