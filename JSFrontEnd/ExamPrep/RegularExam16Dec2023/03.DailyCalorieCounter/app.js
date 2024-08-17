@@ -44,7 +44,23 @@ async function loadMeals() {
       let currentChangeBtn =
         clonedMealElement.querySelector("button.change-meal");
       currentChangeBtn.setAttribute("data-id", value._id);
-      currentChangeBtn.addEventListener("click", changeMeal);
+      currentChangeBtn.addEventListener("click", function (event) {
+        let currentMeal = event.target.parentNode.parentNode;
+
+        foodInputElement.value = currentMeal.querySelector("h2").textContent;
+        timeInputElement.value = currentMeal.querySelector("h3").textContent;
+        caloriesInputElement.value =
+          currentMeal.querySelector("h3:last-of-type").textContent;
+        mealListElement.removeChild(currentMeal);
+        addMealBtnElement.disabled = true;
+        editMealBtnElement.removeAttribute("disabled");
+        4;
+        editMealBtnElement.setAttribute(
+          "data-id",
+          event.target.getAttribute("data-id")
+        );
+        editMealBtnElement.addEventListener("click", updateMeal);
+      });
 
       let currentDeleteBtn =
         clonedMealElement.querySelector("button.delete-meal");
@@ -115,46 +131,32 @@ async function deleteMeal(event) {
   }
 }
 
-function changeMeal(event) {
-  let currentMeal = event.target.parentNode.parentNode;
+async function updateMeal(event) {
+  let dataId = event.target.getAttribute("data-id");
+  try {
+    const putResponse = await fetch(baseUrl + `/${dataId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        food: foodInputElement.value,
+        calories: caloriesInputElement.value,
+        time: timeInputElement.value,
+        _id: dataId,
+      }),
+    });
 
-  foodInputElement.value = currentMeal.querySelector("h2").textContent;
-  timeInputElement.value = currentMeal.querySelector("h3").textContent;
-  caloriesInputElement.value =
-    currentMeal.querySelector("h3:last-of-type").textContent;
-  mealListElement.removeChild(currentMeal);
-  addMealBtnElement.disabled = true;
-  editMealBtnElement.removeAttribute("disabled");
-
-  editMealBtnElement.addEventListener("click", async function () {
-    try {
-      let dataId = currentMeal
-        .querySelector("button.change-meal")
-        .getAttribute("data-id");
-
-      const putResponse = await fetch(baseUrl + `/${dataId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          food: currentMeal.querySelector("h2").textContent,
-          calories: currentMeal.querySelector("h3:last-of-type").textContent,
-          time: currentMeal.querySelector("h3").textContent,
-          _id: dataId,
-        }),
-      });
-
-      if (!putResponse.ok) {
-        throw new Error("Error changing meal");
-      }
-
-      loadMeals();
-      formElement.reset();
-      editMealBtnElement.disabled = true;
-      addMealBtnElement.removeAttribute("disabled");
-    } catch (error) {
-      console.error(error);
+    if (!putResponse.ok) {
+      throw new Error("Error changing meal");
     }
-  });
+
+    loadMeals();
+    formElement.reset();
+    editMealBtnElement.disabled = true;
+    event.target.removeAttribute("data-id");
+    addMealBtnElement.removeAttribute("disabled");
+  } catch (error) {
+    console.error(error);
+  }
 }
