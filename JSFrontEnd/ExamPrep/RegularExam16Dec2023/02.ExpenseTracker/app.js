@@ -48,10 +48,13 @@ function solve() {
     newEditBtnElement.classList.add("edit");
     newEditBtnElement.textContent = "edit";
     newEditBtnElement.addEventListener("click", editExpense);
+
     let newOkBtnElement = document.createElement("button");
     newOkBtnElement.classList.add("btn");
     newOkBtnElement.classList.add("ok");
     newOkBtnElement.textContent = "ok";
+    newOkBtnElement.addEventListener("click", moveToExpenses);
+
     newDivBtnWrapper.appendChild(newEditBtnElement);
     newDivBtnWrapper.appendChild(newOkBtnElement);
     newLiElement.appendChild(newDivBtnWrapper);
@@ -78,5 +81,12 @@ function solve() {
     dateInputElement.value = date;
     addBtnElement.removeAttribute("disabled");
     previewListElement.innerHTML = "";
+  }
+
+  function moveToExpenses(event) {
+    let currentBtnDivWrapper = event.currentTarget.parentNode;
+    let currentExpense = event.currentTarget.parentNode.parentNode;
+    currentExpense.removeChild(currentBtnDivWrapper);
+    expensesListElement.appendChild(currentExpense);
   }
 }
