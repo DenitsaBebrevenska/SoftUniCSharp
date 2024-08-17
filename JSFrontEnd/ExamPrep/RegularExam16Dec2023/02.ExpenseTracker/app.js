@@ -11,8 +11,13 @@ function solve() {
   let expensesListElement = document.getElementById("expenses-list");
   let deleteBtnElement = document.querySelector("button.delete");
 
-  //add add btn function
+  //add btn function
   addBtnElement.addEventListener("click", addExpense);
+
+  //delete btn function
+  deleteBtnElement.addEventListener("click", function () {
+    expensesListElement.innerHTML = "";
+  });
 
   function addExpense() {
     if (
@@ -88,5 +93,6 @@ function solve() {
     let currentExpense = event.currentTarget.parentNode.parentNode;
     currentExpense.removeChild(currentBtnDivWrapper);
     expensesListElement.appendChild(currentExpense);
+    addBtnElement.removeAttribute("disabled");
   }
 }
