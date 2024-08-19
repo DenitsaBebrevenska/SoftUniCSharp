@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Net.Http.Headers;
 using MVCIntro.Models.Product;
+using System.Text;
+using System.Text.Json;
 
 namespace MVCIntro.Controllers;
 public class ProductController : Controller
@@ -43,4 +46,32 @@ public class ProductController : Controller
 
         return View(product);
     }
+
+    public IActionResult GetAllAsJson()
+    {
+
+        var productsJson = Json(_products, new JsonSerializerOptions()
+        {
+            WriteIndented = true
+        });
+
+        return productsJson;
+    }
+
+    public IActionResult GetAllAsText()
+    {
+        return Content(GetProductString());
+    }
+
+    public IActionResult GetAllAsTextFile()
+    {
+        Response.Headers.Add(HeaderNames.ContentDisposition, @"attachment; filename=products.txt");
+        return File(Encoding.UTF8.GetBytes(GetProductString()), "text/plain");
+    }
+
+    private string GetProductString()
+        => string
+            .Join("\n", (_products
+                .Select(pr => $"Product {pr.Id}: {pr.Name} - {pr.Price} lv.")
+                .ToArray()));
 }
