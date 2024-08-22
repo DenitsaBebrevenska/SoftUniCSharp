@@ -14,6 +14,7 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
+        _logger.LogInformation("Loaded home index page");
         ViewBag.Message = "Hello World!";
         return View();
     }
