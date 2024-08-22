@@ -31,12 +31,14 @@ public class HomeController : Controller
         return View();
     }
 
+    [HttpGet]
     public IActionResult Numbers()
     {
         ViewBag.Tittle = "Nums 1 ... 50";
         return View();
     }
 
+    [HttpGet]
     public IActionResult NumbersToN(int n = 3)
     {
         ViewBag.Number = n;

@@ -13,7 +13,7 @@ public class ProductController : Controller
     {
         _logger = logger;
     }
-    private IEnumerable<ProductViewModel> _products =
+    private readonly IEnumerable<ProductViewModel> _products =
         new List<ProductViewModel>()
         {
             new ()
@@ -37,7 +37,8 @@ public class ProductController : Controller
         };
 
     [ActionName("My-Products")]
-    public IActionResult All(string keyword)
+    [HttpGet]
+    public IActionResult All(string? keyword)
     {
         if (keyword != null)
         {
@@ -51,6 +52,7 @@ public class ProductController : Controller
         return View(_products);
     }
 
+    [HttpGet]
     public IActionResult GetProductById(int id)
     {
         var product = _products.FirstOrDefault(p => p.Id == id);
@@ -63,6 +65,7 @@ public class ProductController : Controller
         return View(product);
     }
 
+    [HttpGet]
     public IActionResult GetAllAsJson()
     {
 
@@ -74,11 +77,13 @@ public class ProductController : Controller
         return productsJson;
     }
 
+    [HttpGet]
     public IActionResult GetAllAsText()
     {
         return Content(GetProductString());
     }
 
+    [HttpGet]
     public IActionResult GetAllAsTextFile()
     {
         Response.Headers.Add(HeaderNames.ContentDisposition, @"attachment; filename=products.txt");
