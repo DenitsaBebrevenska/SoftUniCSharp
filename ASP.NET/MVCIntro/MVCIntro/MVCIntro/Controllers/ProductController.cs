@@ -30,8 +30,18 @@ public class ProductController : Controller
             }
         };
 
-    public IActionResult All()
+    [ActionName("My-Products")]
+    public IActionResult All(string keyword)
     {
+        if (keyword != null)
+        {
+            var fountProducts = _products
+                .Where(p => p.Name
+                    .ToLower()
+                    .Contains(keyword.ToLower()));
+            return View(fountProducts);
+        }
+
         return View(_products);
     }
 
