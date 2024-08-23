@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "Text Splitter";
+}
+@model TextViewModel
+
+<form asp-controller="Home" asp-action="Split" method="post">
+	<div class="col-12">
+		<input type="text" asp-for="@Model.Text" class="mr-2"/>
+		<span asp-validation-for="@Model.Text" class="small text-danger col-2"></span>
+		<br/>
+		<button type="submit" class="btn btn-primary">Split text</button>
+	</div>
+	<div class="col-2 mt-3">
+		<textarea readonly rows="15">@Model.WordsOfText</textarea>
+	</div>
+</form>
+
+@section Scripts
+{
+	<partial name="_ValidationScriptsPartial"/>
+}
+
+
+
+
