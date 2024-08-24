@@ -6,7 +6,7 @@ public class TextViewModel
 {
 	[Required]
 	[StringLength(30, MinimumLength = 2)]
-	public string Text { get; set; } = null!;
+	public string Text { get; set; } = string.Empty;
 
-	public string WordsOfText { get; set; } = null!;
+	public string WordsOfText { get; set; } = string.Empty;
 }
