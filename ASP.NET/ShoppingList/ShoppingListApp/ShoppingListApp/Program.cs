@@ -1,16 +1,20 @@
 using Microsoft.EntityFrameworkCore;
+using ShoppingListApp.Contracts;
 using ShoppingListApp.Data;
+using ShoppingListApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IProductService, ProductService>();
 //will continue using the environment variables for now later will switch to secrets.json
 string connectionString =
 	Environment.GetEnvironmentVariable("ConnectionString", EnvironmentVariableTarget.User)
 	?? throw new InvalidOperationException("ConnectionString environment variable is not set."); ;
 builder.Services.AddDbContext<ShoppingListContext>(options =>
 	options.UseSqlServer(connectionString));
+
 
 var app = builder.Build();
 
