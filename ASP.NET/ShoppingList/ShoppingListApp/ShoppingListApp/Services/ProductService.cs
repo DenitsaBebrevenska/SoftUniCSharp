@@ -1,5 +1,7 @@
-﻿using ShoppingListApp.Contracts;
+﻿using Microsoft.EntityFrameworkCore;
+using ShoppingListApp.Contracts;
 using ShoppingListApp.Data;
+using ShoppingListApp.Data.Models;
 using ShoppingListApp.Models;
 
 namespace ShoppingListApp.Services;
@@ -12,29 +14,61 @@ public class ProductService : IProductService
 	{
 		_context = context;
 	}
-	public Task<IEnumerable<ProductViewModel>> GetProductsAsync()
+	public async Task<IEnumerable<ProductViewModel>> GetProductsAsync()
 	{
-		throw new NotImplementedException();
+		return await _context.Products
+			.Select(p => new ProductViewModel()
+			{
+				Name = p.Name
+			})
+			.ToArrayAsync();
 	}
 
 
-	public Task<ProductViewModel> GetProductAsync(int id)
+	public async Task<ProductViewModel> GetProductAsync(int id)
 	{
-		throw new NotImplementedException();
+		var product = await _context.Products
+			.FirstOrDefaultAsync(p => p.Id == id);
+
+		var model = new ProductViewModel();
+
+		if (product != null)
+		{
+			model.Name = product.Name;
+		}
+
+		return model;
 	}
 
-	public Task AddProductAsync(ProductViewModel product)
+	public async Task AddProductAsync(ProductViewModel model)
 	{
-		throw new NotImplementedException();
+		var product = new Product()
+		{
+			Name = model.Name
+		};
+
+		await _context.Products.AddAsync(product);
+		await _context.SaveChangesAsync();
 	}
 
-	public Task UpdateProductAsync(ProductViewModel product)
+	public async Task UpdateProductAsync(ProductViewModel model, int id)
 	{
-		throw new NotImplementedException();
+		if (model == null || model.Id != id)
+		{
+			throw new ArgumentException("Invalid product");
+		}
+
+		var product = await _context.Products
+			.FindAsync(id);
+
+		product.Name = model.Name;
 	}
 
-	public Task DeleteProductAsync(int id)
+	public async Task DeleteProductAsync(int id)
 	{
-		throw new NotImplementedException();
+		var product = await _context.Products.FindAsync(id);
+		_context.Products.Remove(product);
+
+		await _context.SaveChangesAsync();
 	}
 }

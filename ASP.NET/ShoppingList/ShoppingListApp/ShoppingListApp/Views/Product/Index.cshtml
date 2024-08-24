@@ -1,0 +1,23 @@
+﻿@(ViewBag.Title = "Product list")
+@model IEnumerable<ProductViewModel>
+
+
+<div class="card col-4 mt-5">
+	
+	@if (!Model.Any())
+	{
+		<p class="text-danger">No products added yet!</p>
+	}
+	else
+	{
+		@foreach (var item in Model)
+		{
+			<div class="card-body col-3">
+				<h5 class="card-title">@item.Name</h5>
+				<button class="btn btn-primary">Edit</button>
+				<button class="btn btn-danger">Delete</button>
+			</div>
+		}
+	}
+</div>
+

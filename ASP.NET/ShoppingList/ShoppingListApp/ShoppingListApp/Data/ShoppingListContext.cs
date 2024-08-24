@@ -11,6 +11,16 @@ public class ShoppingListContext : DbContext
 
 	}
 
+	protected override void OnModelCreating(ModelBuilder modelBuilder)
+	{
+		modelBuilder.Entity<Product>()
+			.HasData(
+				new Product { Id = 1, Name = "Milk" },
+				new Product { Id = 2, Name = "Bananas" });
+
+		base.OnModelCreating(modelBuilder);
+	}
+
 	public DbSet<Product> Products { get; set; }
 
 	public DbSet<ProductNote> ProductNotes { get; set; }
