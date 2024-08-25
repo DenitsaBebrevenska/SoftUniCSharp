@@ -1,0 +1,14 @@
+﻿@model ProductViewModel
+@(ViewBag.Tittle = Model.Name)
+
+<div class="col">
+	<div class="card">
+		<div class="card-body">
+			<h5 class="card-title">@Model.Name</h5>
+			<form>
+				<button class="btn btn-primary">Edit</button>
+				<button class="btn btn-danger">Delete</button>
+			</form>
+		</div>
+	</div>
+</div>

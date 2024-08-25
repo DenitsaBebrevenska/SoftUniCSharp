@@ -1,0 +1,8 @@
+﻿@(ViewBag.Tittle = "Add product")
+@model ProductViewModel
+
+<form method="post" asp-controller="Product" asp-action="AddProduct"class="mb-3">
+	<label>Product name: </label>
+	<input type="text" asp-validation-for="Name" asp-for="Name" class="form-control" />
+	<button class="btn btn-primary" type="submit" asp-controller="Product" asp-action="AddProduct">Add Product</button>
+</form>
