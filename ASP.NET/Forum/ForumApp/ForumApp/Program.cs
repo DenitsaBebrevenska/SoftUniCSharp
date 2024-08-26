@@ -1,7 +1,14 @@
+using ForumApp.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+string connectionString = Environment.GetEnvironmentVariable("ConnectionString", EnvironmentVariableTarget.User) ??
+						  throw new InvalidOperationException("Environment variable not set");
+builder.Services.AddDbContext<ForumAppDbContext>(opt =>
+	opt.UseSqlServer(connectionString));
 
 var app = builder.Build();
 
