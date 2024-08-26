@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ForumApp.Core\ForumApp.Core.csproj" />
-    <ProjectReference Include="..\ForumApp.Infrastructure\ForumApp.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

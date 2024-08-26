@@ -1,3 +1,5 @@
+using ForumApp.Core.Contracts;
+using ForumApp.Core.Services;
 using ForumApp.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,6 +11,8 @@ string connectionString = Environment.GetEnvironmentVariable("ConnectionString",
 						  throw new InvalidOperationException("Environment variable not set");
 builder.Services.AddDbContext<ForumAppDbContext>(opt =>
 	opt.UseSqlServer(connectionString));
+
+builder.Services.AddScoped<IPostService, PostService>();
 
 var app = builder.Build();
 

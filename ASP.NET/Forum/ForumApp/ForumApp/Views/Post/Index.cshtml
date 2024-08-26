@@ -1,0 +1,35 @@
+﻿@{
+	ViewBag.Title = "All Posts";
+}
+@model IEnumerable<PostViewModel>
+
+<h1 class="text-center mb-3">@ViewBag.Title</h1>
+<hr/>
+<div class="d-grid gap-2">
+<a class="btn btn-primary mb-2" asp-action="Add">Add Post</a>
+</div>
+
+@if (Model.Any())
+{
+	<div class="row row-cols-1 row-cols-md-3 g-4">
+		@foreach (var item in Model)
+		{
+			<div class="col">
+				<div class="card">
+					<div class="card-body">
+						<h5 class="card-title text-center">@item.Title</h5>
+						<p class="card-text text-center">@item.Content</p>
+						<div class="d-grid gap-2">
+							<a class="btn btn-warning mb-2" asp-action="Add">Edit</a>
+							<a class="btn btn-danger mb-2" asp-action="Add">Delete</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		}
+	</div>
+}
+else
+{
+	<p class="text-center text-danger">There are no posts to display!</p>
+}
