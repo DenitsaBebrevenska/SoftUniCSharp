@@ -1,4 +1,4 @@
-﻿using ForumApp.Infrastructure.Models;
+﻿using ForumApp.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace ForumApp.Infrastructure.Data;

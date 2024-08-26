@@ -1,5 +1,5 @@
 ﻿using ForumApp.Core.Contracts;
-using ForumApp.Infrastructure.Models;
+using ForumApp.Infrastructure.Data.Models;
 using ForumApp.Models;
 using Microsoft.AspNetCore.Mvc;
 

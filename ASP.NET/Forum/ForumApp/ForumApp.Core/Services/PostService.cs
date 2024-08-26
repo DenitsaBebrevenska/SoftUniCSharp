@@ -1,6 +1,6 @@
 ﻿using ForumApp.Core.Contracts;
 using ForumApp.Infrastructure.Data;
-using ForumApp.Infrastructure.Models;
+using ForumApp.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace ForumApp.Core.Services;
