@@ -3,13 +3,13 @@
 namespace ForumApp.Core.Contracts;
 public interface IPostService
 {
-	Task<Post> GetById(int id);
+	Task<Post> GetByIdAsync(int id);
 
-	Task<IEnumerable<Post>> GetAll();
+	Task<IEnumerable<Post>> GetAllAsync();
 
-	Task Add(Post model);
+	Task AddAsync(Post model);
 
-	Task Update(Post model);
+	Task UpdateAsync(Post model);
 
-	Task Delete(int id);
+	Task DeleteAsync(int id);
 }

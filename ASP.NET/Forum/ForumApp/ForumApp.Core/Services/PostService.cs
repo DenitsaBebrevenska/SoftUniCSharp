@@ -12,7 +12,7 @@ public class PostService : IPostService
 	{
 		_context = context;
 	}
-	public async Task<Post> GetById(int id)
+	public async Task<Post> GetByIdAsync(int id)
 	{
 		if (id < 1 || id > _context.Posts.Last().Id)
 		{
@@ -23,14 +23,14 @@ public class PostService : IPostService
 			.FindAsync(id);
 	}
 
-	public async Task<IEnumerable<Post>> GetAll()
+	public async Task<IEnumerable<Post>> GetAllAsync()
 	{
 		return await _context.Posts
 			.AsNoTracking()
 			.ToArrayAsync();
 	}
 
-	public async Task Add(Post model)
+	public async Task AddAsync(Post model)
 	{
 		if (model is null)
 		{
@@ -40,7 +40,7 @@ public class PostService : IPostService
 		await _context.SaveChangesAsync();
 	}
 
-	public async Task Update(Post model)
+	public async Task UpdateAsync(Post model)
 	{
 		if (model is null)
 		{
@@ -61,7 +61,7 @@ public class PostService : IPostService
 		await _context.SaveChangesAsync();
 	}
 
-	public async Task Delete(int id)
+	public async Task DeleteAsync(int id)
 	{
 		var post = await _context
 			.Posts

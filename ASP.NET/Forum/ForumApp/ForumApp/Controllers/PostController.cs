@@ -1,4 +1,5 @@
 ﻿using ForumApp.Core.Contracts;
+using ForumApp.Infrastructure.Models;
 using ForumApp.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,10 +12,12 @@ public class PostController : Controller
 	{
 		_service = service;
 	}
+
+	[HttpGet]
 	public async Task<IActionResult> Index()
 	{
 		var posts = await _service
-			.GetAll();
+			.GetAllAsync();
 		var models = posts
 			.Select(p => new PostViewModel()
 			{
@@ -25,8 +28,37 @@ public class PostController : Controller
 		return View(models);
 	}
 
+	[HttpGet]
 	public IActionResult Add()
 	{
-		return View();
+		return View(new PostViewModel());
+	}
+
+	[HttpPost]
+	public async Task<IActionResult> Add(PostViewModel model)
+	{
+		if (ModelState.IsValid)
+		{
+			await _service.AddAsync(new Post()
+			{
+				Tittle = model.Title,
+				Content = model.Content
+			});
+		}
+
+		return RedirectToAction(nameof(Index));
+	}
+
+	[HttpGet]
+	public async Task<IActionResult> Edit(int id)
+	{
+		var model = await _service.GetByIdAsync(id);
+		return View(model);
+	}
+
+	[HttpPost]
+	public Task<IActionResult> Edit()
+	{
+
 	}
 }
