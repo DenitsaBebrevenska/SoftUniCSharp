@@ -1,8 +1,17 @@
 ﻿@(ViewBag.Tittle = "Add product")
 @model ProductViewModel
 
-<form method="post" asp-controller="Product" asp-action="AddProduct"class="mb-3">
-	<label>Product name: </label>
-	<input type="text" asp-validation-for="Name" asp-for="Name" class="form-control" />
-	<button class="btn btn-primary" type="submit" asp-controller="Product" asp-action="AddProduct">Add Product</button>
+<form method="post"class="mb-3 mt-2">
+	<input asp-for="Id" type="hidden" />
+	<label asp-for="Name" class="mb-2">Product name: </label>
+	<input placeholder="Write your product name here..." type="text" asp-for="Name" class="form-control"/>
+	<span asp-validation-for="Name" class="small text-danger col-2"></span>
+	<br/>
+	<button class="btn btn-primary mt-3" type="submit">Add Product</button>
 </form>
+
+
+@section Scripts
+{
+	<partial name="_ValidationScriptsPartial"/>
+}

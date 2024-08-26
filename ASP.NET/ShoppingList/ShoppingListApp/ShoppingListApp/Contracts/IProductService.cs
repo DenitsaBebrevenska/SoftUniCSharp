@@ -10,7 +10,7 @@ public interface IProductService
 
 	Task AddProductAsync(ProductViewModel model);
 
-	Task UpdateProductAsync(ProductViewModel model, int id);
+	Task UpdateProductAsync(ProductViewModel model);
 
 	Task DeleteProductAsync(int id);
 }

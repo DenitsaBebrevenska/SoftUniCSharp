@@ -17,8 +17,10 @@ public class ProductService : IProductService
 	public async Task<IEnumerable<ProductViewModel>> GetProductsAsync()
 	{
 		return await _context.Products
+			.AsNoTracking()
 			.Select(p => new ProductViewModel()
 			{
+				Id = p.Id,
 				Name = p.Name
 			})
 			.ToArrayAsync();
@@ -30,12 +32,16 @@ public class ProductService : IProductService
 		var product = await _context.Products
 			.FirstOrDefaultAsync(p => p.Id == id);
 
-		var model = new ProductViewModel();
-
-		if (product != null)
+		if (product == null)
 		{
-			model.Name = product.Name;
+			throw new ArgumentException("Invalid product");
 		}
+
+		var model = new ProductViewModel()
+		{
+			Id = product.Id,
+			Name = product.Name
+		};
 
 		return model;
 	}
@@ -51,24 +57,31 @@ public class ProductService : IProductService
 		await _context.SaveChangesAsync();
 	}
 
-	public async Task UpdateProductAsync(ProductViewModel model, int id)
+	public async Task UpdateProductAsync(ProductViewModel model)
 	{
-		if (model == null || model.Id != id)
+		var product = await _context.Products
+			.FindAsync(model.Id);
+
+		if (model == null)
 		{
 			throw new ArgumentException("Invalid product");
 		}
 
-		var product = await _context.Products
-			.FindAsync(id);
-
 		product.Name = model.Name;
+
+		await _context.SaveChangesAsync();
 	}
 
 	public async Task DeleteProductAsync(int id)
 	{
 		var product = await _context.Products.FindAsync(id);
-		_context.Products.Remove(product);
 
+		if (product == null)
+		{
+			throw new ArgumentException("Invalid product");
+		}
+
+		_context.Products.Remove(product);
 		await _context.SaveChangesAsync();
 	}
 }

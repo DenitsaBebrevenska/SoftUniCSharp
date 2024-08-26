@@ -3,7 +3,7 @@
 
 
 <h1>@ViewBag.Title</h1>
-<a asp-controller="Product" asp-action="AddProduct" class="btn btn-primary">Add a product</a>
+<a method="get" asp-controller="Product" asp-action="AddProduct" class="btn btn-primary mb-3">Add a product</a>
 <div class="row row-cols-1 row-cols-md-2 g-4">
 	@if (!Model.Any())
 	{
