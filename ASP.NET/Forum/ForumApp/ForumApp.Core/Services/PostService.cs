@@ -14,7 +14,13 @@ public class PostService : IPostService
 	}
 	public async Task<Post> GetByIdAsync(int id)
 	{
-		if (id < 1 || id > _context.Posts.Last().Id)
+		var lastAvailableId = _context.Posts
+			.AsNoTracking()
+			.OrderBy(p => p.Id)
+			.Last()
+			.Id;
+
+		if (id < 1 || id > lastAvailableId)
 		{
 			throw new ArgumentException("Invalid id");
 		}
@@ -73,5 +79,6 @@ public class PostService : IPostService
 		}
 
 		_context.Posts.Remove(post);
+		await _context.SaveChangesAsync();
 	}
 }

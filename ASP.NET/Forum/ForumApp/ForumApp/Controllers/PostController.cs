@@ -53,12 +53,36 @@ public class PostController : Controller
 	public async Task<IActionResult> Edit(int id)
 	{
 		var model = await _service.GetByIdAsync(id);
-		return View(model);
+		return View(new PostViewModel()
+		{
+			Id = model.Id,
+			Title = model.Tittle,
+			Content = model.Content
+		});
 	}
 
 	[HttpPost]
-	public Task<IActionResult> Edit()
+	public async Task<IActionResult> Edit(int id, PostViewModel model)
 	{
+		if (!ModelState.IsValid || model.Id != id)
+		{
+			return View(model);
+		}
 
+		await _service.UpdateAsync(new Post()
+		{
+			Id = model.Id,
+			Tittle = model.Title,
+			Content = model.Content
+		});
+
+		return RedirectToAction(nameof(Index));
+	}
+
+	[HttpPost]
+	public async Task<IActionResult> Delete(int id)
+	{
+		await _service.DeleteAsync(id);
+		return RedirectToAction(nameof(Index));
 	}
 }

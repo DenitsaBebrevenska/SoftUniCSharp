@@ -1,0 +1,25 @@
+﻿@{
+	ViewBag.Title = "Edit post";
+}
+@model PostViewModel
+
+<form method="post">
+	<div class="mb-3">
+		<label for="title" class="form-label">Title:</label>
+		<input class="form-control" id="title"asp-for="@Model.Title">
+		<span class="text-danger" asp-validation-for="Title"></span>
+	</div>
+	<div class="mb-3">
+		<label for="content" class="form-label">Content:</label>
+		<textarea class="form-control" id="content" asp-for="@Model.Content"></textarea>
+		<span class="text-danger" asp-validation-for="Content"></span>
+	</div>
+	<input type="hidden" asp-for="Id" />
+	<button class="btn btn-primary" type="submit">Edit post</button>
+</form>
+
+
+@section Scripts
+{
+	<partial name="_ValidationScriptsPartial" />
+}
