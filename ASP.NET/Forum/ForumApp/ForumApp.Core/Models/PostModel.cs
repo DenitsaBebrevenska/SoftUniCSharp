@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ForumApp.Models;
 
-public class PostViewModel
+public class PostModel
 {
 	public int Id { get; set; }
 

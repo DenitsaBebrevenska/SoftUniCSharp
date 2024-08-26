@@ -19,7 +19,7 @@ public class PostController : Controller
 		var posts = await _service
 			.GetAllAsync();
 		var models = posts
-			.Select(p => new PostViewModel()
+			.Select(p => new PostModel()
 			{
 				Id = p.Id,
 				Title = p.Tittle,
@@ -31,11 +31,11 @@ public class PostController : Controller
 	[HttpGet]
 	public IActionResult Add()
 	{
-		return View(new PostViewModel());
+		return View(new PostModel());
 	}
 
 	[HttpPost]
-	public async Task<IActionResult> Add(PostViewModel model)
+	public async Task<IActionResult> Add(PostModel model)
 	{
 		if (ModelState.IsValid)
 		{
@@ -53,7 +53,7 @@ public class PostController : Controller
 	public async Task<IActionResult> Edit(int id)
 	{
 		var model = await _service.GetByIdAsync(id);
-		return View(new PostViewModel()
+		return View(new PostModel()
 		{
 			Id = model.Id,
 			Title = model.Tittle,
@@ -62,7 +62,7 @@ public class PostController : Controller
 	}
 
 	[HttpPost]
-	public async Task<IActionResult> Edit(int id, PostViewModel model)
+	public async Task<IActionResult> Edit(int id, PostModel model)
 	{
 		if (!ModelState.IsValid || model.Id != id)
 		{
