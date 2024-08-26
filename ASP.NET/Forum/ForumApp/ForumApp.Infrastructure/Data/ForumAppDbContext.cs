@@ -1,4 +1,5 @@
-﻿using ForumApp.Infrastructure.Data.Models;
+﻿using ForumApp.Infrastructure.Data.Configuration;
+using ForumApp.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace ForumApp.Infrastructure.Data;
@@ -15,12 +16,7 @@ public class ForumAppDbContext : DbContext
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
-		modelBuilder.Entity<Post>()
-			.HasData(
-				new Post() { Id = 1, Tittle = "First", Content = "My first post!" },
-				new Post() { Id = 2, Tittle = "Second", Content = "My second post!" },
-				new Post() { Id = 3, Tittle = "Third", Content = "My third post!" }
-				);
+		modelBuilder.ApplyConfiguration(new PostConfiguration());
 		base.OnModelCreating(modelBuilder);
 	}
 }
