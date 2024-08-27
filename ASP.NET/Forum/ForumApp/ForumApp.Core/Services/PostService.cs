@@ -1,4 +1,5 @@
 ﻿using ForumApp.Core.Contracts;
+using ForumApp.Core.Models;
 using ForumApp.Infrastructure.Data;
 using ForumApp.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
@@ -12,41 +13,58 @@ public class PostService : IPostService
 	{
 		_context = context;
 	}
-	public async Task<Post> GetByIdAsync(int id)
-	{
-		var lastAvailableId = _context.Posts
-			.AsNoTracking()
-			.OrderBy(p => p.Id)
-			.Last()
-			.Id;
 
-		if (id < 1 || id > lastAvailableId)
+	public async Task<PostModel> GetByIdAsync(int id)
+	{
+		var post = await _context.Posts
+					.FindAsync(id);
+
+		if (post == null)
 		{
 			throw new ArgumentException("Invalid id");
 		}
 
-		return await _context.Posts
-			.FindAsync(id);
+		return new PostModel()
+		{
+			Id = post.Id,
+			Title = post.Title,
+			Content = post.Content
+		};
 	}
 
-	public async Task<IEnumerable<Post>> GetAllAsync()
+	public async Task<IEnumerable<PostModel>> GetAllAsync()
 	{
-		return await _context.Posts
+		var products = await _context.Posts
 			.AsNoTracking()
+			.Select(p => new PostModel()
+			{
+				Id = p.Id,
+				Title = p.Title,
+				Content = p.Content
+			})
 			.ToArrayAsync();
+
+		return products;
 	}
 
-	public async Task AddAsync(Post model)
+	public async Task AddAsync(PostModel model)
 	{
 		if (model is null)
 		{
 			throw new ArgumentNullException(nameof(model), "Post cannot be null.");
 		}
-		await _context.AddAsync(model);
+
+		var post = new Post()
+		{
+			Title = model.Title,
+			Content = model.Content
+		};
+
+		await _context.AddAsync(post);
 		await _context.SaveChangesAsync();
 	}
 
-	public async Task UpdateAsync(Post model)
+	public async Task UpdateAsync(PostModel model)
 	{
 		if (model is null)
 		{
@@ -61,7 +79,7 @@ public class PostService : IPostService
 			throw new ArgumentException("Invalid product");
 		}
 
-		post.Tittle = model.Tittle;
+		post.Title = model.Title;
 		post.Content = model.Content;
 
 		await _context.SaveChangesAsync();

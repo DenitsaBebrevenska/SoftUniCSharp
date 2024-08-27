@@ -13,7 +13,7 @@ public class Post
 	[Required]
 	[MaxLength(ValidationConstraints.PostTittleMaxLength)]
 	[Comment("Post title")]
-	public string Tittle { get; set; } = null!;
+	public string Title { get; set; } = null!;
 
 	[Required]
 	[MaxLength(ValidationConstraints.PostContentMaxLength)]

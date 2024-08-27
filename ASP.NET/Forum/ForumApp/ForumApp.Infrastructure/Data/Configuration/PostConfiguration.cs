@@ -7,9 +7,9 @@ public class PostConfiguration : IEntityTypeConfiguration<Post>
 {
 	private readonly Post[] _posts =
 	{
-		new Post() { Id = 1, Tittle = "First", Content = "My first post!" },
-		new Post() { Id = 2, Tittle = "Second", Content = "My second post!" },
-		new Post() { Id = 3, Tittle = "Third", Content = "My third post!" }
+		new () { Id = 1, Title = "First", Content = "My first post!" },
+		new () { Id = 2, Title = "Second", Content = "My second post!" },
+		new () { Id = 3, Title = "Third", Content = "My third post!" }
 	};
 	public void Configure(EntityTypeBuilder<Post> builder)
 	{

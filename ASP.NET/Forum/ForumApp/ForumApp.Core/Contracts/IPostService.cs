@@ -1,15 +1,15 @@
-﻿using ForumApp.Infrastructure.Data.Models;
+﻿using ForumApp.Core.Models;
 
 namespace ForumApp.Core.Contracts;
 public interface IPostService
 {
-	Task<Post> GetByIdAsync(int id);
+	Task<PostModel> GetByIdAsync(int id);
 
-	Task<IEnumerable<Post>> GetAllAsync();
+	Task<IEnumerable<PostModel>> GetAllAsync();
 
-	Task AddAsync(Post model);
+	Task AddAsync(PostModel model);
 
-	Task UpdateAsync(Post model);
+	Task UpdateAsync(PostModel model);
 
 	Task DeleteAsync(int id);
 }

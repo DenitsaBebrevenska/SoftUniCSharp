@@ -1,6 +1,5 @@
 ﻿using ForumApp.Core.Contracts;
-using ForumApp.Infrastructure.Data.Models;
-using ForumApp.Models;
+using ForumApp.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ForumApp.Controllers;
@@ -18,14 +17,7 @@ public class PostController : Controller
 	{
 		var posts = await _service
 			.GetAllAsync();
-		var models = posts
-			.Select(p => new PostModel()
-			{
-				Id = p.Id,
-				Title = p.Tittle,
-				Content = p.Content
-			});
-		return View(models);
+		return View(posts);
 	}
 
 	[HttpGet]
@@ -39,9 +31,9 @@ public class PostController : Controller
 	{
 		if (ModelState.IsValid)
 		{
-			await _service.AddAsync(new Post()
+			await _service.AddAsync(new PostModel()
 			{
-				Tittle = model.Title,
+				Title = model.Title,
 				Content = model.Content
 			});
 		}
@@ -53,12 +45,7 @@ public class PostController : Controller
 	public async Task<IActionResult> Edit(int id)
 	{
 		var model = await _service.GetByIdAsync(id);
-		return View(new PostModel()
-		{
-			Id = model.Id,
-			Title = model.Tittle,
-			Content = model.Content
-		});
+		return View(model);
 	}
 
 	[HttpPost]
@@ -69,10 +56,10 @@ public class PostController : Controller
 			return View(model);
 		}
 
-		await _service.UpdateAsync(new Post()
+		await _service.UpdateAsync(new PostModel()
 		{
 			Id = model.Id,
-			Tittle = model.Title,
+			Title = model.Title,
 			Content = model.Content
 		});
 

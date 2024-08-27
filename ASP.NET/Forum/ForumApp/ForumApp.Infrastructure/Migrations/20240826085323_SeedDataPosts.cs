@@ -10,17 +10,17 @@ namespace ForumApp.Infrastructure.Migrations
         {
             migrationBuilder.InsertData(
                 table: "Posts",
-                columns: new[] { "Id", "Content", "Tittle" },
+                columns: new[] { "Id", "Content", "Title" },
                 values: new object[] { 1, "My first post!", "First" });
 
             migrationBuilder.InsertData(
                 table: "Posts",
-                columns: new[] { "Id", "Content", "Tittle" },
+                columns: new[] { "Id", "Content", "Title" },
                 values: new object[] { 2, "My second post!", "Second" });
 
             migrationBuilder.InsertData(
                 table: "Posts",
-                columns: new[] { "Id", "Content", "Tittle" },
+                columns: new[] { "Id", "Content", "Title" },
                 values: new object[] { 3, "My third post!", "Third" });
         }
 
