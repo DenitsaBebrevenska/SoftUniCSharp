@@ -49,11 +49,6 @@ public class PostService : IPostService
 
 	public async Task AddAsync(PostModel model)
 	{
-		if (model is null)
-		{
-			throw new ArgumentNullException(nameof(model), "Post cannot be null.");
-		}
-
 		var post = new Post()
 		{
 			Title = model.Title,
@@ -66,11 +61,6 @@ public class PostService : IPostService
 
 	public async Task UpdateAsync(PostModel model)
 	{
-		if (model is null)
-		{
-			throw new ArgumentNullException(nameof(model), "Post cannot be null.");
-		}
-
 		var post = await _context.Posts
 			.FindAsync(model.Id);
 

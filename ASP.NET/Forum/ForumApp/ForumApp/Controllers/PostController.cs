@@ -29,14 +29,12 @@ public class PostController : Controller
 	[HttpPost]
 	public async Task<IActionResult> Add(PostModel model)
 	{
-		if (ModelState.IsValid)
+		if (!ModelState.IsValid)
 		{
-			await _service.AddAsync(new PostModel()
-			{
-				Title = model.Title,
-				Content = model.Content
-			});
+			return View(model);
 		}
+
+		await _service.AddAsync(model);
 
 		return RedirectToAction(nameof(Index));
 	}
@@ -56,12 +54,7 @@ public class PostController : Controller
 			return View(model);
 		}
 
-		await _service.UpdateAsync(new PostModel()
-		{
-			Id = model.Id,
-			Title = model.Title,
-			Content = model.Content
-		});
+		await _service.UpdateAsync(model);
 
 		return RedirectToAction(nameof(Index));
 	}
