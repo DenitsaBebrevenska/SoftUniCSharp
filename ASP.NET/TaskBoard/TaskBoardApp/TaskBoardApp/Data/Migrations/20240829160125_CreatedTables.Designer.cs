@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TaskBoardApp.Data;
 
@@ -11,9 +12,10 @@ using TaskBoardApp.Data;
 namespace TaskBoardApp.Data.Migrations
 {
     [DbContext(typeof(TaskBoardDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240829160125_CreatedTables")]
+    partial class CreatedTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -137,22 +139,6 @@ namespace TaskBoardApp.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "f48b0b81-f5a8-431a-a3b6-7743d64e5820",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "6c5ca84d-97d8-40a1-9443-4a25ae2c1071",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            NormalizedUserName = "TEST@SOFTUNI.BG",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDncKDIUYprb8xM6/S7kFniOdA56Pfwv7Z1gSjYuGBI6diKSkHublPBZzPQzn2G8YQ==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "2c2d8873-a3d6-48fa-bb70-79d4b8ce809f",
-                            TwoFactorEnabled = false,
-                            UserName = "test@softuni.bg"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -258,23 +244,6 @@ namespace TaskBoardApp.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Boards");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Open"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "In Progress"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Done"
-                        });
                 });
 
             modelBuilder.Entity("TaskBoardApp.Data.Models.Task", b =>
@@ -318,44 +287,6 @@ namespace TaskBoardApp.Data.Migrations
                     b.HasIndex("OwnerId");
 
                     b.ToTable("Tasks");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            BoardId = 1,
-                            CreatedOn = new DateTime(2023, 12, 9, 0, 56, 36, 356, DateTimeKind.Local).AddTicks(9570),
-                            Description = "Write hello world in javascript",
-                            OwnerId = "f48b0b81-f5a8-431a-a3b6-7743d64e5820",
-                            Title = "Write hello world"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            BoardId = 1,
-                            CreatedOn = new DateTime(2024, 7, 31, 0, 56, 36, 356, DateTimeKind.Local).AddTicks(9607),
-                            Description = "Search more info on MVC and watch some youtube tutorials",
-                            OwnerId = "f48b0b81-f5a8-431a-a3b6-7743d64e5820",
-                            Title = "Read about MVC"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            BoardId = 2,
-                            CreatedOn = new DateTime(2024, 8, 20, 0, 56, 36, 356, DateTimeKind.Local).AddTicks(9610),
-                            Description = "Make my AJAX exercises and solve some JS exams",
-                            OwnerId = "f48b0b81-f5a8-431a-a3b6-7743d64e5820",
-                            Title = "Work with AJAX"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            BoardId = 3,
-                            CreatedOn = new DateTime(2024, 7, 1, 0, 56, 36, 356, DateTimeKind.Local).AddTicks(9612),
-                            Description = "Watch Udemy Angular course and do the tasks",
-                            OwnerId = "f48b0b81-f5a8-431a-a3b6-7743d64e5820",
-                            Title = "Play around with Angular"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
