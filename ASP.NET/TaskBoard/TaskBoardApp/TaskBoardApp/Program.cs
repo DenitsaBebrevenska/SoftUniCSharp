@@ -5,13 +5,14 @@ using TaskBoardApp.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
+var connectionString = Environment.GetEnvironmentVariable("ConnectionString", EnvironmentVariableTarget.User) ??
+					   throw new ArgumentException("Connection string variable is not set.");
+builder.Services.AddDbContext<TaskBoardDbContext>(options =>
 	options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-	.AddEntityFrameworkStores<ApplicationDbContext>();
+	.AddEntityFrameworkStores<TaskBoardDbContext>();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

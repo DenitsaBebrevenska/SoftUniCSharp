@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 
 namespace TaskBoardApp.Data;
-public class ApplicationDbContext : IdentityDbContext
+public class TaskBoardDbContext : IdentityDbContext
 {
-	public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+	public TaskBoardDbContext(DbContextOptions<TaskBoardDbContext> options)
 		: base(options)
 	{
 	}
