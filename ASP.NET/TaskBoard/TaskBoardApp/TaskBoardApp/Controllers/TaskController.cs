@@ -58,6 +58,33 @@ public class TaskController : BaseController
         return RedirectToAction("Index", "Board");
     }
 
+    public async Task<IActionResult> Details(int id)
+    {
+        var task = await _context
+            .Tasks
+            .Include(t => t.Owner)
+            .Include(t => t.Board)
+            .Where(t => t.Id == id)
+            .FirstOrDefaultAsync();
+
+        if (task == null)
+        {
+            return BadRequest();
+        }
+
+        var viewModel = new TaskDetailsViewModel()
+        {
+            Id = task.Id,
+            Title = task.Title,
+            Description = task.Description,
+            CreatedOn = task.CreatedOn?.ToString() ?? "",
+            Board = task.Board?.Name ?? "",
+            Owner = task.Owner.UserName
+        };
+
+        return View(viewModel);
+    }
+
     private async Task<IEnumerable<TaskBoardsViewModel>> GetBoardsAsync()
     {
         return await _context
