@@ -58,6 +58,7 @@ public class TaskController : BaseController
         return RedirectToAction("Index", "Board");
     }
 
+    [HttpGet]
     public async Task<IActionResult> Details(int id)
     {
         var task = await _context
@@ -152,6 +153,59 @@ public class TaskController : BaseController
         task.Description = model.Description;
         task.BoardId = model.BoardId;
 
+        await _context.SaveChangesAsync();
+        return RedirectToAction("Index", "Board");
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var task = await _context
+            .Tasks
+            .FindAsync(id);
+
+        if (task == null)
+        {
+            return BadRequest();
+        }
+
+        string currentUserId = GetUserId();
+
+        if (currentUserId != task.OwnerId)
+        {
+            return Unauthorized();
+        }
+
+        TaskViewModel model = new TaskViewModel()
+        {
+            Id = task.Id,
+            Title = task.Title,
+            Description = task.Description
+        };
+
+        return View(model);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Delete(TaskViewModel model)
+    {
+        var task = await _context
+            .Tasks
+            .FindAsync(model.Id);
+
+        if (task == null)
+        {
+            return BadRequest();
+        }
+
+        var currentUserId = GetUserId();
+
+        if (currentUserId != task.OwnerId)
+        {
+            return Unauthorized();
+        }
+
+        _context.Tasks.Remove(task);
         await _context.SaveChangesAsync();
         return RedirectToAction("Index", "Board");
     }
