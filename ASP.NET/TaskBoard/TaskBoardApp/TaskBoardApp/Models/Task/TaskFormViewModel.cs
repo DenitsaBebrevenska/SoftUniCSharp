@@ -9,7 +9,7 @@ namespace TaskBoardApp.Models.Task;
 /// </summary>
 public class TaskFormViewModel
 {
-    /// <summary>
+    ///<summary>
     /// Task title
     /// </summary>
     [Required(ErrorMessage = RequiredField)]
@@ -19,6 +19,7 @@ public class TaskFormViewModel
     public string Title { get; set; } = null!;
 
     /// <summary>
+    /// Task description
     /// Task description
     /// </summary>
     [Required(ErrorMessage = RequiredField)]
@@ -31,7 +32,7 @@ public class TaskFormViewModel
     /// The identifier of the board to which the task belong
     /// </summary>
     [Display(Name = "Board")]
-    public int BoardId { get; set; }
+    public int? BoardId { get; set; }
 
     /// <summary>
     /// The possible board options to choose from in the form

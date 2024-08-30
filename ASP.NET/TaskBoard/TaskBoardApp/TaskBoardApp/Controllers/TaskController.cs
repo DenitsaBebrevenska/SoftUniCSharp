@@ -62,6 +62,7 @@ public class TaskController : BaseController
     {
         var task = await _context
             .Tasks
+            .AsNoTracking()
             .Include(t => t.Owner)
             .Include(t => t.Board)
             .Where(t => t.Id == id)
@@ -83,6 +84,76 @@ public class TaskController : BaseController
         };
 
         return View(viewModel);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Edit(int id)
+    {
+        var task = await _context
+            .Tasks
+            .FindAsync(id);
+
+        if (task == null)
+        {
+            return BadRequest();
+        }
+
+        var currentUserId = GetUserId();
+
+        if (currentUserId != task.OwnerId)
+        {
+            return Unauthorized();
+        }
+
+        var model = new TaskFormViewModel()
+        {
+            Title = task.Title,
+            Description = task.Description,
+            BoardId = task.BoardId,
+            Boards = await GetBoardsAsync()
+        };
+
+        return View(model);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Edit(TaskFormViewModel model, int id)
+    {
+
+        var task = await _context
+            .Tasks
+            .FindAsync(id);
+
+        if (task == null)
+        {
+            return BadRequest();
+        }
+
+        var currentUserId = GetUserId();
+
+        if (currentUserId != task.OwnerId)
+        {
+            return Unauthorized();
+        }
+
+        if ((await GetBoardsAsync()).All(b => b.Id != model.BoardId))
+        {
+            ModelState.AddModelError(nameof(model.BoardId), "Board does not exist");
+        }
+
+
+        if (!ModelState.IsValid)
+        {
+            model.Boards = await GetBoardsAsync();
+            return View(model);
+        }
+
+        task.Title = model.Title;
+        task.Description = model.Description;
+        task.BoardId = model.BoardId;
+
+        await _context.SaveChangesAsync();
+        return RedirectToAction("Index", "Board");
     }
 
     private async Task<IEnumerable<TaskBoardsViewModel>> GetBoardsAsync()
