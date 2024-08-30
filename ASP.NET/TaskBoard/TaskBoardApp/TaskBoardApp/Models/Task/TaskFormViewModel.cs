@@ -36,5 +36,5 @@ public class TaskFormViewModel
     /// <summary>
     /// The possible board options to choose from in the form
     /// </summary>
-    public IEnumerable<TaskBoardsViewModel> Boards { get; set; } = null!;
+    public IEnumerable<TaskBoardsViewModel> Boards { get; set; } = new List<TaskBoardsViewModel>();
 }
