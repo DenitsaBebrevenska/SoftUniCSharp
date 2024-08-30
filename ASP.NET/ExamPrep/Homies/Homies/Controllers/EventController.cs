@@ -107,6 +107,67 @@ public class EventController : Controller
 
         return View(joinedEvents);
     }
+
+    [HttpGet]
+    public async Task<IActionResult> Edit(int id)
+    {
+        var targetEvent = await _context
+            .Events
+            .FindAsync(id);
+
+        if (targetEvent == null)
+        {
+            return BadRequest();
+        }
+
+        var model = new EventFormViewModel()
+        {
+            Name = targetEvent.Name,
+            Description = targetEvent.Description,
+            Start = targetEvent.Start.ToString(DateAndTimeFormat),
+            End = targetEvent.End.ToString(DateAndTimeFormat),
+            TypeId = targetEvent.TypeId,
+            AvailableTypes = await GetAvailableTypes()
+        };
+
+        return View(model);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Edit(EventFormViewModel model, int id)
+    {
+        if (!ModelState.IsValid ||
+            !DateTime.TryParseExact(
+                model.Start,
+                DateAndTimeFormat,
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.None,
+                out var startResult) ||
+            !DateTime.TryParseExact(
+                model.End,
+                DateAndTimeFormat,
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.None,
+                out var endResult))
+        {
+            model.AvailableTypes = await GetAvailableTypes();
+            return View(model);
+        }
+
+        var targetEvent = await _context
+            .Events
+            .FindAsync(id);
+
+        targetEvent.Name = model.Name;
+        targetEvent.Description = model.Description;
+        targetEvent.Start = startResult;
+        targetEvent.End = endResult;
+        targetEvent.TypeId = model.TypeId;
+
+        await _context.SaveChangesAsync();
+        return RedirectToAction("All");
+    }
+
     private string GetUserId()
         => User.FindFirstValue(ClaimTypes.NameIdentifier);
 
