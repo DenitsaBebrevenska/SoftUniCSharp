@@ -12,7 +12,7 @@ namespace Homies.Controllers
 
             if (userIsAuthenticated)
             {
-                RedirectToAction("All", "Event");
+                return RedirectToAction("All", "Event");
             }
 
             return View();

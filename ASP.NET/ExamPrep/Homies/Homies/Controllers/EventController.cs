@@ -86,6 +86,27 @@ public class EventController : Controller
         return RedirectToAction("All");
     }
 
+    [HttpGet]
+    public async Task<IActionResult> Joined()
+    {
+        var userId = GetUserId();
+        var joinedEvents = await _context
+            .Events
+            .Include(e => e.Type)
+            .AsNoTracking()
+            .Where(e => e.OrganiserId == userId)
+            .Select(e => new JoinedEventViewModel()
+            {
+                Id = e.Id,
+                Name = e.Name,
+                Organiser = e.OrganiserId,
+                Start = e.Start.ToString(DateAndTimeFormat),
+                Type = e.Type.Name
+            })
+            .ToListAsync();
+
+        return View(joinedEvents);
+    }
     private string GetUserId()
         => User.FindFirstValue(ClaimTypes.NameIdentifier);
 
