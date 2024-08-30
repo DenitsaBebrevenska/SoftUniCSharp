@@ -5,15 +5,31 @@ using TaskBoardApp.Models.Board;
 using TaskBoardApp.Models.Task;
 
 namespace TaskBoardApp.Controllers;
+
+/// <summary>
+/// Board controller
+/// </summary>
 public class BoardController : BaseController
 {
+    /// <summary>
+    /// Db context field
+    /// </summary>
     private readonly TaskBoardDbContext _context;
 
+    /// <summary>
+    /// DI from constructor for Db context
+    /// </summary>
+    /// <param name="context"></param>
     public BoardController(TaskBoardDbContext context)
     {
         _context = context;
     }
 
+
+    /// <summary>
+    /// The index method. Displays all boards and the tasks on them with details
+    /// </summary>
+    /// <returns></returns>
     [HttpGet]
     public async Task<IActionResult> Index()
     {

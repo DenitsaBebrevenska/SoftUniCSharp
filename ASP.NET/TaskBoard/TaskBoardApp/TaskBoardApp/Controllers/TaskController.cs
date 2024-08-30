@@ -6,15 +6,30 @@ using TaskBoardApp.Models.Task;
 using Task = TaskBoardApp.Data.Models.Task;
 
 namespace TaskBoardApp.Controllers;
+
+/// <summary>
+/// Task controller
+/// </summary>
 public class TaskController : BaseController
 {
+    /// <summary>
+    /// Db context field
+    /// </summary>
     private readonly TaskBoardDbContext _context;
 
+    /// <summary>
+    /// DI from constructor for Db context
+    /// </summary>
+    /// <param name="context"></param>
     public TaskController(TaskBoardDbContext context)
     {
         _context = context;
     }
 
+    /// <summary>
+    /// Returns to the view the task model for the form fill in for task creation.
+    /// </summary>
+    /// <returns></returns>
     [HttpGet]
     public async Task<IActionResult> Create()
     {
@@ -26,6 +41,12 @@ public class TaskController : BaseController
         return View(taskModel);
     }
 
+    /// <summary>
+    /// Validates model and if the model is valid and task exists in DB , adds the new task in the DB and redirects to Board/Index.
+    /// If the model is invalid or the task does not exist in DB, returns the task model to the view again.
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
     [HttpPost]
     public async Task<IActionResult> Create(TaskFormViewModel model)
     {
@@ -58,6 +79,12 @@ public class TaskController : BaseController
         return RedirectToAction("Index", "Board");
     }
 
+    /// <summary>
+    /// Validates if the provided id is valid and if it is returns to the view the task model.
+    /// If the id of the task is invalid, returns bad request.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     [HttpGet]
     public async Task<IActionResult> Details(int id)
     {
@@ -87,6 +114,14 @@ public class TaskController : BaseController
         return View(viewModel);
     }
 
+    /// <summary>
+    /// Validates if the provided id is valid and if the current user is the owner of the task and then returns
+    /// to the view the task model for editing.
+    /// If the id is invalid, returns bad request.
+    /// If the user is not the owner, returns Unauthorized
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     [HttpGet]
     public async Task<IActionResult> Edit(int id)
     {
@@ -117,6 +152,17 @@ public class TaskController : BaseController
         return View(model);
     }
 
+    /// <summary>
+    /// Validates task if task exist, if current user is the task`s owner, if the task model is valid
+    /// and if board id is valid then edits the task then redirects to Board/Index
+    /// If the task does not exist, returns bad request.
+    /// If the user is not the task`s owner, returns unauthorized.
+    /// If the model is invalid, returns the model to the view.
+    /// If the board id is invalid, adds model error.
+    /// </summary>
+    /// <param name="model"></param>
+    /// <param name="id"></param>
+    /// <returns></returns>
     [HttpPost]
     public async Task<IActionResult> Edit(TaskFormViewModel model, int id)
     {
@@ -157,6 +203,15 @@ public class TaskController : BaseController
         return RedirectToAction("Index", "Board");
     }
 
+
+    /// <summary>
+    /// Validates task existence, checks if the current user is the task`s owner
+    /// and then returns a model to the view.
+    /// If the task does not exist, returns bad request.
+    /// If the user is not the task`s owner, returns unauthorized.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     [HttpGet]
     public async Task<IActionResult> Delete(int id)
     {
@@ -186,6 +241,15 @@ public class TaskController : BaseController
         return View(model);
     }
 
+
+    /// <summary>
+    /// Validates task existence, checks if the current user is the task`s owner
+    /// and then removes the task from the DB and redirects to Board/Index.
+    /// If the task does not exist, returns bad request.
+    /// If the user is not the task`s owner, returns unauthorized.
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
     [HttpPost]
     public async Task<IActionResult> Delete(TaskViewModel model)
     {
@@ -210,6 +274,10 @@ public class TaskController : BaseController
         return RedirectToAction("Index", "Board");
     }
 
+    /// <summary>
+    /// The method returns a collection of all TaskBoardsViewModel-s
+    /// </summary>
+    /// <returns></returns>
     private async Task<IEnumerable<TaskBoardsViewModel>> GetBoardsAsync()
     {
         return await _context
@@ -223,6 +291,10 @@ public class TaskController : BaseController
             .ToListAsync();
     }
 
+    /// <summary>
+    /// Returns the user`s identifier
+    /// </summary>
+    /// <returns></returns>
     private string GetUserId()
         => User.FindFirstValue(ClaimTypes.NameIdentifier);
 }
