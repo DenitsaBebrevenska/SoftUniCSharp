@@ -5,12 +5,24 @@ using Type = Homies.Data.Models.Type;
 
 namespace Homies.Data
 {
+    /// <summary>
+    /// Db context
+    /// </summary>
     public class HomiesDbContext : IdentityDbContext
     {
+        /// <summary>
+        /// Events table
+        /// </summary>
         public DbSet<Event> Events { get; set; }
 
+        /// <summary>
+        /// Types table
+        /// </summary>
         public DbSet<Type> Types { get; set; }
 
+        /// <summary>
+        /// Joining table for many-to-many relationship between Events and Types
+        /// </summary>
         public DbSet<EventParticipant> EventsParticipants { get; set; }
 
         public HomiesDbContext(DbContextOptions<HomiesDbContext> options)
@@ -30,6 +42,7 @@ namespace Homies.Data
                 .HasForeignKey(e => e.EventId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            //seeding data to Types table
             modelBuilder
                 .Entity<Type>()
                 .HasData(new Type()

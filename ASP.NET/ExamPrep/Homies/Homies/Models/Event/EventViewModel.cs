@@ -1,29 +1,33 @@
-﻿using System.ComponentModel.DataAnnotations;
-using static Homies.Common.Constants;
-using static Homies.Data.Configuration.DataConstraints;
+﻿namespace Homies.Models.Event;
 
-namespace Homies.Models.Event;
-
-//TODO do i need the validations????
+/// <summary>
+/// Event view model for /All and /Joined
+/// Does not get validation as it does not concern user input
+/// </summary>
 public class EventViewModel
 {
+    /// <summary>
+    /// Event identifier
+    /// </summary>
     public int Id { get; set; }
 
-    [Required]
-    [StringLength(EventNameMaxLength,
-        MinimumLength = EventNameMinLength,
-        ErrorMessage = StringLengthErrorMessage)]
+    /// <summary>
+    /// Event name
+    /// </summary>
     public string Name { get; set; } = null!;
 
-    [Required]
+    /// <summary>
+    /// Event start date and time
+    /// </summary>
     public string Start { get; set; } = null!;
 
-    [Required]
-    [StringLength(EventTypeNameMaxLength,
-        MinimumLength = EventTypeNameMinLength,
-        ErrorMessage = StringLengthErrorMessage)]
+    /// <summary>
+    /// Event`s type name
+    /// </summary>
     public string Type { get; set; } = null!;
 
-    [Required]
+    /// <summary>
+    /// Event`s organiser user identifier
+    /// </summary>
     public string Organiser { get; set; } = null!;
 }
