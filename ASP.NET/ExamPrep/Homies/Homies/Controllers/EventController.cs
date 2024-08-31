@@ -93,8 +93,9 @@ public class EventController : Controller
         var joinedEvents = await _context
             .Events
             .Include(e => e.Type)
+            .Include(e => e.EventsParticipants)
             .AsNoTracking()
-            .Where(e => e.OrganiserId == userId)
+            .Where(e => e.OrganiserId != userId && e.EventsParticipants.Any(ep => ep.HelperId == userId))
             .Select(e => new JoinedEventViewModel()
             {
                 Id = e.Id,
@@ -166,6 +167,42 @@ public class EventController : Controller
 
         await _context.SaveChangesAsync();
         return RedirectToAction("All");
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Join(int id)
+    {
+        var targetEvent = await _context
+            .Events
+            .Include(e => e.EventsParticipants)
+            .FirstOrDefaultAsync(e => e.Id == id);
+
+        if (targetEvent == null)
+        {
+            return BadRequest();
+        }
+
+        var userId = GetUserId();
+
+        bool userIsAParticipant = targetEvent
+            .EventsParticipants
+            .Any(p => p.HelperId == userId);
+        bool userIsOwner = targetEvent
+            .OrganiserId == userId;
+
+        if (!userIsAParticipant && !userIsOwner)
+        {
+            targetEvent.EventsParticipants
+                .Add(new EventParticipant()
+                {
+                    EventId = targetEvent.Id,
+                    HelperId = userId
+                });
+
+            await _context.SaveChangesAsync();
+        }
+
+        return RedirectToAction("Joined");
     }
 
     private string GetUserId()
