@@ -4,7 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace Homies.Controllers;
 
 /// <summary>
-/// Base model, requires authorization
+/// Serves as the base controller for the application, enforcing authorization requirements
+/// for all derived controllers.
 /// </summary>
 [Authorize]
 public class BaseController : Controller

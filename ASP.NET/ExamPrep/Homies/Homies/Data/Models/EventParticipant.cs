@@ -4,24 +4,30 @@ using Microsoft.EntityFrameworkCore;
 namespace Homies.Data.Models;
 
 /// <summary>
-/// EventsParticipants table: a many-to-many relationship establishing table.
-/// Many participants can take part in many events
+/// Represents the many-to-many relationship between participants and events.
+/// Each participant can join multiple events, and each event can have multiple participants.
 /// </summary>
 public class EventParticipant
 {
     /// <summary>
-    /// The identifier of the user that participates the event
+    /// The identifier of the participant (user) associated with the event.
     /// </summary>
     [Comment("User identifier")]
     public string HelperId { get; set; } = null!;
 
+    /// <summary>
+    /// Navigation property for the participant (user) associated with this event.
+    /// </summary>
     public IdentityUser Helper { get; set; } = null!;
 
     /// <summary>
-    /// The identifier of the event
+    /// The identifier of the event associated with the participant.
     /// </summary>
     [Comment("Event identifier")]
     public int EventId { get; set; }
 
+    /// <summary>
+    /// Navigation property for the event associated with this participant.
+    /// </summary>
     public Event Event { get; set; } = null!;
 }

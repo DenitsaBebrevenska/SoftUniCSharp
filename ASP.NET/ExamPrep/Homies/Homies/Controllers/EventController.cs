@@ -11,28 +11,28 @@ using static Homies.Common.Constants;
 namespace Homies.Controllers;
 
 /// <summary>
-/// Event controller, available only for logged-in users
+/// Manages event-related actions accessible only to authenticated users.
 /// </summary>
 public class EventController : BaseController
 {
     /// <summary>
-    /// Db Context field
+    /// Database context for accessing event data.
     /// </summary>
     private readonly HomiesDbContext _context;
 
     /// <summary>
-    /// DI for DB context 
+    /// Initializes the controller with the database context.
     /// </summary>
-    /// <param name="context"></param>
+    /// <param name="context">The database context.</param>
     public EventController(HomiesDbContext context)
     {
         _context = context;
     }
 
     /// <summary>
-    /// Displays all events
+    /// Retrieves and displays a list of all events.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>The view showing all events</returns>
     [HttpGet]
     public async Task<IActionResult> All()
     {
@@ -53,9 +53,9 @@ public class EventController : BaseController
     }
 
     /// <summary>
-    /// Prepares an event view model and passes it to the view
+    /// Prepares the event creation form with necessary data.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>The view for creating a new event.</returns>
     [HttpGet]
     public async Task<IActionResult> Add()
     {
@@ -69,11 +69,11 @@ public class EventController : BaseController
 
 
     /// <summary>
-    /// Checks model validity and adds new event
-    /// If model is invalid, returns the same model to the view
+    /// Validates and adds a new event to the database.
+    /// Returns the same view if validation fails.
     /// </summary>
-    /// <param name="model"></param>
-    /// <returns></returns>
+    /// <param name="model">The event form model.</param>
+    /// <returns>Redirects to the list of all events on success; redisplays the form on failure.</returns>
     [HttpPost]
     public async Task<IActionResult> Add(EventFormViewModel model)
     {
@@ -120,9 +120,9 @@ public class EventController : BaseController
     }
 
     /// <summary>
-    /// Displays all events to which the current user is a participant of
+    /// Displays all events the current user is participating in.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>The view showing the user's joined events.</returns>
     [HttpGet]
     public async Task<IActionResult> Joined()
     {
@@ -148,12 +148,11 @@ public class EventController : BaseController
 
 
     /// <summary>
-    /// Prepares event view model and passes it to the view
-    /// Validates the id, and if invalid, returns Bad request
-    /// Edit is only available to event`s creator
+    /// Prepares the event edit form with existing event data.
+    /// Returns a bad request if the event is not found or the user is not the organizer.
     /// </summary>
-    /// <param name="id"></param>
-    /// <returns></returns>
+    /// <param name="id">The event ID.</param>
+    /// <returns>The view for editing an event.</returns>
     [HttpGet]
     public async Task<IActionResult> Edit(int id)
     {
@@ -180,13 +179,12 @@ public class EventController : BaseController
     }
 
     /// <summary>
-    /// Edits an event and redirects to /All
-    /// Validates model and id and throws bad request if any of these is invalid
-    /// Edit is only available to event`s creator
+    /// Validates and updates an existing event.
+    /// Returns a bad request if the event is not found or the model is invalid.
     /// </summary>
-    /// <param name="model"></param>
-    /// <param name="id"></param>
-    /// <returns></returns>
+    /// <param name="model">The event form model.</param>
+    /// <param name="id">The event ID.</param>
+    /// <returns>Redirects to the list of all events on success; redisplays the form on failure.</returns>
     [HttpPost]
     public async Task<IActionResult> Edit(EventFormViewModel model, int id)
     {
@@ -280,13 +278,11 @@ public class EventController : BaseController
     }
 
     /// <summary>
-    /// Removes a participant from an event and redirects to /Joined
-    /// Validates id, if invalid returns BadRequest
-    /// The participant will be removed only if he is already
-    /// taking part of the said event
+    /// Adds the current user as a participant to an event.
+    /// Returns a bad request if the event is not found or the user is already a participant or the organizer.
     /// </summary>
-    /// <param name="id"></param>
-    /// <returns></returns>
+    /// <param name="id">The event ID.</param>
+    /// <returns>Redirects to the list of joined events.</returns>
     [HttpPost]
     public async Task<IActionResult> Leave(int id)
     {
@@ -326,11 +322,11 @@ public class EventController : BaseController
 
 
     /// <summary>
-    /// Displays the details of an event
-    /// Validates id, if invalid returns BadRequest
+    /// Displays detailed information about a specific event.
+    /// Validates the event ID, returning a BadRequest result if the event is not found.
     /// </summary>
-    /// <param name="id"></param>
-    /// <returns></returns>
+    /// <param name="id">The event ID.</param>
+    /// <returns>The view displaying event details, or BadRequest if the event is not found.</returns>
     [HttpGet]
     public async Task<IActionResult> Details(int id)
     {
@@ -361,16 +357,16 @@ public class EventController : BaseController
     }
 
     /// <summary>
-    /// Returns the identifier of the current logged-in user
+    /// Retrieves the identifier of the currently logged-in user.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>The user ID as a string.</returns>
     private string GetUserId()
         => User.FindFirstValue(ClaimTypes.NameIdentifier);
 
     /// <summary>
-    /// Returns a collection of all type names from table Types
+    /// Retrieves a list of available event types from the database.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>A collection of type view models.</returns>
     private async Task<ICollection<TypeFormViewModel>> GetAvailableTypes()
     {
         return await _context

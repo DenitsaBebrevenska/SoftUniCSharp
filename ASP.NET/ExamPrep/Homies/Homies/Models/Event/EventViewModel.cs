@@ -1,33 +1,34 @@
 ﻿namespace Homies.Models.Event;
 
 /// <summary>
-/// Event view model for /All and /Joined
-/// Does not get validation as it does not concern user input
+/// View model representing an event for display purposes.
+/// This model is used for displaying event information in the /All and /Joined views.
+/// It does not include validation as it is intended solely for displaying data and does not deal with user input
 /// </summary>
 public class EventViewModel
 {
     /// <summary>
-    /// Event identifier
+    /// The event identifier
     /// </summary>
     public int Id { get; set; }
 
     /// <summary>
-    /// Event name
+    /// The event name
     /// </summary>
     public string Name { get; set; } = null!;
 
     /// <summary>
-    /// Event start date and time
+    /// The Event start date and time
     /// </summary>
     public string Start { get; set; } = null!;
 
     /// <summary>
-    /// Event`s type name
+    /// The event`s type name
     /// </summary>
     public string Type { get; set; } = null!;
 
     /// <summary>
-    /// Event`s organiser user identifier
+    /// The event`s organiser user identifier
     /// </summary>
     public string Organiser { get; set; } = null!;
 }

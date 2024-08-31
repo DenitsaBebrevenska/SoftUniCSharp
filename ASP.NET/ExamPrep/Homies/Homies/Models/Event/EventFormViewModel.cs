@@ -6,13 +6,14 @@ using static Homies.Data.Configuration.DataConstraints;
 namespace Homies.Models.Event;
 
 /// <summary>
-/// View model for /Edit and /Add form
-/// Validates user input according to requirements
+/// View model used for creating or editing events.
+/// This model includes validation rules for user input and is used in both the /Edit and /Add forms.
 /// </summary>
 public class EventFormViewModel
 {
     /// <summary>
-    /// Event name
+    /// The event name
+    /// This property is required and must be between <see cref="EventNameMinLength"/> and <see cref="EventNameMaxLength"/> characters long.
     /// </summary>
     [Required(ErrorMessage = RequiredFieldErrorMessage)]
     [StringLength(EventNameMaxLength,
@@ -22,6 +23,7 @@ public class EventFormViewModel
 
     /// <summary>
     /// Event description
+    /// This property is required and must be between <see cref="EventDescriptionMinLength"/> and <see cref="EventDescriptionMaxLength"/> characters long.
     /// </summary>
     [Required(ErrorMessage = RequiredFieldErrorMessage)]
     [StringLength(EventDescriptionMaxLength,
@@ -30,24 +32,28 @@ public class EventFormViewModel
     public string Description { get; set; } = string.Empty;
 
     /// <summary>
-    /// Event start date and time
+    /// The event start date and time
+    /// This property is required and should be provided in a valid date-time format
     /// </summary>
     [Required(ErrorMessage = RequiredFieldErrorMessage)]
     public string Start { get; set; } = string.Empty;
 
     /// <summary>
-    /// Event end date and time
+    /// The event end date and time
+    /// This property is required and should be provided in a valid date-time format
     /// </summary>
     [Required(ErrorMessage = RequiredFieldErrorMessage)]
     public string End { get; set; } = string.Empty;
 
     /// <summary>
     /// The identifier of event`s type
+    /// This property is used to associate the event with a specific type.
     /// </summary>
     public int TypeId { get; set; }
 
     /// <summary>
-    /// A collection of type view models used for the select in the form
+    /// A collection of available event types.
+    /// This collection is used to populate the type dropdown list in the form.
     /// </summary>
     public IEnumerable<TypeFormViewModel> AvailableTypes { get; set; } = new List<TypeFormViewModel>();
 

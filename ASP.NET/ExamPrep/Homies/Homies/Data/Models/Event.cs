@@ -6,18 +6,18 @@ using static Homies.Data.Configuration.DataConstraints;
 namespace Homies.Data.Models;
 
 /// <summary>
-/// Event table
+/// Represents an event with its details
 /// </summary>
 public class Event
 {
     /// <summary>
-    /// Event identifier
+    /// The event identifier
     /// </summary>
     [Key]
     public int Id { get; set; }
 
     /// <summary>
-    /// Event name
+    /// The event name
     /// </summary>
     [Required]
     [MaxLength(EventNameMaxLength)]
@@ -25,7 +25,7 @@ public class Event
     public string Name { get; set; } = null!;
 
     /// <summary>
-    /// Event description
+    /// The event description
     /// </summary>
     [Required]
     [MaxLength(EventDescriptionMaxLength)]
@@ -67,7 +67,8 @@ public class Event
     public Type Type { get; set; } = null!;
 
     /// <summary>
-    /// Connection to EventsParticipants join table => many participants to many events
+    /// A collection of participants associated with the event.
+    /// Represents a many-to-many relationship with the EventParticipant entity.
     /// </summary>
     public ICollection<EventParticipant> EventsParticipants { get; set; } = new List<EventParticipant>();
 }
