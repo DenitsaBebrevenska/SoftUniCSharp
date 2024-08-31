@@ -205,6 +205,43 @@ public class EventController : Controller
         return RedirectToAction("Joined");
     }
 
+    [HttpPost]
+    public async Task<IActionResult> Leave(int id)
+    {
+        var targetEvent = await _context
+            .Events
+            .Include(e => e.EventsParticipants)
+            .FirstOrDefaultAsync(e => e.Id == id);
+
+        if (targetEvent == null)
+        {
+            return BadRequest();
+        }
+
+        var userId = GetUserId();
+
+        bool userIsAParticipant = targetEvent
+            .EventsParticipants
+            .Any(p => p.HelperId == userId);
+        bool userIsOwner = targetEvent
+            .OrganiserId == userId;
+
+        if (userIsAParticipant && !userIsOwner)
+        {
+            var eventParticipant = await _context
+                .EventsParticipants
+                .FirstOrDefaultAsync(ep => ep.HelperId == userId
+                                      && ep.EventId == targetEvent.Id);
+
+            _context.EventsParticipants
+                .Remove(eventParticipant);
+
+            await _context.SaveChangesAsync();
+        }
+
+        return RedirectToAction("Joined");
+    }
+
     private string GetUserId()
         => User.FindFirstValue(ClaimTypes.NameIdentifier);
 
