@@ -16,9 +16,9 @@ namespace Homies.Controllers
         /// <returns></returns>
         public IActionResult Index()
         {
-            var userIsAuthenticated = User.Identity.IsAuthenticated;
+            var userIsAuthenticated = User.Identity?.IsAuthenticated;
 
-            if (userIsAuthenticated)
+            if (userIsAuthenticated != null)
             {
                 return RedirectToAction("All", "Event");
             }

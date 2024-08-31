@@ -21,7 +21,7 @@ public class EventController : BaseController
     private readonly HomiesDbContext _context;
 
     /// <summary>
-    /// DI for DB context
+    /// DI for DB context 
     /// </summary>
     /// <param name="context"></param>
     public EventController(HomiesDbContext context)
@@ -36,8 +36,8 @@ public class EventController : BaseController
     [HttpGet]
     public async Task<IActionResult> All()
     {
-        var events = await _context.Events
-            .Include(e => e.Type)
+        var events = await _context
+            .Events
             .AsNoTracking()
             .Select(t => new EventViewModel()
             {
@@ -77,19 +77,26 @@ public class EventController : BaseController
     [HttpPost]
     public async Task<IActionResult> Add(EventFormViewModel model)
     {
-        if (!ModelState.IsValid ||
-            !DateTime.TryParseExact(
+        if (!DateTime.TryParseExact(
                 model.Start,
                 DateAndTimeFormat,
                 CultureInfo.InvariantCulture,
                 DateTimeStyles.None,
-                out var startResult) ||
-            !DateTime.TryParseExact(
+                out var startResult))
+        {
+            ModelState.AddModelError(nameof(model.Start), $"Start date format must be: {DateAndTimeFormat}");
+        }
+
+        if (!DateTime.TryParseExact(
                 model.End,
                 DateAndTimeFormat,
                 CultureInfo.InvariantCulture,
                 DateTimeStyles.None,
                 out var endResult))
+        {
+            ModelState.AddModelError(nameof(model.End), $"End date format must be: {DateAndTimeFormat}");
+        }
+        if (!ModelState.IsValid)
         {
             model.AvailableTypes = await GetAvailableTypes();
             return View(model);
@@ -106,10 +113,10 @@ public class EventController : BaseController
             TypeId = model.TypeId
         };
 
-        _context.Events.Add(newEvent);
+        await _context.Events.AddAsync(newEvent);
         await _context.SaveChangesAsync();
 
-        return RedirectToAction("All");
+        return RedirectToAction(nameof(All));
     }
 
     /// <summary>
@@ -183,27 +190,40 @@ public class EventController : BaseController
     [HttpPost]
     public async Task<IActionResult> Edit(EventFormViewModel model, int id)
     {
-        if (!ModelState.IsValid ||
-            !DateTime.TryParseExact(
+        var targetEvent = await _context
+            .Events
+            .FindAsync(id);
+
+        if (targetEvent == null)
+        {
+            return BadRequest();
+        }
+
+        if (!DateTime.TryParseExact(
                 model.Start,
                 DateAndTimeFormat,
                 CultureInfo.InvariantCulture,
                 DateTimeStyles.None,
-                out var startResult) ||
-            !DateTime.TryParseExact(
+                out var startResult))
+        {
+            ModelState.AddModelError(nameof(model.Start), $"Start date format must be: {DateAndTimeFormat}");
+        }
+
+        if (!DateTime.TryParseExact(
                 model.End,
                 DateAndTimeFormat,
                 CultureInfo.InvariantCulture,
                 DateTimeStyles.None,
                 out var endResult))
         {
+            ModelState.AddModelError(nameof(model.End), $"End date format must be: {DateAndTimeFormat}");
+        }
+
+        if (!ModelState.IsValid)
+        {
             model.AvailableTypes = await GetAvailableTypes();
             return View(model);
         }
-
-        var targetEvent = await _context
-            .Events
-            .FindAsync(id);
 
         targetEvent.Name = model.Name;
         targetEvent.Description = model.Description;
@@ -212,7 +232,7 @@ public class EventController : BaseController
         targetEvent.TypeId = model.TypeId;
 
         await _context.SaveChangesAsync();
-        return RedirectToAction("All");
+        return RedirectToAction(nameof(All));
     }
 
     /// <summary>
@@ -256,7 +276,7 @@ public class EventController : BaseController
             await _context.SaveChangesAsync();
         }
 
-        return RedirectToAction("Joined");
+        return RedirectToAction(nameof(Joined));
     }
 
     /// <summary>
@@ -301,7 +321,7 @@ public class EventController : BaseController
             await _context.SaveChangesAsync();
         }
 
-        return RedirectToAction("Joined");
+        return RedirectToAction(nameof(All));
     }
 
 
