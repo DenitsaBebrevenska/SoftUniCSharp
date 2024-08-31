@@ -55,10 +55,16 @@ namespace Homies.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
         }
 
-
-        public void OnGetAsync(string returnUrl = null)
+        public IActionResult OnGetAsync(string returnUrl = null)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("All", "Event");
+            }
+
             ReturnUrl = returnUrl;
+
+            return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
