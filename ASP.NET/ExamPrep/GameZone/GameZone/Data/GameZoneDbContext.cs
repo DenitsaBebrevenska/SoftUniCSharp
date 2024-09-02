@@ -20,7 +20,15 @@ namespace GameZone.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<GamerGame>()
-                .HasKey(gg => new { gg.GameId, gg.GamerId });
+                .HasKey(gg =>
+                    new { gg.GameId, gg.GamerId }
+                );
+
+            builder.Entity<GamerGame>()
+                .HasOne(gg => gg.Game)
+                .WithMany(g => g.GamersGames)
+                .HasForeignKey(gg => gg.GameId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder
                 .Entity<Genre>()
