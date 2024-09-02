@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
-using static GameZone.Data.Constants.ModelConstants;
+using static GameZone.Common.Constants.ModelConstants;
 
 namespace GameZone.Data.Models;
 

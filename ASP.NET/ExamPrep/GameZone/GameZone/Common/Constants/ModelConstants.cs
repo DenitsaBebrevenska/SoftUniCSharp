@@ -1,4 +1,4 @@
-﻿namespace GameZone.Data.Constants;
+﻿namespace GameZone.Common.Constants;
 
 public static class ModelConstants
 {
