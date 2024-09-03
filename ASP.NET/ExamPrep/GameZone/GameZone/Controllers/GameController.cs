@@ -33,7 +33,7 @@ public class GameController : Controller
 				Id = g.Id,
 				ImageUrl = g.ImageUrl,
 				Title = g.Title,
-				Publisher = g.PublisherId,
+				Publisher = g.Publisher.UserName,
 				ReleasedOn = g.ReleasedOn.ToString(DefaultDateTimeFormat),
 				Genre = g.Genre.Name
 			})
@@ -129,6 +129,33 @@ public class GameController : Controller
 
 			await _context.SaveChangesAsync();
 		}
+
+		return RedirectToAction(nameof(MyZone));
+	}
+
+	[HttpGet]
+	public async Task<IActionResult> StrikeOut(int id)
+	{
+		var game = await _context
+			.Games
+			.Include(g => g.GamersGames)
+			.FirstOrDefaultAsync(g => g.Id == id);
+
+		if (game == null)
+		{
+			return BadRequest();
+		}
+
+		var currentUserId = GetCurrentUserId();
+		var gamerGame = await _context
+			.GamersGames
+			.FirstAsync(gg => gg.GamerId == currentUserId && gg.GameId == game.Id);
+
+		_context
+			.GamersGames
+			.Remove(gamerGame);
+
+		await _context.SaveChangesAsync();
 
 		return RedirectToAction(nameof(MyZone));
 	}
