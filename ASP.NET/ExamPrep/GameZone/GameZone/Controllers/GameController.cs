@@ -66,7 +66,7 @@ public class GameController : Controller
 			Description = model.Description,
 			ImageUrl = model.ImageUrl,
 			ReleasedOn = DateTime.ParseExact(model.ReleasedOn, DefaultDateTimeFormat, CultureInfo.InvariantCulture),
-			PublisherId = GetCurrentUserUsername(),
+			PublisherId = GetCurrentUserId(),
 			GenreId = model.GenreId
 		};
 
@@ -77,7 +77,28 @@ public class GameController : Controller
 
 	}
 
-	[HttpGet]
+	public async Task<IActionResult> MyZone()
+	{
+		var currentUserId = GetCurrentUserId();
+
+		var userZone = await _context
+			.Games
+			.Where(g => g.GamersGames
+				.Any(gg => gg.GamerId == currentUserId))
+			.AsNoTracking()
+			.Select(g => new GameViewModel()
+			{
+				Id = g.Id,
+				ImageUrl = g.ImageUrl,
+				Title = g.Title,
+				Genre = g.Genre.Name,
+				ReleasedOn = g.ReleasedOn.ToString(DefaultDateTimeFormat),
+				Publisher = g.PublisherId
+			})
+			.ToListAsync();
+
+		return View(userZone);
+	}
 
 	private async Task<ICollection<GenreFormViewModel>> GetAvailableGenreModels()
 		=> await _context
@@ -90,6 +111,6 @@ public class GameController : Controller
 			})
 			.ToListAsync();
 
-	private string GetCurrentUserUsername()
+	private string GetCurrentUserId()
 		=> User.FindFirstValue(ClaimTypes.NameIdentifier);
 }
