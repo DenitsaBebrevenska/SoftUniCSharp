@@ -4,7 +4,6 @@ using GameZone.Models.Game;
 using GameZone.Models.Genre;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using System.Security.Claims;
@@ -12,16 +11,30 @@ using static GameZone.Common.Constants.GlobalConstants;
 
 namespace GameZone.Controllers;
 
+/// <summary>
+/// Manages event-related actions accessible only to authenticated users.
+/// </summary>
 [Authorize]
 public class GameController : Controller
 {
+	/// <summary>
+	/// Database context for accessing event data.
+	/// </summary>
 	private readonly GameZoneDbContext _context;
 
+	/// <summary>
+	/// Initializes the controller with the database context.
+	/// </summary>
+	/// <param name="context">The database context.</param>
 	public GameController(GameZoneDbContext context)
 	{
 		_context = context;
 	}
 
+	/// <summary>
+	/// Retrieves and displays a list of all games.
+	/// </summary>
+	/// <returns>The view showing all games</returns>
 	[HttpGet]
 	public async Task<IActionResult> All()
 	{
@@ -42,6 +55,10 @@ public class GameController : Controller
 		return View(games);
 	}
 
+	/// <summary>
+	/// Prepares the game creation form with necessary data.
+	/// </summary>
+	/// <returns>The view for creating a new event.</returns>
 	[HttpGet]
 	public async Task<IActionResult> Add()
 	{
@@ -51,6 +68,11 @@ public class GameController : Controller
 		return View(model);
 	}
 
+	/// <summary>
+	/// Validates and adds a new game to the database.
+	/// </summary>
+	/// <param name="model">The game form view model.</param>
+	/// <returns>Redirects to the list of all games on success; redisplays the form on failure.</returns>
 	[HttpPost]
 	public async Task<IActionResult> Add(GameFormViewModel model)
 	{
@@ -75,9 +97,12 @@ public class GameController : Controller
 		await _context.SaveChangesAsync();
 
 		return RedirectToAction(nameof(All));
-
 	}
 
+	/// <summary>
+	/// Displays all games the current user has in his game collection.
+	/// </summary>
+	/// <returns>The view showing the games in the user`s game collection.</returns>
 	[HttpGet]
 	public async Task<IActionResult> MyZone()
 	{
@@ -102,6 +127,15 @@ public class GameController : Controller
 		return View(userZone);
 	}
 
+
+	/// <summary>
+	/// Adds a game to the current user`s game collection 
+	/// </summary>
+	/// <param name="id">The game`s unique identifier</param>
+	/// <returns>Redirects to the user`s collection of games; redirects to
+	/// the listing of all games if the game is already in the user`s collection or
+	/// returns Bad request if game Id is invalid
+	/// </returns>
 	[HttpGet]
 	public async Task<IActionResult> AddToMyZone(int id)
 	{
@@ -128,10 +162,19 @@ public class GameController : Controller
 				});
 
 			await _context.SaveChangesAsync();
+
+			return RedirectToAction(nameof(MyZone));
 		}
 
-		return RedirectToAction(nameof(MyZone));
+		return RedirectToAction(nameof(All));
 	}
+
+	/// <summary>
+	/// Removes a game from the user`s game collection
+	/// </summary>
+	/// <param name="id">The game unique`s identifier</param>
+	/// <returns>Redirects to the user`s game collection up successfully adding the game
+	/// or returns BadRequest if the game`s Id is invalid</returns>
 
 	[HttpGet]
 	public async Task<IActionResult> StrikeOut(int id)
@@ -159,6 +202,14 @@ public class GameController : Controller
 
 		return RedirectToAction(nameof(MyZone));
 	}
+
+	/// <summary>
+	/// Prepares the view form for editing a game and passes it to the view.
+	/// </summary>
+	/// <param name="id">The game unique`s identifier</param>
+	/// <returns>Returns the view model to the view.
+	/// If the game Id is invalid returns BadRequest.
+	/// If the current user is not the game`s publisher returns Unauthorized.</returns>
 
 	[HttpGet]
 	public async Task<IActionResult> Edit(int id)
@@ -191,6 +242,15 @@ public class GameController : Controller
 		return View(model);
 	}
 
+	/// <summary>
+	/// Validates the game view model and edits a game.
+	/// </summary>
+	/// <param name="id">The game unique`s identifier</param>
+	/// <param name="model">The game form view model</param>
+	/// <returns>Redirects to the list of all games upon successful editing.
+	/// If the view model is invalid, returns it to the view.
+	/// If the game Id is invalid returns BadRequest.
+	/// If the current user is not the game`s publisher returns Unauthorized.</returns>
 	[HttpPost]
 	public async Task<IActionResult> Edit(int id, GameFormViewModel model)
 	{
@@ -224,6 +284,12 @@ public class GameController : Controller
 		return RedirectToAction(nameof(All));
 	}
 
+	/// <summary>
+	/// Displays detailed view of a game.
+	/// </summary>
+	/// <param name="id">The game unique`s identifier</param>
+	/// <returns> Returns the view model to the view.
+	/// If the game Id is invalid returns BadRequest.</returns>
 	[HttpGet]
 	public async Task<IActionResult> Details(int id)
 	{
@@ -252,6 +318,13 @@ public class GameController : Controller
 		return View(model);
 	}
 
+	/// <summary>
+	/// Prepares a delete view for a game from the list of all games.
+	/// </summary>
+	/// <param name="id">The game unique`s identifier</param>
+	/// <returns> Returns the delete view model to the view.
+	/// /// If the game Id is invalid returns BadRequest.
+	/// If the current user is not the game`s publisher returns Unauthorized.</returns>
 	[HttpGet]
 	public async Task<IActionResult> Delete(int id)
 	{
@@ -281,6 +354,13 @@ public class GameController : Controller
 		return View(model);
 	}
 
+	/// <summary>
+	/// Deletes a game.
+	/// </summary>
+	/// <param name="id">The game unique`s identifier</param>
+	/// <returns> Redirects to the list of all games upon successful deletion. 
+	/// If the game Id is invalid returns BadRequest.
+	/// If the current user is not the game`s publisher returns Unauthorized.</returns>
 	[HttpPost]
 	public async Task<IActionResult> DeleteConfirmed(int id)
 	{
