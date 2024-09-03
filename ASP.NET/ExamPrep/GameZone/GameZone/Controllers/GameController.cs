@@ -4,6 +4,7 @@ using GameZone.Models.Game;
 using GameZone.Models.Genre;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using System.Security.Claims;
@@ -77,6 +78,7 @@ public class GameController : Controller
 
 	}
 
+	[HttpGet]
 	public async Task<IActionResult> MyZone()
 	{
 		var currentUserId = GetCurrentUserId();
@@ -98,6 +100,37 @@ public class GameController : Controller
 			.ToListAsync();
 
 		return View(userZone);
+	}
+
+	[HttpGet]
+	public async Task<IActionResult> AddToMyZone(int id)
+	{
+		var game = await _context
+			.Games
+			.Include(g => g.GamersGames)
+			.FirstOrDefaultAsync(g => g.Id == id);
+
+		if (game == null)
+		{
+			return BadRequest();
+		}
+
+		var currentUserId = GetCurrentUserId();
+
+		if (game.GamersGames
+			.All(gg => gg.GamerId != currentUserId))
+		{
+			await _context.GamersGames
+				.AddAsync(new GamerGame()
+				{
+					GameId = game.Id,
+					GamerId = currentUserId
+				});
+
+			await _context.SaveChangesAsync();
+		}
+
+		return RedirectToAction(nameof(MyZone));
 	}
 
 	private async Task<ICollection<GenreFormViewModel>> GetAvailableGenreModels()
