@@ -22,9 +22,23 @@ public class GameController : Controller
 	}
 
 	[HttpGet]
-	public IActionResult All()
+	public async Task<IActionResult> All()
 	{
-		return View();
+		var games = await _context
+			.Games
+			.AsNoTracking()
+			.Select(g => new GameViewModel()
+			{
+				Id = g.Id,
+				ImageUrl = g.ImageUrl,
+				Title = g.Title,
+				Publisher = g.PublisherId,
+				ReleasedOn = g.ReleasedOn.ToString(DefaultDateTimeFormat),
+				Genre = g.Genre.Name
+			})
+			.ToListAsync();
+
+		return View(games);
 	}
 
 	[HttpGet]
@@ -63,7 +77,7 @@ public class GameController : Controller
 
 	}
 
-
+	[HttpGet]
 
 	private async Task<ICollection<GenreFormViewModel>> GetAvailableGenreModels()
 		=> await _context
