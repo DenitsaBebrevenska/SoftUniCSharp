@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using static HouseRentingSystem.Infrastructure.Data.Constants.TableConstraints;
 
 namespace HouseRentingSystem.Infrastructure.Data.Models;
@@ -29,6 +30,7 @@ public class House
 	[Comment("House brief description")]
 	public string ImageUrl { get; set; } = null!;
 
+	[Column(TypeName = "decimal(6,2)")]
 	[Comment("Price per month for the house rental")]
 	public decimal PricePerMonth { get; set; }
 

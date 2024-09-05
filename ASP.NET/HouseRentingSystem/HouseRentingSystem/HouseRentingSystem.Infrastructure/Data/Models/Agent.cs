@@ -16,9 +16,10 @@ public class Agent
 	public string PhoneNumber { get; set; } = null!;
 
 	[Required]
-	[MaxLength(UserIdentifierLength)]
 	[Comment("The user identifier")]
 	public string UserId { get; set; } = null!;
 
 	public IdentityUser User { get; set; } = null!;
+
+	public ICollection<House> Houses { get; set; } = new List<House>();
 }

@@ -24,6 +24,4 @@ public static class TableConstraints
 	public const int AgentPhoneNumberMaxLength = 15;
 
 	public const int ImageUrlMaxLength = 2_048;
-
-	public const int UserIdentifierLength = 36;
 }
