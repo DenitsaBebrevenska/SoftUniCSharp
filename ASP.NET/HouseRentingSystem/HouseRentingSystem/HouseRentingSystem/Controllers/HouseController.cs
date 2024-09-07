@@ -4,6 +4,7 @@ using HouseRentingSystem.Core.Models.House;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using static HouseRentingSystem.Core.Constants.ValidationErrorMessages;
 
 namespace HouseRentingSystem.Controllers;
 
@@ -55,7 +56,7 @@ public class HouseController : BaseController
     {
         if (!await _houseService.CategoryExistsAsync(model.CategoryId))
         {
-            ModelState.AddModelError(nameof(model.CategoryId), "");
+            ModelState.AddModelError(nameof(model.CategoryId), InvalidCategoryMessage);
         }
 
         if (!ModelState.IsValid)
