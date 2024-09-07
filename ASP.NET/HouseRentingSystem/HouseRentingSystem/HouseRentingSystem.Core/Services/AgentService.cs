@@ -39,4 +39,10 @@ public class AgentService : IAgentService
         await _repository.AddAsync(agent);
         await _repository.SaveChangesAsync();
     }
+
+    public async Task<int?> GetAgentIdAsync(string userId)
+        => (await _repository
+            .GetAllReadOnly<Agent>()
+            .FirstOrDefaultAsync(a => a.UserId == userId))?
+            .Id;
 }
