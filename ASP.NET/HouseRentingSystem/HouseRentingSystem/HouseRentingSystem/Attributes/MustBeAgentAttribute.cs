@@ -1,11 +1,12 @@
-﻿using HouseRentingSystem.Core.Contracts;
+﻿using HouseRentingSystem.Controllers;
+using HouseRentingSystem.Core.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Security.Claims;
 
 namespace HouseRentingSystem.Attributes;
 
-public class NotAnAgentAttribute : ActionFilterAttribute
+public class MustBeAgentAttribute : ActionFilterAttribute
 {
     public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
@@ -20,14 +21,17 @@ public class NotAnAgentAttribute : ActionFilterAttribute
             return;
         }
 
-        var userId = context.HttpContext.User.Id();
-        if (await agentService.ExistsByIdAsync(userId))
+        var userId = context
+            .HttpContext
+            .User
+            .Id();
+
+        if (!await agentService.ExistsByIdAsync(userId))
         {
-            context.Result = new StatusCodeResult(StatusCodes.Status400BadRequest);
+            context.Result = new RedirectToActionResult(nameof(AgentController.Become), "Agent", null);
             return;
         }
 
-        // Continue executing the next action delegate if all checks pass
         await next();
     }
 }
