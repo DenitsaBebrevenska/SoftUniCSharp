@@ -79,11 +79,6 @@ public class HouseController : BaseController
         return View(new HouseFormViewModel());
     }
 
-    [HttpPost]
-    public IActionResult Add(int id, HouseFormViewModel model)
-    {
-        return RedirectToAction(nameof(Details), new { id = "1" });
-    }
 
     [HttpGet]
     public IActionResult Delete(int id)
