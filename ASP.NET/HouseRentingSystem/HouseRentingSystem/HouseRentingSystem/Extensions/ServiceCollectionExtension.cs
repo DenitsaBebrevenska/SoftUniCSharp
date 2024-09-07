@@ -1,4 +1,7 @@
-﻿using HouseRentingSystem.Infrastructure.Data;
+﻿using HouseRentingSystem.Core.Contracts;
+using HouseRentingSystem.Core.Services;
+using HouseRentingSystem.Infrastructure.Common;
+using HouseRentingSystem.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,6 +11,9 @@ public static class ServiceCollectionExtension
 {
 	public static IServiceCollection AddApplicationServices(this IServiceCollection services)
 	{
+		services.AddScoped<IHouseService, HouseService>();
+		services.AddScoped<IAgentService, AgentService>();
+
 		return services;
 	}
 
@@ -16,6 +22,8 @@ public static class ServiceCollectionExtension
 		var connectionString = config.GetConnectionString("DefaultConnection") ??
 							   throw new ArgumentException("DefaultConnection string not set.");
 		services.AddDbContext<HomeRentingDbContext>(options => options.UseSqlServer(connectionString));
+
+		services.AddScoped<IRepository, Repository>();
 
 		services.AddDatabaseDeveloperPageExceptionFilter();
 

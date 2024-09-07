@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HouseRentingSystem.Core.Models.Home;
 
 namespace HouseRentingSystem.Core.Contracts;
-internal interface IHouseService
+public interface IHouseService
 {
+    Task<IEnumerable<HouseIndexViewModel>> LastThreeHousesAsync();
 }
