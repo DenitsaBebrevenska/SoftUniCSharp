@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using static HouseRentingSystem.Core.Constants.ValidationMessages;
+using static HouseRentingSystem.Core.Constants.ValidationErrorMessages;
 using static HouseRentingSystem.Infrastructure.Data.Constants.TableConstraints;
 namespace HouseRentingSystem.Core.Models.Agent;
 
