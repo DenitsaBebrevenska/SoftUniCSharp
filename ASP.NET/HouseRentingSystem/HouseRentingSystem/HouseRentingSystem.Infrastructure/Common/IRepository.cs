@@ -5,5 +5,6 @@ public interface IRepository
 
     IQueryable<T> GetAllReadOnly<T>() where T : class;
 
-    int SaveChanges();
+    Task AddAsync<T>(T entity) where T : class;
+    Task<int> SaveChangesAsync();
 }
