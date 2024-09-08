@@ -41,9 +41,23 @@ public class HouseController : BaseController
     }
 
     [HttpGet]
-    public IActionResult Mine()
+    public async Task<IActionResult> Mine()
     {
-        return View(new HouseServiceModel());
+        IEnumerable<HouseServiceModel> myHouses;
+
+        var userId = User.Id();
+
+        if (await _agentService.ExistsByIdAsync(userId))
+        {
+            var currentAgentId = await _agentService.GetAgentIdAsync(userId);
+            myHouses = await _houseService.AllHousesByAgentIdAsync(currentAgentId);
+        }
+        else
+        {
+            myHouses = await _houseService.AllHousesByUserIdAsync(userId);
+        }
+
+        return View(myHouses);
     }
 
     [HttpGet]

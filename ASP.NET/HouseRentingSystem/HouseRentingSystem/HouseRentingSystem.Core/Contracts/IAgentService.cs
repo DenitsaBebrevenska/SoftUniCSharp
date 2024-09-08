@@ -9,5 +9,5 @@ public interface IAgentService
 
     Task CreateAsync(string userId, string phoneNumber);
 
-    Task<int?> GetAgentIdAsync(string userId);
+    Task<int> GetAgentIdAsync(string userId);
 }
