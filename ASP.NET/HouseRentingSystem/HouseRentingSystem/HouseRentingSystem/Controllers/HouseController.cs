@@ -21,15 +21,29 @@ public class HouseController : BaseController
 
     [AllowAnonymous]
     [HttpGet]
-    public IActionResult All()
+    public async Task<IActionResult> All([FromQuery] AllHousesQueryModel query)
     {
-        return View(new AllHousesQueryModel());
+        var queryResult = await _houseService
+            .AllAsync(
+                query.Category,
+                query.SearchTerm,
+                query.Sorting,
+                query.CurrentPage,
+                AllHousesQueryModel.HousesPerPage);
+
+        query.TotalHousesCount = queryResult.TotalHousesCount;
+        query.Houses = queryResult.Houses;
+
+        var houseCategories = await _houseService.AllCategoriesNamesAsync();
+        query.Categories = houseCategories;
+
+        return View(query);
     }
 
     [HttpGet]
     public IActionResult Mine()
     {
-        return View(new AllHousesQueryModel());
+        return View(new HouseServiceModel());
     }
 
     [HttpGet]

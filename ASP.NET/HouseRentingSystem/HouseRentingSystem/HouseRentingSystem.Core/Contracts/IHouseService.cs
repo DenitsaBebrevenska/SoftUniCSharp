@@ -1,4 +1,5 @@
-﻿using HouseRentingSystem.Core.Models.Category;
+﻿using HouseRentingSystem.Core.Enums;
+using HouseRentingSystem.Core.Models.Category;
 using HouseRentingSystem.Core.Models.Home;
 using HouseRentingSystem.Core.Models.House;
 
@@ -12,4 +13,12 @@ public interface IHouseService
     Task<bool> CategoryExistsAsync(int categoryId);
 
     Task<int> CreateAsync(HouseFormViewModel model, int agentId);
+
+    Task<HouseQueryServiceModel> AllAsync(string? category = null,
+        string? searchTerm = null,
+        HouseSorting sorting = HouseSorting.Newest,
+        int currentPage = 1,
+        int housesPerPage = 1);
+
+    Task<IEnumerable<string>> AllCategoriesNamesAsync();
 }
