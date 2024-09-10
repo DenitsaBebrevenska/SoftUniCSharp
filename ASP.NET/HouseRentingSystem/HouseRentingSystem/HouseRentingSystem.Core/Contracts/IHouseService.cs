@@ -6,27 +6,33 @@ using HouseRentingSystem.Core.Models.House;
 namespace HouseRentingSystem.Core.Contracts;
 public interface IHouseService
 {
-    Task<IEnumerable<HouseIndexViewModel>> LastThreeHousesAsync();
+	Task<IEnumerable<HouseIndexViewModel>> LastThreeHousesAsync();
 
-    Task<IEnumerable<CategoryViewModel>> AllCategoriesAsync();
+	Task<IEnumerable<CategoryViewModel>> AllCategoriesAsync();
 
-    Task<bool> CategoryExistsAsync(int categoryId);
+	Task<bool> CategoryExistsAsync(int categoryId);
 
-    Task<int> CreateAsync(HouseFormViewModel model, int agentId);
+	Task<int> CreateAsync(HouseFormViewModel model, int agentId);
 
-    Task<HouseQueryViewModel> AllAsync(string? category = null,
-        string? searchTerm = null,
-        HouseSorting sorting = HouseSorting.Newest,
-        int currentPage = 1,
-        int housesPerPage = 1);
+	Task<HouseQueryViewModel> AllAsync(string? category = null,
+		string? searchTerm = null,
+		HouseSorting sorting = HouseSorting.Newest,
+		int currentPage = 1,
+		int housesPerPage = 1);
 
-    Task<IEnumerable<string>> AllCategoriesNamesAsync();
+	Task<IEnumerable<string>> AllCategoriesNamesAsync();
 
-    Task<IEnumerable<HouseViewModel>> AllHousesByAgentIdAsync(int agentId);
+	Task<IEnumerable<HouseViewModel>> AllHousesByAgentIdAsync(int agentId);
 
-    Task<IEnumerable<HouseViewModel>> AllHousesByUserIdAsync(string userId);
+	Task<IEnumerable<HouseViewModel>> AllHousesByUserIdAsync(string userId);
 
-    Task<bool> HouseExistsAsync(int id);
+	Task<bool> HouseExistsAsync(int id);
 
-    Task<HouseDetailsViewModel> HouseDetailsByIdAsync(int id);
+	Task<HouseDetailsViewModel> HouseDetailsByIdAsync(int id);
+
+	Task EditAsync(int houseId, HouseFormViewModel model);
+
+	Task<bool> HasAgentWithIdAsync(int houseId, string userId);
+
+	Task<HouseFormViewModel?> GetHouseFormModelByIdAsync(int houseId);
 }
