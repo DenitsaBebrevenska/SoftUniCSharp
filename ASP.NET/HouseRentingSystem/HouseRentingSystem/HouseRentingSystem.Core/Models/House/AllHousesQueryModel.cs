@@ -1,4 +1,5 @@
 ﻿using HouseRentingSystem.Core.Enums;
+using System.ComponentModel;
 
 namespace HouseRentingSystem.Core.Models.House;
 public class AllHousesQueryModel
@@ -7,6 +8,7 @@ public class AllHousesQueryModel
 
     public string Category { get; init; } = null!;
 
+    [DisplayName("Search by text")]
     public string SearchTerm { get; init; } = null!;
 
     public HouseSorting Sorting { get; init; }
@@ -17,5 +19,5 @@ public class AllHousesQueryModel
 
     public IEnumerable<string> Categories { get; set; } = null!;
 
-    public IEnumerable<HouseServiceModel> Houses { get; set; } = new List<HouseServiceModel>();
+    public IEnumerable<HouseViewModel> Houses { get; set; } = new List<HouseViewModel>();
 }

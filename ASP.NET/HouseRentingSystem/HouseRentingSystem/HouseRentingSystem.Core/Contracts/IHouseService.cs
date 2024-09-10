@@ -14,7 +14,7 @@ public interface IHouseService
 
     Task<int> CreateAsync(HouseFormViewModel model, int agentId);
 
-    Task<HouseQueryServiceModel> AllAsync(string? category = null,
+    Task<HouseQueryViewModel> AllAsync(string? category = null,
         string? searchTerm = null,
         HouseSorting sorting = HouseSorting.Newest,
         int currentPage = 1,
@@ -22,7 +22,11 @@ public interface IHouseService
 
     Task<IEnumerable<string>> AllCategoriesNamesAsync();
 
-    Task<IEnumerable<HouseServiceModel>> AllHousesByAgentIdAsync(int agentId);
+    Task<IEnumerable<HouseViewModel>> AllHousesByAgentIdAsync(int agentId);
 
-    Task<IEnumerable<HouseServiceModel>> AllHousesByUserIdAsync(string userId);
+    Task<IEnumerable<HouseViewModel>> AllHousesByUserIdAsync(string userId);
+
+    Task<bool> HouseExistsAsync(int id);
+
+    Task<HouseDetailsViewModel> HouseDetailsByIdAsync(int id);
 }

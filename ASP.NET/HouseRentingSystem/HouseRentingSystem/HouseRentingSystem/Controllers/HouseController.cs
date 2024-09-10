@@ -23,7 +23,7 @@ public class HouseController : BaseController
     [HttpGet]
     public async Task<IActionResult> All([FromQuery] AllHousesQueryModel query)
     {
-        var queryResult = await _houseService
+        var model = await _houseService
             .AllAsync(
                 query.Category,
                 query.SearchTerm,
@@ -31,11 +31,10 @@ public class HouseController : BaseController
                 query.CurrentPage,
                 AllHousesQueryModel.HousesPerPage);
 
-        query.TotalHousesCount = queryResult.TotalHousesCount;
-        query.Houses = queryResult.Houses;
+        query.TotalHousesCount = model.TotalHousesCount;
+        query.Houses = model.Houses;
 
-        var houseCategories = await _houseService.AllCategoriesNamesAsync();
-        query.Categories = houseCategories;
+        query.Categories = await _houseService.AllCategoriesNamesAsync();
 
         return View(query);
     }
@@ -43,13 +42,13 @@ public class HouseController : BaseController
     [HttpGet]
     public async Task<IActionResult> Mine()
     {
-        IEnumerable<HouseServiceModel> myHouses;
+        IEnumerable<HouseViewModel> myHouses;
 
         var userId = User.Id();
 
         if (await _agentService.ExistsByIdAsync(userId))
         {
-            var currentAgentId = await _agentService.GetAgentIdAsync(userId);
+            var currentAgentId = await _agentService.GetAgentIdAsync(userId) ?? 0;
             myHouses = await _houseService.AllHousesByAgentIdAsync(currentAgentId);
         }
         else
@@ -63,7 +62,13 @@ public class HouseController : BaseController
     [HttpGet]
     public async Task<IActionResult> Details(int id)
     {
-        return View(new HouseDetailsViewModel());
+        if (!await _houseService.HouseExistsAsync(id))
+        {
+            return BadRequest();
+        }
+
+        var model = await _houseService.HouseDetailsByIdAsync(id);
+        return View(model);
     }
 
     [HttpGet]
