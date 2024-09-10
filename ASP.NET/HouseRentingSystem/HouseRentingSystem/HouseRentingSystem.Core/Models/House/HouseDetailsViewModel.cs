@@ -2,21 +2,9 @@
 
 namespace HouseRentingSystem.Core.Models.House;
 
-public class HouseDetailsViewModel
+public class HouseDetailsViewModel : HouseViewModel
 {
-    public int Id { get; set; }
-
-    public string Title { get; set; } = null!;
-
-    public string Address { get; set; } = null!;
     public string Description { get; set; } = null!;
-
-    public string ImageUrl { get; set; } = null!;
-
-    public decimal PricePerMonth { get; set; }
-
-    public bool IsRented { get; set; }
-
     public string Category { get; set; } = null!;
 
     public AgentViewModel Agent { get; set; } = null!;

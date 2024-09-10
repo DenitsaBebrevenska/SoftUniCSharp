@@ -70,7 +70,7 @@ public class HouseService : IHouseService
     {
         var housesQuery = _repository.GetAll<House>().AsQueryable();
 
-        if (string.IsNullOrWhiteSpace(category))
+        if (!string.IsNullOrWhiteSpace(category))
         {
             housesQuery = housesQuery
                 .Where(h => h.Category.Name == category);
@@ -147,27 +147,24 @@ public class HouseService : IHouseService
 
     public async Task<HouseDetailsViewModel> HouseDetailsByIdAsync(int id)
     {
-        var houseDb = await _repository
+        return await _repository
             .GetAll<House>()
-            .Include(h => h.Agent)
-            .Include(h => h.Category)
-            .FirstAsync(h => h.Id == id);
-
-        return new HouseDetailsViewModel()
-        {
-            Id = houseDb.Id,
-            Title = houseDb.Title,
-            Address = houseDb.Address,
-            Description = houseDb.Description,
-            ImageUrl = houseDb.ImageUrl,
-            PricePerMonth = houseDb.PricePerMonth,
-            IsRented = houseDb.RenterId != null,
-            Category = houseDb.Category.Name,
-            Agent = new AgentViewModel()
+            .Select(h => new HouseDetailsViewModel()
             {
-                PhoneNumber = houseDb.Agent.PhoneNumber,
-                Email = houseDb.Agent.User.Email
-            }
-        };
+                Id = h.Id,
+                Title = h.Title,
+                Address = h.Address,
+                Description = h.Description,
+                ImageUrl = h.ImageUrl,
+                PricePerMonth = h.PricePerMonth,
+                IsRented = h.RenterId != null,
+                Category = h.Category.Name,
+                Agent = new AgentViewModel()
+                {
+                    PhoneNumber = h.Agent.PhoneNumber,
+                    Email = h.Agent.User.Email
+                }
+            })
+            .FirstAsync(h => h.Id == id);
     }
 }
