@@ -60,13 +60,9 @@ public class HouseController : BaseController
 	}
 
 	[HttpGet]
+	[HouseExists]
 	public async Task<IActionResult> Details(int id)
 	{
-		if (!await _houseService.HouseExistsAsync(id))
-		{
-			return BadRequest();
-		}
-
 		var model = await _houseService.HouseDetailsByIdAsync(id);
 		return View(model);
 	}
@@ -107,12 +103,9 @@ public class HouseController : BaseController
 	}
 
 	[HttpGet]
+	[HouseExists]
 	public async Task<IActionResult> Edit(int id)
 	{
-		if (!await _houseService.HouseExistsAsync(id))
-		{
-			return BadRequest();
-		}
 
 		if (!await _houseService.HasAgentWithIdAsync(id, User.Id()))
 		{
@@ -128,12 +121,9 @@ public class HouseController : BaseController
 	}
 
 	[HttpPost]
+	[HouseExists]
 	public async Task<IActionResult> Edit(int id, HouseFormViewModel model)
 	{
-		if (!await _houseService.HouseExistsAsync(id))
-		{
-			return BadRequest();
-		}
 
 		if (!await _houseService.HasAgentWithIdAsync(id, User.Id()))
 		{
@@ -158,13 +148,9 @@ public class HouseController : BaseController
 	}
 
 	[HttpGet]
+	[HouseExists]
 	public async Task<IActionResult> Delete(int id)
 	{
-		if (!await _houseService.HouseExistsAsync(id))
-		{
-			return BadRequest();
-		}
-
 		if (!await _houseService.HasAgentWithIdAsync(id, User.Id()))
 		{
 			return Unauthorized();
@@ -184,13 +170,9 @@ public class HouseController : BaseController
 	}
 
 	[HttpPost]
+	[HouseExists]
 	public async Task<IActionResult> Delete(HouseDetailsViewModel model)
 	{
-		if (!await _houseService.HouseExistsAsync(model.Id))
-		{
-			return BadRequest();
-		}
-
 		if (!await _houseService.HasAgentWithIdAsync(model.Id, User.Id()))
 		{
 			return Unauthorized();
@@ -201,13 +183,9 @@ public class HouseController : BaseController
 	}
 
 	[HttpPost]
+	[HouseExists]
 	public async Task<IActionResult> Rent(int id)
 	{
-		if (!await _houseService.HouseExistsAsync(id))
-		{
-			return BadRequest();
-		}
-
 		if (await _agentService.ExistsByIdAsync(User.Id()))
 		{
 			return Unauthorized();
@@ -222,10 +200,10 @@ public class HouseController : BaseController
 	}
 
 	[HttpPost]
+	[HouseExists]
 	public async Task<IActionResult> Leave(int id)
 	{
-		if (!await _houseService.HouseExistsAsync(id) ||
-			!await _houseService.IsRentedAsync(id))
+		if (!await _houseService.IsRentedAsync(id))
 		{
 			return BadRequest();
 		}
