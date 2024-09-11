@@ -35,4 +35,6 @@ public interface IHouseService
 	Task<bool> HasAgentWithIdAsync(int houseId, string userId);
 
 	Task<HouseFormViewModel?> GetHouseFormModelByIdAsync(int houseId);
+
+	Task DeleteAsync(int houseId);
 }
