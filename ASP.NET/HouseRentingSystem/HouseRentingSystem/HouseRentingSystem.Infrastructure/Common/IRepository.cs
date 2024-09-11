@@ -10,5 +10,5 @@ public interface IRepository
 
 	Task<T?> GetByIdAsync<T>(int id) where T : class;
 
-	Task RemoveAsync<T>(T entity) where T : class;
+	void Remove<T>(T entity) where T : class;
 }

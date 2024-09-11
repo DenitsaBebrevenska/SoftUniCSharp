@@ -201,14 +201,42 @@ public class HouseController : BaseController
 	}
 
 	[HttpPost]
-	public IActionResult Rent(int id)
+	public async Task<IActionResult> Rent(int id)
 	{
+		if (!await _houseService.HouseExistsAsync(id))
+		{
+			return BadRequest();
+		}
+
+		if (await _agentService.ExistsByIdAsync(User.Id()))
+		{
+			return Unauthorized();
+		}
+
+		if (!await _houseService.IsRentedAsync(id))
+		{
+			await _houseService.RentAsync(id, User.Id());
+		}
+
 		return RedirectToAction(nameof(Mine));
 	}
 
 	[HttpPost]
-	public IActionResult Leave(int id)
+	public async Task<IActionResult> Leave(int id)
 	{
+		if (!await _houseService.HouseExistsAsync(id) ||
+			!await _houseService.IsRentedAsync(id))
+		{
+			return BadRequest();
+		}
+
+		if (!await _houseService.IsRentedByUserWithIdAsync(id, User.Id()))
+		{
+			return Unauthorized();
+		}
+
+		await _houseService.LeaveAsync(id);
+
 		return RedirectToAction(nameof(Mine));
 	}
 }

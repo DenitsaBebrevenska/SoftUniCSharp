@@ -7,34 +7,36 @@ namespace HouseRentingSystem.Core.Models.House;
 
 public class HouseViewModel
 {
-    public int Id { get; init; }
+	public int Id { get; init; }
 
-    [Required(ErrorMessage = RequiredFieldMessage)]
-    [StringLength(HouseTitleMaxLength,
-        MinimumLength = HouseTitleMinLength,
-        ErrorMessage = StringLengthMessage)]
-    public string Title { get; init; } = null!;
+	[Required(ErrorMessage = RequiredFieldMessage)]
+	[StringLength(HouseTitleMaxLength,
+		MinimumLength = HouseTitleMinLength,
+		ErrorMessage = StringLengthMessage)]
+	public string Title { get; init; } = null!;
 
-    [Required(ErrorMessage = RequiredFieldMessage)]
-    [StringLength(HouseAddressMaxLength,
-        MinimumLength = HouseAddressMinLength,
-        ErrorMessage = StringLengthMessage)]
-    public string Address { get; init; } = null!;
+	[Required(ErrorMessage = RequiredFieldMessage)]
+	[StringLength(HouseAddressMaxLength,
+		MinimumLength = HouseAddressMinLength,
+		ErrorMessage = StringLengthMessage)]
+	public string Address { get; init; } = null!;
 
-    [Required(ErrorMessage = RequiredFieldMessage)]
-    [StringLength(ImageUrlMaxLength,
-        ErrorMessage = UrlMaxLengthMessage)]
-    [DisplayName("Image URL")]
-    public string ImageUrl { get; init; } = null!;
+	[Required(ErrorMessage = RequiredFieldMessage)]
+	[StringLength(ImageUrlMaxLength,
+		ErrorMessage = UrlMaxLengthMessage)]
+	[DisplayName("Image URL")]
+	public string ImageUrl { get; init; } = null!;
 
-    [Required(ErrorMessage = RequiredFieldMessage)]
-    [Range(typeof(decimal),
-        HousePricePerMonthMinimum,
-        HousePricePerMonthMaximum,
-        ErrorMessage = PricePerMonthMessage)]
-    [DisplayName("Price Per Month")]
-    public decimal PricePerMonth { get; init; }
+	[Required(ErrorMessage = RequiredFieldMessage)]
+	[Range(typeof(decimal),
+		HousePricePerMonthMinimum,
+		HousePricePerMonthMaximum,
+		ErrorMessage = PricePerMonthMessage)]
+	[DisplayName("Price Per Month")]
+	public decimal PricePerMonth { get; init; }
 
-    [DisplayName("Is Rented")]
-    public bool IsRented { get; init; }
+	[DisplayName("Is Rented")]
+	public bool IsRented { get; init; }
+
+	public string? RenterId { get; init; }
 }

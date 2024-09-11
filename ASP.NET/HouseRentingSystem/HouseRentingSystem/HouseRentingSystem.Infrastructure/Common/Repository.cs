@@ -32,11 +32,9 @@ public class Repository : IRepository
 		=> await GetDbSet<T>()
 			.FindAsync(id);
 
-	public async Task RemoveAsync<T>(T obj) where T : class
+	public void Remove<T>(T obj) where T : class
 	{
 		GetDbSet<T>()
 			.Remove(obj);
-
-		await _context.SaveChangesAsync();
 	}
 }
