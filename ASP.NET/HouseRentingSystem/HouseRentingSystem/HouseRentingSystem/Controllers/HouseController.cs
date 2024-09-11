@@ -104,16 +104,9 @@ public class HouseController : BaseController
 
 	[HttpGet]
 	[HouseExists]
+	[UserIsTheHouseAgent]
 	public async Task<IActionResult> Edit(int id)
 	{
-
-		if (!await _houseService.HasAgentWithIdAsync(id, User.Id()))
-		{
-			return Unauthorized();
-		}
-
-		var house = await _houseService
-			.HouseDetailsByIdAsync(id);
 		var model = await _houseService
 			.GetHouseFormModelByIdAsync(id);
 
@@ -122,14 +115,9 @@ public class HouseController : BaseController
 
 	[HttpPost]
 	[HouseExists]
+	[UserIsTheHouseAgent]
 	public async Task<IActionResult> Edit(int id, HouseFormViewModel model)
 	{
-
-		if (!await _houseService.HasAgentWithIdAsync(id, User.Id()))
-		{
-			return Unauthorized();
-		}
-
 		if (!await _houseService.CategoryExistsAsync(model.CategoryId))
 		{
 			ModelState.AddModelError(nameof(model.CategoryId), InvalidCategoryMessage);
@@ -149,13 +137,9 @@ public class HouseController : BaseController
 
 	[HttpGet]
 	[HouseExists]
+	[UserIsTheHouseAgent]
 	public async Task<IActionResult> Delete(int id)
 	{
-		if (!await _houseService.HasAgentWithIdAsync(id, User.Id()))
-		{
-			return Unauthorized();
-		}
-
 		var house = await _houseService.HouseDetailsByIdAsync(id);
 
 		var model = new HouseDeleteViewModel()
@@ -171,13 +155,9 @@ public class HouseController : BaseController
 
 	[HttpPost]
 	[HouseExists]
+	[UserIsTheHouseAgent]
 	public async Task<IActionResult> Delete(HouseDetailsViewModel model)
 	{
-		if (!await _houseService.HasAgentWithIdAsync(model.Id, User.Id()))
-		{
-			return Unauthorized();
-		}
-
 		await _houseService.DeleteAsync(model.Id);
 		return RedirectToAction(nameof(All));
 	}
