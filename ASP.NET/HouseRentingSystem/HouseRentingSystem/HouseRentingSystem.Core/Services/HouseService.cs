@@ -26,6 +26,7 @@ public class HouseService : IHouseService
 			.Select(h => new HouseIndexViewModel()
 			{
 				Id = h.Id,
+				Address = h.Address,
 				ImageUrl = h.ImageUrl,
 				Title = h.Title
 			})

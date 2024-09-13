@@ -1,5 +1,7 @@
-﻿namespace HouseRentingSystem.Core.Models.House;
-public class HouseDeleteViewModel
+﻿using HouseRentingSystem.Core.Contracts;
+
+namespace HouseRentingSystem.Core.Models.House;
+public class HouseDeleteViewModel : IHouseModel
 {
 	public int Id { get; set; }
 

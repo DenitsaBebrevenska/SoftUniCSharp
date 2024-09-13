@@ -1,11 +1,12 @@
-﻿using System.ComponentModel;
+﻿using HouseRentingSystem.Core.Contracts;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using static HouseRentingSystem.Core.Constants.ValidationErrorMessages;
 using static HouseRentingSystem.Infrastructure.Data.Constants.TableConstraints;
 
 namespace HouseRentingSystem.Core.Models.House;
 
-public class HouseViewModel
+public class HouseViewModel : IHouseModel
 {
 	public int Id { get; init; }
 
@@ -13,13 +14,13 @@ public class HouseViewModel
 	[StringLength(HouseTitleMaxLength,
 		MinimumLength = HouseTitleMinLength,
 		ErrorMessage = StringLengthMessage)]
-	public string Title { get; init; } = null!;
+	public string Title { get; set; } = null!;
 
 	[Required(ErrorMessage = RequiredFieldMessage)]
 	[StringLength(HouseAddressMaxLength,
 		MinimumLength = HouseAddressMinLength,
 		ErrorMessage = StringLengthMessage)]
-	public string Address { get; init; } = null!;
+	public string Address { get; set; } = null!;
 
 	[Required(ErrorMessage = RequiredFieldMessage)]
 	[StringLength(ImageUrlMaxLength,

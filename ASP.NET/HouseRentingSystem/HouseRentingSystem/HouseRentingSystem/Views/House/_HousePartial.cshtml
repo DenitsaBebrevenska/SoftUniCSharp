@@ -1,4 +1,5 @@
 ﻿@using System.Security.Claims
+
 @model HouseViewModel
 
 <div class="col-md-4">
@@ -14,6 +15,7 @@
 			<h6>(@(Model.IsRented ? "Rented" : "Not Rented"))</h6>
 			<br />
 			<a asp-controller="House" asp-action="Details" asp-route-id="@Model.Id"
+			   asp-route-information="@Model.GetInformation()"
 			   class="btn btn-success">Details</a>
 			@if (User.Identity?.IsAuthenticated ?? false)
 			{
