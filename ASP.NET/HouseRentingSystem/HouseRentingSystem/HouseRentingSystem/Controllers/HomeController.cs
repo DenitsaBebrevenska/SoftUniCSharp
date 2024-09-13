@@ -18,7 +18,7 @@ public class HomeController : BaseController
 			.LastThreeHousesAsync());
 
 	[AllowAnonymous]
-	public async Task<IActionResult> Error(int statusCode)
+	public IActionResult Error(int statusCode)
 	{
 		if (statusCode == 400)
 		{
