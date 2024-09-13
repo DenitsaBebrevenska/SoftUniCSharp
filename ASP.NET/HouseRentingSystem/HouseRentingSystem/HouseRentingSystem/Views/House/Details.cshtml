@@ -1,4 +1,6 @@
-﻿@model HouseDetailsViewModel
+﻿@inject IHouseService HouseService
+@inject IAgentService AgentService
+@model HouseDetailsViewModel
 
 @{
     ViewBag.Title = "House Details";
@@ -24,20 +26,24 @@
             <p>Category: <b>@Model.Category</b></p>
             <p><i>(@(Model.IsRented ? "Rented" : "Not Rented"))</i></p>
             <div class="form-inline">
-                @if (this.User.Identity.IsAuthenticated)
+                @if (User.Identity?.IsAuthenticated ?? false)
                 {
-                    <a class="btn btn-warning" asp-controller="House" asp-action="Edit"
-                       asp-route-id="@Model.Id">Edit</a>
-                    <a class="ml-2 btn btn-danger" asp-controller="House" asp-action="Delete"
-                       asp-route-id="@Model.Id">Delete</a>
-                    @if (!Model.IsRented)
+	                if (await HouseService.HasAgentWithIdAsync(Model.Id, User.Id()))
+	                {
+		                <a class="btn btn-warning" asp-controller="House" asp-action="Edit"
+		                   asp-route-id="@Model.Id">Edit</a>
+		                <a class="ml-2 btn btn-danger" asp-controller="House" asp-action="Delete"
+		                   asp-route-id="@Model.Id">Delete</a>
+	                }
+                    
+	                if (!Model.IsRented && !await AgentService.ExistsByIdAsync(User.Id()))
                     {
                         <form class="ml-2" asp-controller="House"
                               asp-action="Rent" asp-route-id="@Model.Id" method="post">
                             <input class="btn btn-primary" type="submit" value="Rent" />
                         </form>
                     }
-                    else
+                    else if(await HouseService.IsRentedByUserWithIdAsync(Model.Id, User.Id()))
                     {
                         <form class="ml-2" asp-controller="House" asp-action="Leave"
                               asp-route-id="@Model.Id" method="post">
