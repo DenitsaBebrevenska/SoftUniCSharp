@@ -35,6 +35,7 @@ public static class ServiceCollectionExtension
 	{
 		services.AddDefaultIdentity<IdentityUser>(options =>
 			{
+				options.User.RequireUniqueEmail = true;
 				options.SignIn.RequireConfirmedAccount = false;
 				options.Password.RequireUppercase = false;
 				options.Password.RequireNonAlphanumeric = false;
