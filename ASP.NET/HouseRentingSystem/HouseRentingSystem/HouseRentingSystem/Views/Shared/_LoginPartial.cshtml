@@ -1,5 +1,4 @@
 ﻿@inject SignInManager<ApplicationUser> SignInManager
-@inject UserManager<ApplicationUser> UserManager
 @inject IAgentService AgentService
 
 @{
@@ -7,8 +6,7 @@
 
 	if (SignInManager.IsSignedIn(User))
 	{
-		var user = await UserManager.FindByIdAsync(User.Id());
-		username = string.IsNullOrEmpty(user.FirstName) ? user.Email : $"{user.FirstName} {user.LastName}";
+		username = User.FindFirstValue(HouseRentingSystem.Core.Constants.CustomClaims.UserFullNameClaim) ?? string.Empty;
 	}
 }
 <ul class="navbar-nav">

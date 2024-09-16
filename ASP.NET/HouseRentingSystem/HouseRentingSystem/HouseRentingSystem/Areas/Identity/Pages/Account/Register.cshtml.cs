@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
+using static HouseRentingSystem.Core.Constants.CustomClaims;
 using static HouseRentingSystem.Core.Constants.ValidationErrorMessages;
 using static HouseRentingSystem.Infrastructure.Data.Constants.TableConstraints;
 
@@ -114,6 +116,9 @@ namespace HouseRentingSystem.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+
+                    await _userManager.AddClaimAsync(user,
+                        new Claim(UserFullNameClaim, $"{user.FirstName} {user.LastName}"));
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnUrl);
