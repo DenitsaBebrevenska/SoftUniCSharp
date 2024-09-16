@@ -6,10 +6,10 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace HouseRentingSystem.Infrastructure.Data.Configuration;
 public class UserConfiguration : IEntityTypeConfiguration<ApplicationUser>
 {
-	public void Configure(EntityTypeBuilder<ApplicationUser> builder)
-	{
-		var data = new SeedData();
+    public void Configure(EntityTypeBuilder<ApplicationUser> builder)
+    {
+        var data = new SeedData();
 
-		builder.HasData(data.AgentUser, data.GuestUser);
-	}
+        builder.HasData(data.AgentUser, data.GuestUser, data.AdminUser);
+    }
 }
