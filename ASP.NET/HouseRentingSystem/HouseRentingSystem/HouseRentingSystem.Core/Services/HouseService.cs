@@ -62,7 +62,9 @@ public class HouseService : IHouseService
     public async Task<HouseQueryViewModel> AllAsync(string? category = null, string? searchTerm = null, HouseSorting sorting = HouseSorting.Newest,
         int currentPage = 1, int housesPerPage = 1)
     {
-        var housesQuery = _repository.GetAll<House>().AsQueryable();
+        var housesQuery = _repository.GetAll<House>()
+            .Where(h => h.IsApproved)
+            .AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(category))
         {
