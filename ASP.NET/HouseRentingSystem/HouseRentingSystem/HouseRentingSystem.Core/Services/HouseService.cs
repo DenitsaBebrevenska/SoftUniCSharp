@@ -24,6 +24,7 @@ public class HouseService : IHouseService
     public async Task<IEnumerable<HouseIndexViewModel>> LastThreeHousesAsync()
         => await _repository
             .GetAllReadOnly<House>()
+            .Where(h => h.IsApproved)
             .OrderByDescending(h => h.Id)
             .Take(3)
             .ProjectTo<HouseIndexViewModel>(_mapper.ConfigurationProvider)
@@ -120,6 +121,7 @@ public class HouseService : IHouseService
     {
         return await _repository
             .GetAllReadOnly<House>()
+            .Where(h => h.IsApproved)
             .Where(h => h.AgentId == agentId)
             .ProjectToHouseModel()
             .ToListAsync();
@@ -129,6 +131,7 @@ public class HouseService : IHouseService
     {
         return await _repository
             .GetAllReadOnly<House>()
+            .Where(h => h.IsApproved)
             .Where(h => h.RenterId == userId)
             .ProjectToHouseModel()
             .ToListAsync();
@@ -145,6 +148,7 @@ public class HouseService : IHouseService
     {
         return await _repository
             .GetAll<House>()
+            .Where(h => h.IsApproved)
             .ProjectTo<HouseDetailsViewModel>(_mapper.ConfigurationProvider)
             .FirstAsync(h => h.Id == id);
     }
@@ -180,6 +184,7 @@ public class HouseService : IHouseService
     {
         var house = await _repository
             .GetAllReadOnly<House>()
+            .Where(h => h.IsApproved)
             .Where(h => h.Id == houseId)
             .ProjectTo<HouseFormViewModel>(_mapper.ConfigurationProvider)
             .FirstOrDefaultAsync();
