@@ -43,7 +43,7 @@ app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>
 {
-    app.MapControllerRoute(
+    endpoints.MapControllerRoute(
         name: "House Details",
         pattern: "/House/Details/{id}/{information}",
         defaults: new
@@ -51,8 +51,12 @@ app.UseEndpoints(endpoints =>
             Controller = "House",
             Action = "Details"
         });
-    app.MapDefaultControllerRoute();
-    app.MapRazorPages();
+    endpoints.MapControllerRoute(
+        name: "areas",
+        pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+    );
+    endpoints.MapDefaultControllerRoute();
+    endpoints.MapRazorPages();
 });
 
 await app.CreateAdminRoleAsync();
