@@ -3,6 +3,7 @@
 namespace HouseRentingSystem.Core.Models.Agent;
 public class AgentViewModel
 {
+    public string FullName { get; set; } = string.Empty;
     public string Email { get; set; } = null!;
 
     [DisplayName("Phone Number")]
