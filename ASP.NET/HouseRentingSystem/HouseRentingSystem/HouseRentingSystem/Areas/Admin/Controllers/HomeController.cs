@@ -3,8 +3,12 @@
 namespace HouseRentingSystem.Areas.Admin.Controllers;
 public class HomeController : AdminBaseController
 {
-    public IActionResult ForReview()
-    {
-        return View();
-    }
+	public IActionResult Dashboard()
+	{
+		return View();
+	}
+	public IActionResult ForReview()
+	{
+		return View();
+	}
 }
