@@ -1,4 +1,4 @@
-﻿namespace HouseRentingSystem.Core.Constants;
+﻿namespace HouseRentingSystem.Infrastructure.Data.Constants;
 
 public static class CustomClaims
 {

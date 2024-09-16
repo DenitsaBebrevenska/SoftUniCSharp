@@ -1,7 +1,4 @@
-﻿@using HouseRentingSystem.Core.Contracts
-@using System.Security.Claims
-@using Microsoft.AspNetCore.Mvc.TagHelpers
-@inject SignInManager<ApplicationUser> SignInManager
+﻿@inject SignInManager<ApplicationUser> SignInManager
 @inject IAgentService AgentService
 
 @{
@@ -9,7 +6,7 @@
 
 	if (SignInManager.IsSignedIn(User))
 	{
-		username = User.FindFirstValue(HouseRentingSystem.Core.Constants.CustomClaims.UserFullNameClaim) ?? string.Empty;
+		username = User.FindFirstValue(UserFullNameClaim) ?? string.Empty;
 	}
 }
 <ul class="navbar-nav">

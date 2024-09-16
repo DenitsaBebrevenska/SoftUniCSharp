@@ -6,7 +6,7 @@
 
 	if (SignInManager.IsSignedIn(User))
 	{
-		username = User.FindFirstValue(HouseRentingSystem.Core.Constants.CustomClaims.UserFullNameClaim) ?? string.Empty;
+		username = User.FindFirstValue(UserFullNameClaim) ?? string.Empty;
 	}
 }
 <ul class="navbar-nav">
