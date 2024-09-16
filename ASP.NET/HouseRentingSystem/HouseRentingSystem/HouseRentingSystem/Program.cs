@@ -1,3 +1,4 @@
+using HouseRentingSystem.Core.Contracts;
 using HouseRentingSystem.ModelBinders;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,6 +16,9 @@ builder.Services.AddControllersWithViews()
 
 builder.Services.AddApplicationServices();
 
+builder.Services.AddAutoMapper(
+    typeof(IHouseService).Assembly
+);
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

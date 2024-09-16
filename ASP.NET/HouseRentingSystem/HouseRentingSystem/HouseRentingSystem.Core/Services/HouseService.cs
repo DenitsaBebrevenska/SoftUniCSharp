@@ -1,6 +1,7 @@
-﻿using HouseRentingSystem.Core.Contracts;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using HouseRentingSystem.Core.Contracts;
 using HouseRentingSystem.Core.Enums;
-using HouseRentingSystem.Core.Models.Agent;
 using HouseRentingSystem.Core.Models.Category;
 using HouseRentingSystem.Core.Models.Home;
 using HouseRentingSystem.Core.Models.House;
@@ -12,10 +13,12 @@ namespace HouseRentingSystem.Core.Services;
 public class HouseService : IHouseService
 {
     private readonly IRepository _repository;
+    private readonly IMapper _mapper;
 
-    public HouseService(IRepository repository)
+    public HouseService(IRepository repository, IMapper mapper)
     {
         _repository = repository;
+        _mapper = mapper;
     }
 
     public async Task<IEnumerable<HouseIndexViewModel>> LastThreeHousesAsync()
@@ -23,23 +26,13 @@ public class HouseService : IHouseService
             .GetAllReadOnly<House>()
             .OrderByDescending(h => h.Id)
             .Take(3)
-            .Select(h => new HouseIndexViewModel()
-            {
-                Id = h.Id,
-                Address = h.Address,
-                ImageUrl = h.ImageUrl,
-                Title = h.Title
-            })
+            .ProjectTo<HouseIndexViewModel>(_mapper.ConfigurationProvider)
             .ToListAsync();
 
     public async Task<IEnumerable<CategoryViewModel>> AllCategoriesAsync()
         => await _repository
             .GetAllReadOnly<Category>()
-            .Select(c => new CategoryViewModel()
-            {
-                Id = c.Id,
-                Name = c.Name
-            })
+            .ProjectTo<CategoryViewModel>(_mapper.ConfigurationProvider)
             .ToListAsync();
 
     public async Task<bool> CategoryExistsAsync(int categoryId)
@@ -150,23 +143,7 @@ public class HouseService : IHouseService
     {
         return await _repository
             .GetAll<House>()
-            .Select(h => new HouseDetailsViewModel()
-            {
-                Id = h.Id,
-                Title = h.Title,
-                Address = h.Address,
-                Description = h.Description,
-                ImageUrl = h.ImageUrl,
-                PricePerMonth = h.PricePerMonth,
-                IsRented = h.RenterId != null,
-                Category = h.Category.Name,
-                Agent = new AgentViewModel()
-                {
-                    FullName = $"{h.Agent.User.FirstName} {h.Agent.User.LastName}",
-                    PhoneNumber = h.Agent.PhoneNumber,
-                    Email = h.Agent.User.Email
-                }
-            })
+            .ProjectTo<HouseDetailsViewModel>(_mapper.ConfigurationProvider)
             .FirstAsync(h => h.Id == id);
     }
 
@@ -202,16 +179,7 @@ public class HouseService : IHouseService
         var house = await _repository
             .GetAllReadOnly<House>()
             .Where(h => h.Id == houseId)
-            .Select(h => new HouseFormViewModel()
-            {
-                Id = h.Id,
-                Address = h.Address,
-                Description = h.Description,
-                CategoryId = h.CategoryId,
-                ImageUrl = h.ImageUrl,
-                PricePerMonth = h.PricePerMonth,
-                Title = h.Title
-            })
+            .ProjectTo<HouseFormViewModel>(_mapper.ConfigurationProvider)
             .FirstOrDefaultAsync();
 
 
