@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace HouseRentingSystem.Infrastructure.Data;
-public class HomeRentingDbContext : IdentityDbContext
+public class HomeRentingDbContext : IdentityDbContext<ApplicationUser>
 {
 	public DbSet<House> Houses { get; set; } = null!;
 
