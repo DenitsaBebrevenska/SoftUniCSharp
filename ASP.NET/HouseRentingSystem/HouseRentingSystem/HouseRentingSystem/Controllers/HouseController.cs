@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using static HouseRentingSystem.Core.Constants.ValidationErrorMessages;
 
+
 namespace HouseRentingSystem.Controllers;
 
 public class HouseController : BaseController
@@ -188,6 +189,8 @@ public class HouseController : BaseController
 		{
 			await _houseService.RentAsync(id, User.Id());
 		}
+
+		TempData[UserMessageSuccess] = "Successful rent!";
 
 		return RedirectToAction(nameof(Mine));
 	}
