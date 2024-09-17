@@ -7,8 +7,4 @@ public class HomeController : AdminBaseController
 	{
 		return View();
 	}
-	public IActionResult ForReview()
-	{
-		return View();
-	}
 }
