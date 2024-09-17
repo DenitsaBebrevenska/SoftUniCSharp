@@ -15,4 +15,6 @@ public class ApplicationUser : IdentityUser
 	[Comment("User`s Last Name")]
 	[MaxLength(UserLastNameMaxLength)]
 	public string LastName { get; set; } = string.Empty;
+
+	public Agent? Agent { get; set; }
 }
