@@ -22,7 +22,7 @@ public class UserService : IUserService
 			{
 				Email = u.Email,
 				FullName = $"{u.FirstName} {u.LastName}",
-				PhoneNumber = u.Agent.PhoneNumber,
+				PhoneNumber = u.Agent != null ? u.Agent.PhoneNumber : null,
 				IsAgent = u.Agent != null
 			})
 			.ToListAsync();

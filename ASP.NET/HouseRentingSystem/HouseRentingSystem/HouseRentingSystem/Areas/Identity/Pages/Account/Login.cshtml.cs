@@ -111,7 +111,7 @@ namespace HouseRentingSystem.Areas.Identity.Pages.Account
 
 					if (await _userManager.IsInRoleAsync(user, AdminRole))
 					{
-						return RedirectToAction("ForReview", "Home", new { area = "Admin" });
+						return RedirectToAction("Dashboard", "Home", new { area = "Admin" });
 					}
 					return LocalRedirect(returnUrl);
 				}
