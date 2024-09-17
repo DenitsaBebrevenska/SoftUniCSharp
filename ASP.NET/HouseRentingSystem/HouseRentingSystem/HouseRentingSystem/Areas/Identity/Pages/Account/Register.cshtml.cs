@@ -6,8 +6,10 @@ using HouseRentingSystem.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Caching.Memory;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
+using static HouseRentingSystem.Core.Constants.AdministratorConstants;
 using static HouseRentingSystem.Core.Constants.ValidationErrorMessages;
 using static HouseRentingSystem.Infrastructure.Data.Constants.CustomClaims;
 using static HouseRentingSystem.Infrastructure.Data.Constants.TableConstraints;
@@ -18,15 +20,18 @@ namespace HouseRentingSystem.Areas.Identity.Pages.Account
 	{
 		private readonly SignInManager<ApplicationUser> _signInManager;
 		private readonly UserManager<ApplicationUser> _userManager;
+		private readonly IMemoryCache _memoryCache;
 		private readonly ILogger<RegisterModel> _logger;
 
 		public RegisterModel(
 			UserManager<ApplicationUser> userManager,
 			SignInManager<ApplicationUser> signInManager,
+			IMemoryCache memoryCache,
 			ILogger<RegisterModel> logger)
 		{
 			_userManager = userManager;
 			_signInManager = signInManager;
+			_memoryCache = memoryCache;
 			_logger = logger;
 		}
 
@@ -121,6 +126,7 @@ namespace HouseRentingSystem.Areas.Identity.Pages.Account
 						new Claim(UserFullNameClaim, $"{user.FirstName} {user.LastName}"));
 
 					await _signInManager.SignInAsync(user, isPersistent: false);
+					_memoryCache.Remove(UserCacheKey);
 					return LocalRedirect(returnUrl);
 				}
 

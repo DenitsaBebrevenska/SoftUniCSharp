@@ -16,7 +16,6 @@ namespace HouseRentingSystem.Areas.Identity.Pages.Account
 	{
 		private readonly SignInManager<ApplicationUser> _signInManager;
 		private readonly UserManager<ApplicationUser> _userManager;
-		private readonly RoleManager<IdentityRole> _roleManager;
 		private readonly ILogger<LoginModel> _logger;
 
 		public LoginModel(SignInManager<ApplicationUser> signInManager,
